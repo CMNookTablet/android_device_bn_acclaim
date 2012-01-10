@@ -30,9 +30,9 @@ TARGET_ARCH_VARIANT := armv7-a-neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
 TARGET_BOOTLOADER_BOARD_NAME := omap4
 
-BOARD_KERNEL_CMDLINE :=
-BOARD_KERNEL_BASE := 0x10000000
-BOARD_PAGE_SIZE := 0x00000800
+BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 mem=448M@0x80000000 mem=512M@0xA0000000 init=/init rootwait vram=32M,82000000 omapfb.vram=0:5M@82000000
+BOARD_KERNEL_BASE := 0x80080000
+BOARD_KERNEL_PAGESIZE := 4096
 
 # fix this up by examining /proc/mtd on a running device
 BOARD_BOOTIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x00280000)
@@ -44,5 +44,5 @@ BOARD_USERDATAIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x04ac0000)
 BOARD_FLASH_BLOCK_SIZE := 131072
 
 # Recovery
-TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/bn/acclaim/recovery/recovery_ui.c
 BOARD_HAS_LARGE_FILESYSTEM := true
