@@ -1,6 +1,6 @@
 import init.acclaim.usb.rc
 
-on early-init
+on init
     mount debugfs /sys/kernel/debug /sys/kernel/debug
 	export EXTERNAL_STORAGE /mnt/sdcard
 	mkdir /mnt/sdcard 0000 system system
@@ -30,7 +30,16 @@ on fs
     mount ext4 /dev/block/mmcblk1p6 /cache wait noatime nosuid nodev errors=panic
     mount ext4 /dev/block/mmcblk1p7 /data wait noatime nosuid nodev errors=panic
 
-on post_fs
+on boot
+    # BRB: Temp adb hack
+    setprop service.adb.root 1
+
+    # fake some battery state
+    setprop status.battery.state Slow
+    setprop status.battery.level 5
+    setprop status.battery.level_raw  50
+    setprop status.battery.level_scale 9
+
     # SGX driver
     chmod 0666 /dev/pvrsrvkm
 

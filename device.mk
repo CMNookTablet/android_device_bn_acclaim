@@ -50,6 +50,11 @@ PRODUCT_COPY_FILES += \
 	device/bn/acclaim/prebuilt/imgtec/vendor/lib/libusc.so:system/vendor/lib/libusc.so \
 	device/bn/acclaim/prebuilt/imgtec/bin/pvrsrvinit:system/vendor/bin/pvrsrvinit 
 
+# Input
+PRODUCT_COPY_FILES += \
+	device/bn/acclaim/ft5x06-i2c.idc:system/usr/idc/ft5x06-i2c.idc \
+	device/bn/acclaim/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl
+
 # Misc
 PRODUCT_COPY_FILES += \
 	device/bn/acclaim/clrbootcount.sh:system/bin/clrbootcount.sh
