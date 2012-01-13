@@ -68,6 +68,9 @@ PRODUCT_COPY_FILES += \
 	frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
 	frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml
 
+# Device specific packages
+PRODUCT_PACKAGES += \
+    liblights.acclaim
 
 PRODUCT_PACKAGES += \
     hwcomposer.default
