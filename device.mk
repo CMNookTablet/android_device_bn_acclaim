@@ -50,7 +50,9 @@ PRODUCT_COPY_FILES += \
 	device/bn/acclaim/prebuilt/imgtec/vendor/lib/libusc.so:system/vendor/lib/libusc.so \
 	device/bn/acclaim/prebuilt/imgtec/bin/pvrsrvinit:system/vendor/bin/pvrsrvinit 
 
-
+# Misc
+PRODUCT_COPY_FILES += \
+	device/bn/acclaim/clrbootcount.sh:system/bin/clrbootcount.sh
 
 # Place permission files
 PRODUCT_COPY_FILES += \

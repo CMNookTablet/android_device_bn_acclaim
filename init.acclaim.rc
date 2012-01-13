@@ -116,3 +116,10 @@ service pvrsrvinit /vendor/bin/pvrsrvinit
 	user root
 	group root
 	oneshot
+
+on property:dev.bootcomplete=1
+    start bootcnt
+
+service bootcnt /system/bin/clrbootcount.sh
+    disabled
+    oneshot
