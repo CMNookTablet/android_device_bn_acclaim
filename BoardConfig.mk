@@ -34,7 +34,7 @@ TARGET_BOOTLOADER_BOARD_NAME := acclaim
 
 # Kernel/Boot
 #BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 mem=448M@0x80000000 mem=512M@0xA0000000 init=/init rootwait vram=32M,82000000 omapfb.vram=0:5M@82000000
-BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 mem=448M@0x80000000 mem=512M@0xA0000000 init=/init rootwait vram=32M omapfb.vram=0:16M
+BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 mem=463M@0x80000000 mem=512M@0xA0000000 init=/init rootwait vram=32M,82000000 omapfb.vram=0:16M@82000000
 BOARD_KERNEL_BASE := 0x80080000
 BOARD_KERNEL_PAGESIZE := 4096
 TARGET_NO_BOOTLOADER := true

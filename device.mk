@@ -75,7 +75,13 @@ PRODUCT_COPY_FILES += \
 
 # Device specific packages
 PRODUCT_PACKAGES += \
-    liblights.acclaim
+    liblights.acclaim \
+    sensors.acclaim
+
+# Filesystem management tools
+PRODUCT_PACKAGES += \
+	make_ext4fs \
+	setup_fs
 
 PRODUCT_PACKAGES += \
     hwcomposer.default
