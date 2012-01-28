@@ -20,3 +20,5 @@
 # for Sensor HAL
 /dev/akm8973              0660   system     system
 /dev/accelerometer        0660   system     system
+
+/dev/fwram                0666   system     system

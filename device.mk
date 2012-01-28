@@ -66,7 +66,7 @@ PRODUCT_COPY_FILES += \
 	device/bn/acclaim/prebuilt/wifi/firmware.bin:/system/etc/wifi/firmware.bin \
 
 # fwram
-PRODUCT_COPY_FILES +=
+PRODUCT_COPY_FILES += \
 	device/bn/acclaim/prebuilt/fwram.ko:/system/lib/modules/fwram.ko
 
 # Place permission files
