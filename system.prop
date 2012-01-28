@@ -1,3 +1,4 @@
 #
 # system.prop for acclaim
 #
+wifi.interface=tiwlan0

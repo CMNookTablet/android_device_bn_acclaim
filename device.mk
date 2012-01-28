@@ -59,6 +59,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	device/bn/acclaim/clrbootcount.sh:system/bin/clrbootcount.sh
 
+# Wifi
+PRODUCT_COPY_FILES += \
+    device/bn/acclaim/prebuilt/wifi/tiwlan_drv.ko:/system/lib/modules/tiwlan_drv.ko \
+    device/bn/acclaim/prebuilt/wifi/tiwlan.ini:/system/etc/wifi/tiwlan.ini \
+    device/bn/acclaim/prebuilt/wifi/firmware.bin:/system/etc/wifi/firmware.bin \
+
 # Place permission files
 PRODUCT_COPY_FILES += \
 	frameworks/base/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
@@ -82,6 +88,14 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	make_ext4fs \
 	setup_fs
+
+#Wifi
+PRODUCT_PACKAGES += \
+       dhcpcd.conf \
+       libCustomWifi \
+       wlan_cu \
+       wlan_loader \
+       wpa_supplicant.conf
 
 PRODUCT_PACKAGES += \
     hwcomposer.default

@@ -2,14 +2,16 @@ import init.acclaim.usb.rc
 
 on init
     mount debugfs /sys/kernel/debug /sys/kernel/debug
-	export EXTERNAL_STORAGE /mnt/sdcard
-	mkdir /mnt/sdcard 0000 system system
-	# for backwards compatibility
-	symlink /mnt/sdcard /sdcard
+    export EXTERNAL_STORAGE /mnt/sdcard
+    mkdir /mnt/sdcard 0000 system system
+    # for backwards compatibility
+    symlink /mnt/sdcard /sdcard
+
+    # for acclaim
+    mkdir /rom 0777 root root	
+    mkdir /bootdata 0777 root root
 	
-	mkdir /bootdata
-	
-	# power management
+    # power management
     # Enable off mode by default
     write /sys/kernel/debug/pm_debug/enable_off_mode 1
 
@@ -17,7 +19,19 @@ on init
     write /sys/kernel/debug/pm_debug/smartreflex/sr_core/autocomp 1
     write /sys/kernel/debug/pm_debug/smartreflex/sr_iva/autocomp 1
     write /sys/kernel/debug/pm_debug/smartreflex/sr_mpu/autocomp 1
-	
+
+    # setup global environment
+    export PHONE_STORAGE /mnt/emmc
+    export DSP_PATH /system/lib/dsp
+    export DEFAULT_BASEIMAGE /system/lib/dsp/baseimage.dof
+
+    # create mountpoints
+    mkdir /mnt/emmc 0000 system system
+    mkdir /mnt/usbdisk 0000 system system
+    symlink /mnt/emmc /emmc
+    symlink /mnt/usbdisk /usbdisk
+    symlink /system/vendor /vendor
+
 on fs
     # mount partitions
     
@@ -29,6 +43,7 @@ on fs
     mount ext4 /dev/block/mmcblk1p5 /system wait ro errors=panic
     mount ext4 /dev/block/mmcblk1p6 /cache wait noatime nosuid nodev errors=panic
     mount ext4 /dev/block/mmcblk1p7 /data wait noatime nosuid nodev errors=panic
+    mount vfat /dev/block/mmcblk0p5 /rom sync noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
 
 on boot
     # BRB: Temp adb hack
@@ -39,6 +54,12 @@ on boot
     setprop status.battery.level 5
     setprop status.battery.level_raw  50
     setprop status.battery.level_scale 9
+
+    # wireless
+    mkdir /data/misc/wifi 0770 wifi wifi
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
+    chown dhcp dhcp /data/misc/dhcp
 
     # SGX driver
     chmod 0666 /dev/pvrsrvkm
@@ -114,10 +135,13 @@ on boot
     chown system system /sys/devices/platform/omapdss/display3/timings
     chown system system /sys/devices/platform/omapdss/display2/code
     
-     # change permissions for Tiler driver
+    # change permissions for Tiler driver
     chown media media /dev/tiler
     chmod 0666 /dev/tiler
     chmod 0666 /dev/dmm
+
+on property:dev.bootcomplete=1
+    start bootcnt
 
 # Initialize the SGX driver
 service pvrsrvinit /vendor/bin/pvrsrvinit
@@ -126,9 +150,39 @@ service pvrsrvinit /vendor/bin/pvrsrvinit
 	group root
 	oneshot
 
-on property:dev.bootcomplete=1
-    start bootcnt
-
 service bootcnt /system/bin/clrbootcount.sh
+    class core
+    user root
+    group root
+    disabled
+    oneshot
+
+service wlan_loader /system/bin/wlan_loader \
+    -f /system/etc/wifi/firmware.bin \
+    -i /system/etc/wifi/tiwlan.ini \
+    -e /rom/DevConf/WiFiBackupCalibration
+    class main
+    disabled
+    oneshot
+
+service ifcfg_ti /system/bin/netcfg tiwlan0 up
+    class main
+    disabled
+    oneshot
+
+service wpa_supplicant /system/bin/wpa_supplicant \
+    -Dtiwlan0 -itiwlan0 -c/data/misc/wifi/wpa_supplicant.conf
+    class main
+    socket wpa_tiwlan0 dgram 660 wifi wifi
+    disabled
+    oneshot
+
+service dhcpcd_tiwlan0 /system/bin/dhcpcd -ABKL
+    class main
+    disabled
+    oneshot
+
+service iprenew_tiwlan0 /system/bin/dhcpcd -n
+    class main
     disabled
     oneshot
