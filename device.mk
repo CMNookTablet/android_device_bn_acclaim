@@ -61,9 +61,13 @@ PRODUCT_COPY_FILES += \
 
 # Wifi
 PRODUCT_COPY_FILES += \
-    device/bn/acclaim/prebuilt/wifi/tiwlan_drv.ko:/system/lib/modules/tiwlan_drv.ko \
-    device/bn/acclaim/prebuilt/wifi/tiwlan.ini:/system/etc/wifi/tiwlan.ini \
-    device/bn/acclaim/prebuilt/wifi/firmware.bin:/system/etc/wifi/firmware.bin \
+	device/bn/acclaim/prebuilt/wifi/tiwlan_drv.ko:/system/lib/modules/tiwlan_drv.ko \
+	device/bn/acclaim/prebuilt/wifi/tiwlan.ini:/system/etc/wifi/tiwlan.ini \
+	device/bn/acclaim/prebuilt/wifi/firmware.bin:/system/etc/wifi/firmware.bin \
+
+# fwram
+PRODUCT_COPY_FILES +=
+	device/bn/acclaim/prebuilt/fwram.ko:/system/lib/modules/fwram.ko
 
 # Place permission files
 PRODUCT_COPY_FILES += \
