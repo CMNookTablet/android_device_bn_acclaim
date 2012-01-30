@@ -140,7 +140,16 @@ on boot
     chmod 0666 /dev/tiler
     chmod 0666 /dev/dmm
 
-on property:dev.bootcomplete=1
+    # change permissions for alsa nodes
+    chmod 0777 /dev/snd/controlC0
+    chmod 0777 /dev/snd/pcmC0D0p
+    chmod 0777 /dev/snd/pcmC0D1c
+    chmod 0777 /dev/snd/pcmC0D1p
+    chmod 0777 /dev/snd/pcmC0D2c
+    chmod 0777 /dev/snd/pcmC0D2p
+    chmod 0777 /dev/snd/timer
+
+property:dev.bootcomplete=1
     start bootcnt
 
 # Initialize the SGX driver

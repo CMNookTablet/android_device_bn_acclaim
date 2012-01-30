@@ -20,8 +20,6 @@
 #
 # Everything in this directory will become public
 
-DEVICE_PACKAGE_OVERLAYS += device/bn/acclaim/overlay
-
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 	LOCAL_KERNEL := device/bn/acclaim/kernel
 else
@@ -29,10 +27,10 @@ else
 endif
 
 PRODUCT_COPY_FILES := \
-    $(LOCAL_KERNEL):kernel \
-    device/bn/acclaim/init.acclaim.rc:root/init.acclaim.rc \
-    device/bn/acclaim/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
-    device/bn/acclaim/ueventd.acclaim.rc:root/ueventd.acclaim.rc
+	$(LOCAL_KERNEL):kernel \
+	device/bn/acclaim/init.acclaim.rc:root/init.acclaim.rc \
+	device/bn/acclaim/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
+	device/bn/acclaim/ueventd.acclaim.rc:root/ueventd.acclaim.rc
 
 # Graphics
 PRODUCT_COPY_FILES += \
@@ -69,6 +67,38 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	device/bn/acclaim/prebuilt/fwram.ko:/system/lib/modules/fwram.ko
 
+# audio
+PRODUCT_COPY_FILES += \
+	device/bn/acclaim/prebuilt/audio/libaudio.so:/system/lib/libaudio.so \
+	device/bn/acclaim/prebuilt/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
+	device/bn/acclaim/prebuilt/audio/libasound.so:/system/lib/libasound.so \
+	device/bn/acclaim/prebuilt/audio/asound.conf:/system/etc/asound.conf \
+	device/bn/acclaim/prebuilt/audio/alsa.conf:/system/usr/share/alsa/alsa.conf \
+	device/bn/acclaim/prebuilt/audio/cards/aliases.conf:/system/usr/share/alsa/cards/aliases.conf \
+	device/bn/acclaim/prebuilt/audio/pcm/center_lfe.conf:/system/usr/share/alsa/pcm/center_lfe.conf \
+	device/bn/acclaim/prebuilt/audio/pcm/default.conf:/system/usr/share/alsa/pcm/default.conf \
+	device/bn/acclaim/prebuilt/audio/pcm/dmix.conf:/system/usr/share/alsa/pcm/dmix.conf \
+	device/bn/acclaim/prebuilt/audio/pcm/dpl.conf:/system/usr/share/alsa/pcm/dpl.conf \
+	device/bn/acclaim/prebuilt/audio/pcm/dsnoop.conf:/system/usr/share/alsa/pcm/dsnoop.conf \
+	device/bn/acclaim/prebuilt/audio/pcm/front.conf:/system/usr/share/alsa/pcm/front.conf \
+	device/bn/acclaim/prebuilt/audio/pcm/iec958.conf:/system/usr/share/alsa/pcm/iec958.conf \
+	device/bn/acclaim/prebuilt/audio/pcm/modem.conf:/system/usr/share/alsa/pcm/modem.conf \
+	device/bn/acclaim/prebuilt/audio/pcm/rear.conf:/system/usr/share/alsa/pcm/rear.conf \
+	device/bn/acclaim/prebuilt/audio/pcm/side.conf:/system/usr/share/alsa/pcm/side.conf \
+	device/bn/acclaim/prebuilt/audio/pcm/surround40.conf:/system/usr/share/alsa/pcm/surround40.conf \
+	device/bn/acclaim/prebuilt/audio/pcm/surround41.conf:/system/usr/share/alsa/pcm/surround41.conf \
+	device/bn/acclaim/prebuilt/audio/pcm/surround50.conf:/system/usr/share/alsa/pcm/surround50.conf \
+	device/bn/acclaim/prebuilt/audio/pcm/surround51.conf:/system/usr/share/alsa/pcm/surround51.conf \
+	device/bn/acclaim/prebuilt/audio/pcm/surround71.conf:/system/usr/share/alsa/pcm/surround71.conf
+
+PRODUCT_PACKAGES += \
+	libaudioutils \
+	hwprops \
+	CMStats \
+	libaudiohw_legacy \
+	lights.acclaim \
+	audio.primary.acclaim 
+
 # Place permission files
 PRODUCT_COPY_FILES += \
 	frameworks/base/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
@@ -81,28 +111,29 @@ PRODUCT_COPY_FILES += \
 	frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
 	frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
 	frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
-	frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml
+	frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
+	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
 
 # Device specific packages
 PRODUCT_PACKAGES += \
-    liblights.acclaim \
-    sensors.acclaim
+	liblights.acclaim \
+	sensors.acclaim
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
 	make_ext4fs \
 	setup_fs
 
-#Wifi
+# Wifi
 PRODUCT_PACKAGES += \
-       dhcpcd.conf \
-       libCustomWifi \
-       wlan_cu \
-       wlan_loader \
-       wpa_supplicant.conf
+	dhcpcd.conf \
+	libCustomWifi \
+	wlan_cu \
+	wlan_loader \
+	wpa_supplicant.conf
 
 PRODUCT_PACKAGES += \
-    hwcomposer.default
+	hwcomposer.default
 
 PRODUCT_CHARACTERISTICS := tablet
 
@@ -114,7 +145,6 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 
 $(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
-#$(call inherit-product-if-exists, vendor/ti/proprietary/omap4/ti-omap4-vendor.mk)
 
 $(call inherit-product-if-exists, vendor/bn/acclaim/device-vendor.mk)
 $(call inherit-product-if-exists, vendor/bn/acclaim/device-vendor-blobs.mk)

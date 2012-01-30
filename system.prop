@@ -2,3 +2,12 @@
 # system.prop for acclaim
 #
 wifi.interface=tiwlan0
+
+#define defaults for audio D/A mic and power mode
+omap.audio.mic.main=AMic0    
+omap.audio.mic.sub=AMic1     
+omap.audio.power=PingPong           
+af.resampler.quality=3              
+ro.nf.profile=2                           
+ro.nf.level=512
+

@@ -20,6 +20,11 @@
 
 USE_CAMERA_STUB := true
 
+# audio
+BOARD_USES_GENERIC_AUDIO := false
+BOARD_USES_AUDIO_LEGACY := true
+COMMON_GLOBAL_CFLAGS += -DBOARD_USES_AUDIO_LEGACY
+
 # inherit from the proprietary version
 -include vendor/bn/acclaim/BoardConfigVendor.mk
 
