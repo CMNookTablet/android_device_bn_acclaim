@@ -35,6 +35,8 @@ TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
 TARGET_ARCH_VARIANT := armv7-a-neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
+TARGET_GLOBAL_CFLAGS += -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp
+TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp
 TARGET_BOOTLOADER_BOARD_NAME := acclaim
 
 # Kernel/Boot
@@ -61,6 +63,13 @@ WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/tiwlan_drv.ko"
 WIFI_DRIVER_MODULE_NAME     := "tiwlan_drv"
 WIFI_FIRMWARE_LOADER        := "wlan_loader"
 
+
+# Bluetooth
+BOARD_HAVE_BLUETOOTH := true
+
+# GPS
+BOARD_HAVE_FAKE_GPS := true
+
 # Graphics
 BOARD_EGL_CFG := device/bn/acclaim/egl.cfg
 OMAP_ENHANCEMENT := true
@@ -69,6 +78,18 @@ MISSING_GRALLOC_BUFFERS := true
 MISSING_EGL_PIXEL_FORMAT_YV12 := true
 COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_GRALLOC_BUFFERS -DMISSING_EGL_PIXEL_FORMAT_YV12
 
+ifdef HARDWARE_OMX
+OMX_JPEG := true
+OMX_VENDOR := ti
+OMX_VENDOR_INCLUDES := \
+  hardware/ti/omx/system/src/openmax_il/omx_core/inc \
+  hardware/ti/omx/image/src/openmax_il/jpeg_enc/inc
+OMX_VENDOR_WRAPPER := TI_OMX_Wrapper
+BOARD_OPENCORE_LIBRARIES := libOMX_Core
+BOARD_OPENCORE_FLAGS := -DHARDWARE_OMX=1
+BOARD_CAMERA_LIBRARIES := libcamera
+endif
+
 ifdef OMAP_ENHANCEMENT
 COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT -DTARGET_OMAP4
 endif
@@ -76,3 +97,6 @@ endif
 # Recovery
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/bn/acclaim/recovery/recovery_ui.c
 BOARD_HAS_LARGE_FILESYSTEM := true
+
+# adb has root
+ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0

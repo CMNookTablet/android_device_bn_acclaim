@@ -11,3 +11,4 @@ af.resampler.quality=3
 ro.nf.profile=2                           
 ro.nf.level=512
 
+ro.vold.switchablepair=/mnt/sdcard,/mnt/emmc
