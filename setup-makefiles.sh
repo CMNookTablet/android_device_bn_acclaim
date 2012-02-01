@@ -94,22 +94,22 @@ PRODUCT_COPY_FILES += \\
 PRODUCT_COPY_FILES += \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/etc/asound.conf:/system/etc/asound.conf \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/alsa.conf:/system/usr/share/alsa/alsa.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/cards/aliases.conf:/system/user/share/cards/aliases.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/center_lfe.conf:/system/user/share/pcm/center_lfe.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/default.conf:/system/user/share/pcm/center_lfe.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/dmix.conf:/system/user/share/pcm/dmix.com \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/dpl.conf:/system/user/share/pcm/dpl.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/dsnoop.conf:/system/user/share/pcm/dsnoop.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/front.conf:/system/user/share/pcm/front.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/iec958.conf:/system/user/share/pcm/iec958.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/modem.conf:/system/user/share/pcm/modem.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/rear.conf:/system/user/share/pcm/rear.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/side.conf:/system/user/share/pcm/side.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/surround40.conf:/system/user/share/pcm/surround40.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/surround41.conf:/system/user/share/pcm/surround41.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/surround50.conf:/system/user/share/pcm/surround50.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/surround51.conf:/system/user/share/pcm/surround51.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/surround71.conf:/system/user/share/pcm/surround71.conf
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/cards/aliases.conf:/system/usr/share/alsa/cards/aliases.conf \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/center_lfe.conf:/system/usr/share/alsa/pcm/center_lfe.conf \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/default.conf:/system/usr/share/alsa/pcm/center_lfe.conf \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/dmix.conf:/system/usr/share/alsa/pcm/dmix.com \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/dpl.conf:/system/usr/share/alsa/pcm/dpl.conf \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/dsnoop.conf:/system/usr/share/alsa/pcm/dsnoop.conf \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/front.conf:/system/usr/share/alsa/pcm/front.conf \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/iec958.conf:/system/usr/share/alsa/pcm/iec958.conf \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/modem.conf:/system/usr/share/alsa/pcm/modem.conf \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/rear.conf:/system/usr/share/alsa/pcm/rear.conf \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/side.conf:/system/usr/share/alsa/pcm/side.conf \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/surround40.conf:/system/usr/share/alsa/pcm/surround40.conf \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/surround41.conf:/system/usr/share/alsa/pcm/surround41.conf \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/surround50.conf:/system/usr/share/alsa/pcm/surround50.conf \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/surround51.conf:/system/usr/share/alsa/pcm/surround51.conf \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/surround71.conf:/system/usr/share/alsa/pcm/surround71.conf
 
 # gfx
 
@@ -126,7 +126,7 @@ PRODUCT_COPY_FILES += \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/libsrv_init.so:/system/vendor/lib/libsrv_init.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/libsrv_um.so:/system/vendor/lib/libsrv_um.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/libusc.so:/system/vendor/lib/libusc.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/bin/pvrsrvinit:/system/bin/pvrsrvinit
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/bin/pvrsrvinit:/system/vendor/bin/pvrsrvinit
 
 
 EOF

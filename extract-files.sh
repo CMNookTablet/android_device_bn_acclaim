@@ -43,6 +43,7 @@ adb pull /system/vendor/lib/libsrv_um.so $BN_ACC_PROP/gfx/libsrv_um.so
 adb pull /system/vendor/lib/libusc.so $BN_ACC_PROP/gfx/libusc.so
 
 adb pull /system/bin/pvrsrvinit $BN_ACC_PROP/gfx/bin/pvrsrvinit
+chmod +x $BN_ACC_PROP/gfx/bin/pvrsrvinit
 
 # sound libs
 mkdir -p $BN_ACC_PROP/audio
