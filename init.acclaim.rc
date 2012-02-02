@@ -75,7 +75,8 @@ on boot
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
     chmod 0660 /sys/class/rfkill/rfkill0/state
     # bluetooth uart
-    chown bluetooth bluetooth /dev/ttyS1
+    chown bluetooth bluetooth /dev/ttyO1
+    chmod 0660 /dev/ttyO1
 
     chown media media /dev/syslink-proc4430
     chown media media /dev/syslink-procmgr
@@ -162,7 +163,7 @@ on boot
     chmod 0777 /dev/snd/pcmC0D2p
     chmod 0777 /dev/snd/timer
 
-property:dev.bootcomplete=1
+on property:dev.bootcomplete=1
     start bootcnt
 
 # Initialize the SGX driver
@@ -172,7 +173,7 @@ service pvrsrvinit /vendor/bin/pvrsrvinit
 	group root
 	oneshot
 
-service bootcnt /system/bin/clrbootcount.sh
+service bootcnt /system/bin/clear_bootcnt.sh
     class core
     user root
     group root
@@ -206,9 +207,8 @@ service dhcpcd_tiwlan0 /system/bin/dhcpcd -ABKL
 
 service uim /system/bin/uim-sysfs
    class core
-   user root
-   group media bluetooth
-   oneshot
+   user bluetooth
+   group bluetooth net_bt_admin
 
 service iprenew_tiwlan0 /system/bin/dhcpcd -n
     class main
