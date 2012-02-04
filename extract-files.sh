@@ -21,30 +21,6 @@ BN_ACC_PROP=../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 
 mkdir -p $BN_ACC_PROP
 
-# gfx
-mkdir -p $BN_ACC_PROP/gfx
-mkdir -p $BN_ACC_PROP/gfx/egl
-mkdir -p $BN_ACC_PROP/gfx/hw
-mkdir -p $BN_ACC_PROP/gfx/bin
-
-adb pull /system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so $BN_ACC_PROP/gfx/egl/libEGL_POWERVR_SGX540_120.so
-adb pull /system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so $BN_ACC_PROP/gfx/egl/libGLESv1_CM_POWERVR_SGX540_120.so
-adb pull /system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so $BN_ACC_PROP/gfx/egl/libGLESv2_POWERVR_SGX540_120.so
-
-adb pull /system/vendor/lib/hw/gralloc.omap4.so $BN_ACC_PROP/gfx/hw/gralloc.omap4.so
-
-adb pull /system/vendor/lib/libIMGegl.so $BN_ACC_PROP/gfx/libIMGegl.so
-adb pull /system/vendor/lib/libPVRScopeServices.so $BN_ACC_PROP/gfx/libPVRScopeServices.so
-adb pull /system/vendor/lib/libglslcompiler.so $BN_ACC_PROP/gfx/libglslcompiler.so
-adb pull /system/vendor/lib/libpvr2d.so $BN_ACC_PROP/gfx/libpvr2d.so
-adb pull /system/vendor/lib/libpvrANDROID_WSEGL.so $BN_ACC_PROP/gfx/libpvrANDROID_WSEGL.so
-adb pull /system/vendor/lib/libsrv_init.so $BN_ACC_PROP/gfx/libsrv_init.so
-adb pull /system/vendor/lib/libsrv_um.so $BN_ACC_PROP/gfx/libsrv_um.so
-adb pull /system/vendor/lib/libusc.so $BN_ACC_PROP/gfx/libusc.so
-
-adb pull /system/bin/pvrsrvinit $BN_ACC_PROP/gfx/bin/pvrsrvinit
-chmod +x $BN_ACC_PROP/gfx/bin/pvrsrvinit
-
 # sound libs
 mkdir -p $BN_ACC_PROP/audio
 mkdir -p $BN_ACC_PROP/audio/hw

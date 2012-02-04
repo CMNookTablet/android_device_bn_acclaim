@@ -81,7 +81,8 @@ PRODUCT_PACKAGES += \
 	CMStats \
 	libaudiohw_legacy \
 	lights.acclaim \
-	audio.primary.acclaim 
+	audio.primary.acclaim \
+	ti_omap4_sgx_libs
 
 # Place permission files
 PRODUCT_COPY_FILES += \

@@ -111,22 +111,4 @@ PRODUCT_COPY_FILES += \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/surround51.conf:/system/usr/share/alsa/pcm/surround51.conf \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/surround71.conf:/system/usr/share/alsa/pcm/surround71.conf
 
-# gfx
-
-PRODUCT_COPY_FILES += \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/egl/libEGL_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/egl/libGLESv1_CM_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/egl/libGLESv2_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/hw/gralloc.omap4.so:/system/vendor/lib/hw/gralloc.omap4.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/libIMGegl.so:/system/vendor/lib/libIMGegl.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/libPVRScopeServices.so:/system/vendor/lib/libPVRScopeServices.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/libglslcompiler.so:/system/vendor/lib/libglslcompiler.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/libpvr2d.so:/system/vendor/lib/libpvr2d.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/libpvrANDROID_WSEGL.so:/system/vendor/lib/libpvrANDROID_WSEGL.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/libsrv_init.so:/system/vendor/lib/libsrv_init.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/libsrv_um.so:/system/vendor/lib/libsrv_um.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/libusc.so:/system/vendor/lib/libusc.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/gfx/bin/pvrsrvinit:/system/vendor/bin/pvrsrvinit
-
-
 EOF
