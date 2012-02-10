@@ -63,6 +63,9 @@ WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/tiwlan_drv.ko"
 WIFI_DRIVER_MODULE_NAME     := "tiwlan_drv"
 WIFI_FIRMWARE_LOADER        := "wlan_loader"
 
+# Vold
+BOARD_VOLD_MAX_PARTITIONS := 11
+BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
@@ -74,21 +77,8 @@ BOARD_HAVE_FAKE_GPS := true
 USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := device/bn/acclaim/egl.cfg
 
-ifdef HARDWARE_OMX
-OMX_JPEG := true
-OMX_VENDOR := ti
-OMX_VENDOR_INCLUDES := \
-  hardware/ti/omx/system/src/openmax_il/omx_core/inc \
-  hardware/ti/omx/image/src/openmax_il/jpeg_enc/inc
-OMX_VENDOR_WRAPPER := TI_OMX_Wrapper
-BOARD_OPENCORE_LIBRARIES := libOMX_Core
-BOARD_OPENCORE_FLAGS := -DHARDWARE_OMX=1
-BOARD_CAMERA_LIBRARIES := libcamera
-endif
-
-ifdef OMAP_ENHANCEMENT
+OMAP_ENHANCEMENT := true
 COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT -DTARGET_OMAP4
-endif
 
 # Recovery
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/bn/acclaim/recovery/recovery_ui.c

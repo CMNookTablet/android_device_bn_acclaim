@@ -30,11 +30,16 @@ else
 	LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
 
-PRODUCT_COPY_FILES := \
+PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
 	device/bn/acclaim/init.acclaim.rc:root/init.acclaim.rc \
 	device/bn/acclaim/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
 	device/bn/acclaim/ueventd.acclaim.rc:root/ueventd.acclaim.rc
+
+# gfx. This needs http://git.omapzoom.org/?p=device/ti/proprietary-open.git;a=commit;h=47a8187f2d8a08f7210b3c964b3b8e50f3b0da66
+PRODUCT_PACKAGES += \
+	ti_omap4_sgx_libs\
+	ti_omap4_ducati_libs
 
 # Input
 PRODUCT_COPY_FILES += \
@@ -81,8 +86,7 @@ PRODUCT_PACKAGES += \
 	CMStats \
 	libaudiohw_legacy \
 	lights.acclaim \
-	audio.primary.acclaim \
-	ti_omap4_sgx_libs
+	audio.primary.acclaim
 
 # Place permission files
 PRODUCT_COPY_FILES += \
@@ -132,7 +136,6 @@ PRODUCT_AAPT_CONFIG := large mdpi
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 
-$(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
 
 $(call inherit-product-if-exists, vendor/bn/acclaim/device-vendor.mk)
