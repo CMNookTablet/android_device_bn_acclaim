@@ -148,7 +148,20 @@ on boot
     chown system system /sys/devices/platform/omapdss/display2/timings
     chown system system /sys/devices/platform/omapdss/display3/timings
     chown system system /sys/devices/platform/omapdss/display2/code
+
+    # usb legacy
+    chown system system /sys/class/usb_composite/usb_mass_storage/enable
+    chmod 0660 /sys/class/usb_composite/usb_mass_storage/enable
+    chown system system /sys/class/usb_composite/adb/enable
+    chmod 0660 /sys/class/usb_composite/usb_mass_storage/adb/enable
+    chown system system /sys/class/usb_composite/mtp/enable
+    chmod 0660 /sys/class/usb_composite/mtp/enable
+    chown system system /sys/class/usb_composite/rndis/enable
+    chmod 0660 /sys/class/usb_composite/rndis/enable
     
+    chown system system /sys/devices/platform/usb_mass_storage/lun0/file
+    chmod 0660 /sys/devices/platform/usb_mass_storage/lun0/file
+
     # change permissions for Tiler driver
     chown media media /dev/tiler
     chmod 0666 /dev/tiler

@@ -12,5 +12,5 @@ ro.nf.profile=2
 ro.nf.level=512
 
 ro.vold.switchablepair=/mnt/sdcard,/mnt/emmc
-persist.sys.usb.config=mtp,adb
+persist.sys.usb.config=mass_storage,adb
 ro.additionalmounts=/mnt/emmc;/mnt/usbdisk
