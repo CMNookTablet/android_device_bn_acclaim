@@ -34,16 +34,11 @@ on init
 
 on fs
     # mount partitions
-    
-    #mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/system /system wait ro errors=panic
-    #mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/userdata /data wait noatime nosuid nodev errors=panic
-    #mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/cache /cache wait noatime nosuid nodev errors=panic
+    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/system /system wait ro errors=panic
+    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/cache /cache wait noatime nosuid nodev errors=panic
+    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/userdata /data wait noatime nosuid nodev errors=panic
+    mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/rom /rom sync noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
     mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/bootdata /bootdata wait noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
-
-    mount ext4 /dev/block/mmcblk1p5 /system wait ro errors=panic
-    mount ext4 /dev/block/mmcblk1p6 /cache wait noatime nosuid nodev errors=panic
-    mount ext4 /dev/block/mmcblk1p7 /data wait noatime nosuid nodev errors=panic
-    mount vfat /dev/block/mmcblk0p5 /rom sync noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
 
 on post-fs-data
     # we will remap this as /mnt/sdcard with the sdcard fuse tool
