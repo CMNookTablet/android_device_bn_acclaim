@@ -33,22 +33,8 @@ $(INSTALLED_RECOVERYIMAGE_TARGET).tmp: \
 	$(MKBOOTIMG) $(INTERNAL_RECOVERYIMAGE_ARGS) --output $@
 	@echo ----- Made recovery image -------- $@
 
-# make also a SD card recovery variant.
-$(INSTALLED_RECOVERYIMAGE_TARGET).sdcard: \
-		$(INSTALLED_RECOVERYIMAGE_TARGET).tmp \
-		$(ACCLAIM_SDCARD_BOOTLOADER)
-	$(call pretty,"Adding nook specific u-boot for recovery.img")
-	$(call make_zeros,$(ACCLAIM_SDCARD_BOOTLOADER),$(TMP_ZEROS))
-	cp $(ACCLAIM_SDCARD_BOOTLOADER) $@
-	cat $(TMP_ZEROS) >> $@
-	rm $(TMP_ZEROS)
-	cat $(INSTALLED_RECOVERYIMAGE_TARGET).tmp >> $@
-	$(hide) $(call assert-max-image-size,$@, \
-		$(BOARD_RECOVERYIMAGE_PARTITION_SIZE),raw)
-
 $(INSTALLED_RECOVERYIMAGE_TARGET): \
 		$(INSTALLED_RECOVERYIMAGE_TARGET).tmp \
-		$(INSTALLED_RECOVERYIMAGE_TARGET).sdcard \
 		$(ACCLAIM_BOOTLOADER)
 	$(call pretty,"Adding nook specific u-boot for recovery.img")
 	$(call make_zeros,$(ACCLAIM_BOOTLOADER),$(TMP_ZEROS))
