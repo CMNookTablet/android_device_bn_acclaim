@@ -38,7 +38,7 @@ PRODUCT_COPY_FILES += \
 
 # gfx. This needs http://git.omapzoom.org/?p=device/ti/proprietary-open.git;a=commit;h=47a8187f2d8a08f7210b3c964b3b8e50f3b0da66
 PRODUCT_PACKAGES += \
-	ti_omap4_sgx_libs\
+	ti_omap4_sgx_libs \
 	ti_omap4_ducati_libs
 
 # Input
@@ -136,7 +136,26 @@ PRODUCT_AAPT_CONFIG := large mdpi
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 
-$(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
+#$(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
+# dont use omap4.mk. We have to drop hwcomposer.omap4, camera.omap4 for now.
+# Just include rest directly here.
+PRODUCT_PACKAGES += \
+	libdomx \
+	libOMX_Core \
+	libOMX.TI.DUCATI1.VIDEO.H264E \
+	libOMX.TI.DUCATI1.VIDEO.MPEG4E \
+	libOMX.TI.DUCATI1.VIDEO.DECODER \
+	libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
+	libOMX.TI.DUCATI1.VIDEO.CAMERA \
+	libOMX.TI.DUCATI1.MISC.SAMPLE \
+	libstagefrighthw \
+        libI420colorconvert \
+	libtiutils \
+	libcamera \
+	libion \
+	libomxcameraadapter \
+	smc_pa_ctrl \
+	tf_daemon
 
 $(call inherit-product-if-exists, vendor/bn/acclaim/device-vendor.mk)
 $(call inherit-product-if-exists, vendor/bn/acclaim/device-vendor-blobs.mk)
