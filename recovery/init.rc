@@ -19,16 +19,14 @@ on init
     mkdir /data
     mkdir /cache
     mount /tmp /tmp tmpfs
+    mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/bootdata /bootdata
+    exec /sbin/dd if=/dev/zero of=/bootdata/BootCnt bs=1 count=4
 
 on boot
 
     ifup lo
     hostname localhost
     domainname localdomain
-
-    mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/bootdata /bootdata
-    dd if=/dev/zero of=/bootdata/BootCnt bs=1 count=4
-
     class_start default
 
 service ueventd /sbin/ueventd
