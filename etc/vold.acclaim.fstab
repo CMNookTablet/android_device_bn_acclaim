@@ -1,4 +1,4 @@
-## Vold 2.0 Barns and Nobel Acclaim
+## Vold 2.0 Acclaim
 
 #######################
 ## Regular device mount
@@ -15,6 +15,3 @@ dev_mount emmc /mnt/emmc 10 /devices/platform/mmci-omap-hs.1/mmc_host/mmc0
 
 ## sdcard
 dev_mount sdcard /mnt/sdcard auto /devices/platform/mmci-omap-hs.0/mmc_host/mmc1
-
-## USB storage device
-dev_mount usbdisk /mnt/usbdisk auto /devices/platform/musb_hdrc

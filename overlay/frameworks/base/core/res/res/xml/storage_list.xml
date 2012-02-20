@@ -35,18 +35,13 @@
 <StorageList xmlns:android="http://schemas.android.com/apk/res/android">
     <storage android:mountPoint="/mnt/emmc"
              android:storageDescription="Additional storage: /mnt/emmc"
-             android:primary="true"
+             android:primary="false"
              android:removable="false"
              android:allowMassStorage="true" />
 
     <storage android:mountPoint="/mnt/sdcard"
              android:storageDescription="@string/storage_sd_card"
-             android:primary="false"
-             android:removable="false"
+             android:primary="true"
+             android:removable="true"
              android:allowMassStorage="true" />
-
-    <storage android:mountPoint="/mnt/usbdisk"
-             android:storageDescription="@string/storage_usb"
-             android:primary="false"
-             android:removable="true" />
 </StorageList>
