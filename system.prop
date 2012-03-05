@@ -1,7 +1,7 @@
 #
 # system.prop for acclaim
 #
-wifi.interface=tiwlan0
+wifi.interface=wlan0
 
 #define defaults for audio D/A mic and power mode
 omap.audio.mic.main=AMic0    
@@ -12,5 +12,5 @@ ro.nf.profile=2
 ro.nf.level=512
 
 ro.vold.switchablepair=/mnt/sdcard,/mnt/emmc
-persist.sys.usb.config=mass_storage,adb
+persist.sys.usb.config=mtp,adb
 ro.additionalmounts=/mnt/emmc;/mnt/usbdisk

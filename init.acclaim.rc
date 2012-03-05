@@ -34,21 +34,22 @@ on init
 
 on fs
     # mount partitions
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/system /system wait ro errors=panic
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/cache /cache wait noatime nosuid nodev errors=panic
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/userdata /data wait noatime nosuid nodev errors=panic
-    mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/rom /rom sync noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
-    mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/bootdata /bootdata wait noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
+    mount ext4 /dev/block/platform/omap/omap_hsmmc.1/by-name/system /system wait ro errors=panic
+    mount ext4 /dev/block/platform/omap/omap_hsmmc.1/by-name/cache /cache wait noatime nosuid nodev errors=panic
+    mount ext4 /dev/block/platform/omap/omap_hsmmc.1/by-name/userdata /data wait noatime nosuid nodev errors=panic
+    mount vfat /dev/block/platform/omap/omap_hsmmc.1/by-name/rom /rom sync noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
+    mount vfat /dev/block/platform/omap/omap_hsmmc.1/by-name/bootdata /bootdata wait noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
 
 on post-fs-data
     # we will remap this as /mnt/sdcard with the sdcard fuse tool
     mkdir /data/media 0775 media_rw media_rw
     chown media_rw media_rw /data/media
     setprop vold.post_fs_data_done 1
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
 
 on boot
     # BRB: Temp adb hack
-    setprop service.adb.root 1
+    # setprop service.adb.root 1
 
     # fake some battery state
     setprop status.battery.state Slow
@@ -57,10 +58,23 @@ on boot
     setprop status.battery.level_scale 9
 
     # wireless
+    mkdir /system/etc/wifi 0770 wifi wifi
+    chmod 0770 /system/etc/wifi
+    chmod 0660 /system/etc/wifi/wpa_supplicant.conf
+    chown wifi wifi /system/etc/wifi/wpa_supplicant.conf
     mkdir /data/misc/wifi 0770 wifi wifi
-    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    chmod 0660 /data/misc/wifi/wpa_supplicant.conf
+    chown wifi wifi /data/misc/wifi/wpa_supplicant.conf
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     chown dhcp dhcp /data/misc/dhcp
+
+    chmod 0660 /dev/rfkill
+    chmod 0660 /sys/class/rfkill/rfkill1/state
+    chmod 0660 /sys/class/rfkill/rfkill1/state
+    chown wifi wifi /sys/class/rfkill/rfkill1/type
+    chown wifi wifi /sys/class/rfkill/rfkill1/state
+
+    insmod /system/lib/modules/wl12xx.ko
 
     # SGX driver
     chmod 0666 /dev/pvrsrvkm
@@ -144,23 +158,20 @@ on boot
     chown system system /sys/devices/platform/omapdss/display3/timings
     chown system system /sys/devices/platform/omapdss/display2/code
 
-    # usb legacy
-    chown system system /sys/class/usb_composite/usb_mass_storage/enable
-    chmod 0660 /sys/class/usb_composite/usb_mass_storage/enable
-    chown system system /sys/class/usb_composite/adb/enable
-    chmod 0660 /sys/class/usb_composite/usb_mass_storage/adb/enable
-    chown system system /sys/class/usb_composite/mtp/enable
-    chmod 0660 /sys/class/usb_composite/mtp/enable
-    chown system system /sys/class/usb_composite/rndis/enable
-    chmod 0660 /sys/class/usb_composite/rndis/enable
+    # change permissions for mtd device
+    chmod 0660 /dev/mtd/mtd0
+    chown media media /dev/mtd/mtd0
     
-    chown system system /sys/devices/platform/usb_mass_storage/lun0/file
-    chmod 0660 /sys/devices/platform/usb_mass_storage/lun0/file
+    # change permissions for i2c-2 device
+    chmod 0660 /dev/i2c-2
+    chown media media /dev/i2c-2
 
     # change permissions for Tiler driver
-    chown media media /dev/tiler
-    chmod 0666 /dev/tiler
-    chmod 0666 /dev/dmm
+    chmod 0777 /dev/tiler
+    chmod 0777 /dev/dmm
+
+    # change permissions for ION driver
+    chmod 0777 /dev/ion
 
     # change permissions for alsa nodes
     chmod 0777 /dev/snd/controlC0
@@ -188,43 +199,47 @@ service bootcnt /system/bin/clear_bootcnt.sh
     disabled
     oneshot
 
-service wlan_loader /system/bin/wlan_loader \
-    -f /system/etc/wifi/firmware.bin \
-    -i /system/etc/wifi/tiwlan.ini \
-    -e /rom/DevConf/WiFiBackupCalibration
+#service wpa_supplicant /system/bin/wpa_supplicant -Dwext -iwlan0 -dd
+#    class main
+#    socket wpa_wlan0 dgram 660 wifi wifi
+#    disabled
+#    oneshot
+
+service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
     class main
     disabled
     oneshot
 
-service ifcfg_ti /system/bin/netcfg tiwlan0 up
+service iprenew_wlan0 /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
 
-service wpa_supplicant /system/bin/wpa_supplicant \
-    -Dtiwlan0 -itiwlan0 -c/data/misc/wifi/wpa_supplicant.conf
-    class main
-    socket wpa_tiwlan0 dgram 660 wifi wifi
-    disabled
-    oneshot
-
-service dhcpcd_tiwlan0 /system/bin/dhcpcd -ABKL
-    class main
-    disabled
-    oneshot
-
-service uim /system/bin/uim-sysfs
-   class core
-   user bluetooth
-   group bluetooth net_bt_admin
-
-service iprenew_tiwlan0 /system/bin/dhcpcd -n
-    class main
-    disabled
-    oneshot
+#service uim /system/bin/uim-sysfs
+#   class core
+#   user bluetooth
+#   group bluetooth net_bt_admin
 
 # Update the battery data heuristics every hour
 service logbatterydata /system/bin/log_battery_data.sh
     class core
     user root
     group root
+
+on property:ro.debuggable=1
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 18D1
+    write /sys/class/android_usb/android0/idProduct D001
+    write /sys/class/android_usb/android0/functions adb
+    #write /sys/class/android_usb/android0/enable 1
+    write /sys/class/android_usb/android0/iManufacturer $ro.product.manufacturer
+    write /sys/class/android_usb/android0/iProduct $ro.product.model
+    write /sys/class/android_usb/android0/iSerial $ro.serialno
+    #start adbd
+    setprop service.adb.root 1
+
+# Restart adbd so it can run as root
+on property:service.adb.root=1
+    write /sys/class/android_usb/android0/enable 0
+    restart adbd
+    write /sys/class/android_usb/android0/enable 1

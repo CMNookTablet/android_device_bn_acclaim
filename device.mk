@@ -22,8 +22,6 @@
 
 DEVICE_PACKAGE_OVERLAYS += device/bn/acclaim/overlay
 
-$(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
-
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 	LOCAL_KERNEL := device/bn/acclaim/kernel
 else
@@ -32,6 +30,8 @@ endif
 
 PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
+	device/bn/acclaim/wl12xx.ko:/system/lib/modules/wl12xx.ko \
+	device/bn/acclaim/wl12xx_sdio.ko:/system/lib/modules/wl12xx_sdio.ko \
 	device/bn/acclaim/init.acclaim.rc:root/init.acclaim.rc \
 	device/bn/acclaim/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
 	device/bn/acclaim/ueventd.acclaim.rc:root/ueventd.acclaim.rc
@@ -41,6 +41,9 @@ PRODUCT_PACKAGES += \
 	ti_omap4_sgx_libs \
 	ti_omap4_ducati_libs
 
+PRODUCT_COPY_FILES += \
+	hardware/ti/proprietary-open/omap4/ducati_blaze_tablet/firmware/ducati-m3.bin/:system/vendor/firmware/ducati-m3.bin
+
 # Input
 PRODUCT_COPY_FILES += \
 	device/bn/acclaim/ft5x06-i2c.idc:system/usr/idc/ft5x06-i2c.idc \
@@ -49,16 +52,6 @@ PRODUCT_COPY_FILES += \
 # Misc
 PRODUCT_COPY_FILES += \
 	device/bn/acclaim/clear_bootcnt.sh:system/bin/clear_bootcnt.sh
-
-# Wifi
-PRODUCT_COPY_FILES += \
-	device/bn/acclaim/prebuilt/wifi/tiwlan_drv.ko:/system/lib/modules/tiwlan_drv.ko \
-	device/bn/acclaim/prebuilt/wifi/tiwlan.ini:/system/etc/wifi/tiwlan.ini \
-	device/bn/acclaim/prebuilt/wifi/firmware.bin:/system/etc/wifi/firmware.bin 
-
-# Bluetooth
-PRODUCT_COPY_FILES += \
-    device/bn/acclaim/prebuilt/TIInit_7.2.31.bts:/system/etc/firmware/TIInit_7.2.31.bts
 
 # fwram
 PRODUCT_COPY_FILES += \
@@ -120,10 +113,8 @@ PRODUCT_PACKAGES += \
 # Wifi
 PRODUCT_PACKAGES += \
 	dhcpcd.conf \
-	libCustomWifi \
-	wlan_cu \
-	wlan_loader \
-	wpa_supplicant.conf
+	TQS_D_1.7.ini \
+	calibrator
 
 PRODUCT_PACKAGES += \
 	hwcomposer.default
@@ -154,8 +145,14 @@ PRODUCT_PACKAGES += \
 	libcamera \
 	libion \
 	libomxcameraadapter \
+	hwcomposer.omap4 \
 	smc_pa_ctrl \
 	tf_daemon
 
+$(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
+
 $(call inherit-product-if-exists, vendor/bn/acclaim/device-vendor.mk)
 $(call inherit-product-if-exists, vendor/bn/acclaim/device-vendor-blobs.mk)
+
+$(call inherit-product, device/bn/acclaim/wl12xx/ti-wl12xx-vendor.mk)
+$(call inherit-product, device/bn/acclaim/wl12xx/ti-wpan-products.mk)

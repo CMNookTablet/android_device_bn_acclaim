@@ -55,18 +55,21 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 12949893120
 BOARD_FLASH_BLOCK_SIZE := 131072
 
 # Wifi
-BOARD_WPA_SUPPLICANT_DRIVER := CUSTOM
-BOARD_WLAN_DEVICE           := wl1283
-WPA_SUPPLICANT_VERSION      := VER_0_6_X
-#BOARD_SOFTAP_DEVICE         := wl1283
-WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/tiwlan_drv.ko"
-WIFI_DRIVER_MODULE_NAME     := "tiwlan_drv"
-WIFI_FIRMWARE_LOADER        := "wlan_loader"
+BOARD_WPA_SUPPLICANT_DRIVER      := WEXT
+WPA_SUPPLICANT_VERSION           := VER_0_6_X
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
+BOARD_HOSTAPD_DRIVER             := WEXT
+BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_wl12xx
+BOARD_WLAN_DEVICE                := wl12xx_mac80211
+BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
+WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wl12xx_sdio.ko"
+WIFI_DRIVER_MODULE_NAME          := "wl12xx_sdio"
+WIFI_FIRMWARE_LOADER        	 := ""
 
 # Vold
 BOARD_VOLD_MAX_PARTITIONS := 11
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
-TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/usb_mass_storage/lun0/file"
+#TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/usb_mass_storage/lun0/file"
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
@@ -82,7 +85,6 @@ OMAP_ENHANCEMENT := true
 COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT -DTARGET_OMAP4
 
 # Recovery
-TARGET_RECOVERY_INITRC := device/bn/acclaim/recovery/init.rc
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/bn/acclaim/recovery/recovery_ui.c
 BOARD_HAS_LARGE_FILESYSTEM := true
 
@@ -94,8 +96,8 @@ BOARD_CUSTOM_BOOTIMG_MK := device/bn/acclaim/boot.mk
 TARGET_NO_BOOTLOADER := true
 TARGET_PROVIDES_RELEASETOOLS := true
 
-# not tested at all
-TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./device/bn/acclaim/releasetools/acclaim_img_from_target_files
 # hack the ota
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./device/bn/acclaim/releasetools/acclaim_ota_from_target_files
+# not tested at all
+TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./device/bn/acclaim/releasetools/acclaim_img_from_target_files
 
