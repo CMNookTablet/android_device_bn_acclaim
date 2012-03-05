@@ -36,6 +36,10 @@ PRODUCT_COPY_FILES += \
 	device/bn/acclaim/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
 	device/bn/acclaim/ueventd.acclaim.rc:root/ueventd.acclaim.rc
 
+# Art
+PRODUCT_COPY_FILES += \
+    device/bn/acclaim/prebuilt/poetry/poem.txt:root/sbin/poem.txt
+
 # gfx. This needs http://git.omapzoom.org/?p=device/ti/proprietary-open.git;a=commit;h=47a8187f2d8a08f7210b3c964b3b8e50f3b0da66
 PRODUCT_PACKAGES += \
 	ti_omap4_sgx_libs \
