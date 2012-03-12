@@ -62,8 +62,8 @@ PRODUCT_COPY_FILES += \
 
 # Other modules
 PRODUCT_COPY_FILES += \
-	device/bn/acclaim/prebuilt/tun.ko:/system/lib/modules \
-	device/bn/acclaim/prebuilt/cifs.ko:/system/lib/modules
+	device/bn/acclaim/prebuilt/tun.ko:/system/lib/modules/tun.ko \
+	device/bn/acclaim/prebuilt/cifs.ko:/system/lib/modules/cifs.ko
 
 # Bluetooth
 PRODUCT_COPY_FILES += \
