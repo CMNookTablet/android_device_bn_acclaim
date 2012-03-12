@@ -60,6 +60,11 @@ PRODUCT_COPY_FILES += \
 	device/bn/acclaim/prebuilt/wifi/tiwlan.ini:/system/etc/wifi/tiwlan.ini \
 	device/bn/acclaim/prebuilt/wifi/firmware.bin:/system/etc/wifi/firmware.bin 
 
+# Other modules
+PRODUCT_COPY_FILES += \
+	device/bn/acclaim/prebuilt/tun.ko:/system/lib/modules \
+	device/bn/acclaim/prebuilt/cifs.ko:/system/lib/modules
+
 # Bluetooth
 PRODUCT_COPY_FILES += \
     device/bn/acclaim/prebuilt/TIInit_7.2.31.bts:/system/etc/firmware/TIInit_7.2.31.bts

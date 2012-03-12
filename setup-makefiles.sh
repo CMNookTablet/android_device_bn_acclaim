@@ -96,8 +96,8 @@ PRODUCT_COPY_FILES += \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/alsa.conf:/system/usr/share/alsa/alsa.conf \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/cards/aliases.conf:/system/usr/share/alsa/cards/aliases.conf \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/center_lfe.conf:/system/usr/share/alsa/pcm/center_lfe.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/default.conf:/system/usr/share/alsa/pcm/center_lfe.conf \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/dmix.conf:/system/usr/share/alsa/pcm/dmix.com \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/default.conf:/system/usr/share/alsa/pcm/default.conf \\
+    vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/dmix.conf:/system/usr/share/alsa/pcm/dmix.conf \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/dpl.conf:/system/usr/share/alsa/pcm/dpl.conf \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/dsnoop.conf:/system/usr/share/alsa/pcm/dsnoop.conf \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/audio/conf/pcm/front.conf:/system/usr/share/alsa/pcm/front.conf \\
