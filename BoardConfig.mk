@@ -40,7 +40,8 @@ TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp
 TARGET_BOOTLOADER_BOARD_NAME := acclaim
 
 # Kernel/Boot
-BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 mem=463M@0x80000000 mem=512M@0xA0000000 init=/init rootwait vram=32M,82000000 omapfb.vram=0:16M@82000000
+BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 mem=460M@0x80000000 mem=512M@0xA0000000 init=/init rootwait vram=32M,82000000 omapfb.vram=0:16M@82000000
+
 BOARD_KERNEL_BASE := 0x80080000
 BOARD_KERNEL_PAGESIZE := 4096
 TARGET_NO_BOOTLOADER := true
@@ -64,7 +65,7 @@ WIFI_DRIVER_MODULE_NAME     := "tiwlan_drv"
 WIFI_FIRMWARE_LOADER        := "wlan_loader"
 
 # Vold
-BOARD_VOLD_MAX_PARTITIONS := 11
+BOARD_VOLD_MAX_PARTITIONS := 20
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/usb_mass_storage/lun%d/file"
 
@@ -84,6 +85,7 @@ COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT -DTARGET_OMAP4
 # Recovery
 TARGET_RECOVERY_INITRC := device/bn/acclaim/recovery/init.rc
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/bn/acclaim/recovery/recovery_ui.c
+TARGET_RECOVERY_PRE_COMMAND := "echo 'recovery' > /bootdata/BCB; sync"
 BOARD_HAS_LARGE_FILESYSTEM := true
 
 # adb has root

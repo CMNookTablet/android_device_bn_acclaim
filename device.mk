@@ -126,6 +126,10 @@ PRODUCT_PACKAGES += \
 	make_ext4fs \
 	setup_fs
 
+# postrecoveryboot for cwm
+PRODUCT_COPY_FILES += \
+    device/bn/acclaim/recovery/postrecoveryboot.sh:recovery/root/sbin/postrecoveryboot.sh
+
 # Wifi
 PRODUCT_PACKAGES += \
 	dhcpcd.conf \
