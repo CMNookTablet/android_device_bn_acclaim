@@ -21,9 +21,7 @@
 USE_CAMERA_STUB := true
 
 # audio
-BOARD_USES_GENERIC_AUDIO := false
-BOARD_USES_AUDIO_LEGACY := true
-COMMON_GLOBAL_CFLAGS += -DBOARD_USES_AUDIO_LEGACY
+BOARD_USES_GENERIC_AUDIO := true
 
 # inherit from the proprietary version
 -include vendor/bn/acclaim/BoardConfigVendor.mk
@@ -66,10 +64,6 @@ WIFI_DRIVER_MODULE_NAME          := "wl12xx_sdio"
 # Vold
 BOARD_VOLD_MAX_PARTITIONS := 20
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
-#TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/usb_mass_storage/lun0/file"
-
-# Bluetooth
-BOARD_HAVE_BLUETOOTH := true
 
 # GPS
 BOARD_HAVE_FAKE_GPS := true
