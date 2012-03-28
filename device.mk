@@ -42,21 +42,21 @@ PRODUCT_COPY_FILES += \
 
 # Graphics
 PRODUCT_COPY_FILES += \
-    device/bn/accalaim/prebuild/sgx/gralloc.omap4430.so:/system/vendor/lib/hw/gralloc.omap4430.so \
-    device/bn/accalaim/prebuild/sgx/libEGL_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
-    device/bn/accalaim/prebuild/sgx/libGLESv1_CM_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
-    device/bn/accalaim/prebuild/sgx/libGLESv2_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
-    device/bn/accalaim/prebuild/sgx/libglslcompiler_SGX540_120.so:/system/vendor/lib/libglslcompiler_SGX540_120.so \
-    device/bn/accalaim/prebuild/sgx/libIMGegl_SGX540_120.so:/system/vendor/lib/libIMGegl_SGX540_120.so \
-    device/bn/accalaim/prebuild/sgx/prebuilt/imgtec/libpvr2d_SGX540_120.so:/system/vendor/lib/libpvr2d_SGX540_120.so \
-    device/bn/accalaim/prebuild/sgx/libpvrANDROID_WSEGL_SGX540_120.so:/system/vendor/lib/libpvrANDROID_WSEGL_SGX540_120.so \
-    device/bn/accalaim/prebuild/sgx/libPVRScopeServices_SGX540_120.so:/system/vendor/lib/libPVRScopeServices_SGX540_120.so \
-    device/bn/accalaim/prebuild/sgx/libsrv_init_SGX540_120.so:/system/vendor/lib/libsrv_init_SGX540_120.so \
-    device/bn/accalaim/prebuild/sgx/libsrv_um_SGX540_120.so:/system/vendor/lib/libsrv_um_SGX540_120.so \
-    device/bn/accalaim/prebuild/sgx/libusc_SGX540_120.so:/system/vendor/lib/libusc_SGX540_120.so \
-    device/bn/accalaim/prebuild/sgx/pvrsrvinit_SGX540_120:/system/bin/pvrsrvinit \
-    device/bn/accalaim/prebuild/sgx/pvrsrvctl:/system/bin/pvrsrvctl \
-    device/bn/accalaim/prebuild/sgx/powervr.ini:/system/etc/powervr.ini \
+    device/bn/acclaim/prebuilt/sgx/gralloc.omap4430.so:/system/vendor/lib/hw/gralloc.omap4430.so \
+    device/bn/acclaim/prebuilt/sgx/libEGL_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
+    device/bn/acclaim/prebuilt/sgx/libGLESv1_CM_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
+    device/bn/acclaim/prebuilt/sgx/libGLESv2_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
+    device/bn/acclaim/prebuilt/sgx/libglslcompiler_SGX540_120.so:/system/vendor/lib/libglslcompiler_SGX540_120.so \
+    device/bn/acclaim/prebuilt/sgx/libIMGegl_SGX540_120.so:/system/vendor/lib/libIMGegl_SGX540_120.so \
+    device/bn/acclaim/prebuilt/sgx/libpvr2d_SGX540_120.so:/system/vendor/lib/libpvr2d_SGX540_120.so \
+    device/bn/acclaim/prebuilt/sgx/libpvrANDROID_WSEGL_SGX540_120.so:/system/vendor/lib/libpvrANDROID_WSEGL_SGX540_120.so \
+    device/bn/acclaim/prebuilt/sgx/libPVRScopeServices_SGX540_120.so:/system/vendor/lib/libPVRScopeServices_SGX540_120.so \
+    device/bn/acclaim/prebuilt/sgx/libsrv_init_SGX540_120.so:/system/vendor/lib/libsrv_init_SGX540_120.so \
+    device/bn/acclaim/prebuilt/sgx/libsrv_um_SGX540_120.so:/system/vendor/lib/libsrv_um_SGX540_120.so \
+    device/bn/acclaim/prebuilt/sgx/libusc_SGX540_120.so:/system/vendor/lib/libusc_SGX540_120.so \
+    device/bn/acclaim/prebuilt/sgx/pvrsrvinit_SGX540_120:/system/bin/pvrsrvinit \
+    device/bn/acclaim/prebuilt/sgx/pvrsrvctl:/system/bin/pvrsrvctl \
+    device/bn/acclaim/prebuilt/sgx/powervr.ini:/system/etc/powervr.ini \
 
 # Art
 PRODUCT_COPY_FILES += \
@@ -68,12 +68,14 @@ PRODUCT_COPY_FILES += \
 #	ti_omap4_ducati_libs
 
 PRODUCT_COPY_FILES += \
-	hardware/ti/proprietary-open/omap4/ducati_blaze_tablet/firmware/ducati-m3.bin/:system/vendor/firmware/ducati-m3.bin
+	device/bn/acclaim/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin
 
 # Input
 PRODUCT_COPY_FILES += \
 	device/bn/acclaim/prebuilt/usr/idc/ft5x06-i2c.idc:system/usr/idc/ft5x06-i2c.idc \
-	device/bn/acclaim/prebuilt/usr/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl
+	device/bn/acclaim/prebuilt/usr/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl\
+	device/bn/acclaim/prebuilt/usr/idc/twl6030_pwrbutton.idc:system/usr/idc/twl6030_pwrbutton.idc \
+	device/bn/acclaim/prebuilt/usr/keylayout/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl
 
 # Misc
 PRODUCT_COPY_FILES += \
