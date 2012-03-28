@@ -23,6 +23,8 @@ USE_CAMERA_STUB := true
 # audio
 BOARD_USES_GENERIC_AUDIO := true
 
+# GPS
+BOARD_HAVE_FAKE_GPS := true
 # inherit from the proprietary version
 -include vendor/bn/acclaim/BoardConfigVendor.mk
 
@@ -38,7 +40,7 @@ TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp
 TARGET_BOOTLOADER_BOARD_NAME := acclaim
 
 # Kernel/Boot
-BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 mem=460M@0x80000000 mem=512M@0xA0000000 init=/init rootwait vram=32M,82000000 omapfb.vram=0:16M@82000000
+BOARD_KERNEL_CMDLINE := mem=1G androidboot.console=ttyO0 console=ttyO0,115200n8 init=/init rootwait vram=32M,82000000 omapfb.vram=0:16M@82000000 def_disp=lcd2
 
 BOARD_KERNEL_BASE := 0x80080000
 BOARD_KERNEL_PAGESIZE := 4096
@@ -58,19 +60,20 @@ BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
 WPA_SUPPLICANT_VERSION           := VER_0_8_X
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
 BOARD_WLAN_DEVICE                := wl12xx_mac80211
+BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
 WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wl12xx_sdio.ko"
 WIFI_DRIVER_MODULE_NAME          := "wl12xx_sdio"
-
+WIFI_FIRMWARE_LOADER             := ""
+COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
 # Vold
 BOARD_VOLD_MAX_PARTITIONS := 20
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 
-# GPS
-BOARD_HAVE_FAKE_GPS := true
+
 
 # Graphics
 USE_OPENGL_RENDERER := true
-BOARD_EGL_CFG := device/bn/acclaim/egl.cfg
+BOARD_EGL_CFG := device/bn/acclaim/prebuilt/etc/egl.cfg
 
 OMAP_ENHANCEMENT := true
 COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT -DTARGET_OMAP4

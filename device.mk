@@ -28,46 +28,68 @@ else
 	LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
 
+# copy all kernel modules under the "modules" directory to system/lib/modules
+PRODUCT_COPY_FILES += $(shell \
+    find device/bn/acclaim/modules -name '*.ko' \
+    | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
+    | tr '\n' ' ')
+
 PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
-	device/bn/acclaim/wl12xx.ko:/system/lib/modules/wl12xx.ko \
-	device/bn/acclaim/wl12xx_sdio.ko:/system/lib/modules/wl12xx_sdio.ko \
-	device/bn/acclaim/init.acclaim.rc:root/init.acclaim.rc \
-	device/bn/acclaim/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
-	device/bn/acclaim/ueventd.acclaim.rc:root/ueventd.acclaim.rc
+	device/bn/acclaim/root/init.acclaim.rc:root/init.acclaim.rc \
+	device/bn/acclaim/root/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
+	device/bn/acclaim/root/ueventd.acclaim.rc:root/ueventd.acclaim.rc
+
+# Graphics
+PRODUCT_COPY_FILES += \
+    device/bn/accalaim/prebuild/sgx/gralloc.omap4430.so:/system/vendor/lib/hw/gralloc.omap4430.so \
+    device/bn/accalaim/prebuild/sgx/libEGL_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
+    device/bn/accalaim/prebuild/sgx/libGLESv1_CM_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
+    device/bn/accalaim/prebuild/sgx/libGLESv2_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
+    device/bn/accalaim/prebuild/sgx/libglslcompiler_SGX540_120.so:/system/vendor/lib/libglslcompiler_SGX540_120.so \
+    device/bn/accalaim/prebuild/sgx/libIMGegl_SGX540_120.so:/system/vendor/lib/libIMGegl_SGX540_120.so \
+    device/bn/accalaim/prebuild/sgx/prebuilt/imgtec/libpvr2d_SGX540_120.so:/system/vendor/lib/libpvr2d_SGX540_120.so \
+    device/bn/accalaim/prebuild/sgx/libpvrANDROID_WSEGL_SGX540_120.so:/system/vendor/lib/libpvrANDROID_WSEGL_SGX540_120.so \
+    device/bn/accalaim/prebuild/sgx/libPVRScopeServices_SGX540_120.so:/system/vendor/lib/libPVRScopeServices_SGX540_120.so \
+    device/bn/accalaim/prebuild/sgx/libsrv_init_SGX540_120.so:/system/vendor/lib/libsrv_init_SGX540_120.so \
+    device/bn/accalaim/prebuild/sgx/libsrv_um_SGX540_120.so:/system/vendor/lib/libsrv_um_SGX540_120.so \
+    device/bn/accalaim/prebuild/sgx/libusc_SGX540_120.so:/system/vendor/lib/libusc_SGX540_120.so \
+    device/bn/accalaim/prebuild/sgx/pvrsrvinit_SGX540_120:/system/bin/pvrsrvinit \
+    device/bn/accalaim/prebuild/sgx/pvrsrvctl:/system/bin/pvrsrvctl \
+    device/bn/accalaim/prebuild/sgx/powervr.ini:/system/etc/powervr.ini \
 
 # Art
 PRODUCT_COPY_FILES += \
     device/bn/acclaim/prebuilt/poetry/poem.txt:root/sbin/poem.txt
 
 # gfx. This needs http://git.omapzoom.org/?p=device/ti/proprietary-open.git;a=commit;h=47a8187f2d8a08f7210b3c964b3b8e50f3b0da66
-PRODUCT_PACKAGES += \
-	ti_omap4_sgx_libs \
-	ti_omap4_ducati_libs
+#PRODUCT_PACKAGES += \
+#	ti_omap4_sgx_libs \
+#	ti_omap4_ducati_libs
 
 PRODUCT_COPY_FILES += \
 	hardware/ti/proprietary-open/omap4/ducati_blaze_tablet/firmware/ducati-m3.bin/:system/vendor/firmware/ducati-m3.bin
 
 # Input
 PRODUCT_COPY_FILES += \
-	device/bn/acclaim/ft5x06-i2c.idc:system/usr/idc/ft5x06-i2c.idc \
-	device/bn/acclaim/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl
+	device/bn/acclaim/prebuilt/usr/idc/ft5x06-i2c.idc:system/usr/idc/ft5x06-i2c.idc \
+	device/bn/acclaim/prebuilt/usr/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl
 
 # Misc
 PRODUCT_COPY_FILES += \
 	device/bn/acclaim/clear_bootcnt.sh:system/bin/clear_bootcnt.sh
 
 # fwram
-PRODUCT_COPY_FILES += \
-	device/bn/acclaim/prebuilt/fwram.ko:/system/lib/modules/fwram.ko
+#PRODUCT_COPY_FILES += \
+#	device/bn/acclaim/prebuilt/fwram.ko:/system/lib/modules/fwram.ko
 
 # Vold
 PRODUCT_COPY_FILES += \
-	device/bn/acclaim/etc/vold.acclaim.fstab:system/etc/vold.fstab
+	device/bn/acclaim/prebuilt/etc/vold.acclaim.fstab:system/etc/vold.fstab
 
 # Media Profile
 PRODUCT_COPY_FILES += \
-	device/bn/acclaim/etc/media_profiles.xml:system/etc/media_profiles.xml
+	device/bn/acclaim/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml
 
 # Clears the boot counter
 PRODUCT_COPY_FILES += \
@@ -154,6 +176,7 @@ PRODUCT_PACKAGES += \
 	libion \
 	libomxcameraadapter \
 	hwcomposer.omap4 \
+	hwcomposer.default \
 	smc_pa_ctrl \
 	tf_daemon
 
