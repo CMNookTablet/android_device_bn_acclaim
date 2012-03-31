@@ -76,27 +76,12 @@ on boot
 
     insmod /system/lib/modules/wl12xx.ko
 
-# Load Modules
+    # Load Modules
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
     insmod /system/lib/modules/omaplfb_sgx540_120.ko
 
     # SGX driver
     chmod 0666 /dev/pvrsrvkm
-
-# Initialize the SGX driver
-service pvrsrvinit /system/bin/pvrsrvinit
-	class core
-	user root
-	group root
-	oneshot
-
-    # bluetooth
-#    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
-#    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
-#    chmod 0660 /sys/class/rfkill/rfkill0/state
-    # bluetooth uart
-#    chown bluetooth bluetooth /dev/ttyO1
-#    chmod 0660 /dev/ttyO1
 
     chown media media /dev/syslink-proc4430
     chown media media /dev/syslink-procmgr
@@ -197,11 +182,11 @@ on property:dev.bootcomplete=1
     start bootcnt
 
 # Initialize the SGX driver
-#service pvrsrvinit /vendor/bin/pvrsrvinit
-#	class core
-#	user root
-#	group root
-#	oneshot
+service pvrsrvinit /vendor/bin/pvrsrvinit
+	class core
+	user root
+	group root
+	oneshot
 
 service bootcnt /system/bin/clear_bootcnt.sh
     class core
@@ -225,11 +210,6 @@ service iprenew_wlan0 /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
-
-#service uim /system/bin/uim-sysfs
-#   class core
-#   user bluetooth
-#   group bluetooth net_bt_admin
 
 # Update the battery data heuristics every hour
 service logbatterydata /system/bin/log_battery_data.sh

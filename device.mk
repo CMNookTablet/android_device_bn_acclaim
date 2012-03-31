@@ -42,7 +42,7 @@ PRODUCT_COPY_FILES += \
 
 # Graphics
 PRODUCT_COPY_FILES += \
-    device/bn/acclaim/prebuilt/sgx/gralloc.omap4430.so:/system/vendor/lib/hw/gralloc.omap4430.so \
+    device/bn/acclaim/prebuilt/sgx/gralloc.omap4430.so:/system/vendor/lib/hw/gralloc.omap4.so \
     device/bn/acclaim/prebuilt/sgx/libEGL_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
     device/bn/acclaim/prebuilt/sgx/libGLESv1_CM_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
     device/bn/acclaim/prebuilt/sgx/libGLESv2_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
@@ -54,18 +54,14 @@ PRODUCT_COPY_FILES += \
     device/bn/acclaim/prebuilt/sgx/libsrv_init_SGX540_120.so:/system/vendor/lib/libsrv_init_SGX540_120.so \
     device/bn/acclaim/prebuilt/sgx/libsrv_um_SGX540_120.so:/system/vendor/lib/libsrv_um_SGX540_120.so \
     device/bn/acclaim/prebuilt/sgx/libusc_SGX540_120.so:/system/vendor/lib/libusc_SGX540_120.so \
-    device/bn/acclaim/prebuilt/sgx/pvrsrvinit_SGX540_120:/system/bin/pvrsrvinit \
-    device/bn/acclaim/prebuilt/sgx/pvrsrvctl:/system/bin/pvrsrvctl \
-    device/bn/acclaim/prebuilt/sgx/powervr.ini:/system/etc/powervr.ini \
+    device/bn/acclaim/prebuilt/sgx/pvrsrvinit:/system/vendor/bin/pvrsrvinit \
+    device/bn/acclaim/prebuilt/sgx/pvrsrvinit_SGX540_120:/system/vendor/bin/pvrsrvinit_SGX540_120 \
+    device/bn/acclaim/prebuilt/sgx/pvrsrvctl:/system/vendor/bin/pvrsrvctl \
+    device/bn/acclaim/prebuilt/sgx/powervr.ini:/system/etc/powervr.ini
 
 # Art
 PRODUCT_COPY_FILES += \
     device/bn/acclaim/prebuilt/poetry/poem.txt:root/sbin/poem.txt
-
-# gfx. This needs http://git.omapzoom.org/?p=device/ti/proprietary-open.git;a=commit;h=47a8187f2d8a08f7210b3c964b3b8e50f3b0da66
-#PRODUCT_PACKAGES += \
-#	ti_omap4_sgx_libs \
-#	ti_omap4_ducati_libs
 
 PRODUCT_COPY_FILES += \
 	device/bn/acclaim/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin
@@ -177,7 +173,6 @@ PRODUCT_PACKAGES += \
 	libcamera \
 	libion \
 	libomxcameraadapter \
-	hwcomposer.omap4 \
 	hwcomposer.default \
 	smc_pa_ctrl \
 	tf_daemon
