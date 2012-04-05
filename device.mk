@@ -105,7 +105,6 @@ PRODUCT_PACKAGES += \
 	libaudioutils \
 	hwprops \
 	CMStats \
-	libaudiohw_legacy \
 	lights.acclaim \
 	audio.primary.acclaim
 

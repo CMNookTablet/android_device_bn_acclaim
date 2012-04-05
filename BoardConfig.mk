@@ -21,7 +21,7 @@
 USE_CAMERA_STUB := true
 
 # audio
-BOARD_USES_GENERIC_AUDIO := true
+BOARD_USES_GENERIC_AUDIO := false
 
 # GPS
 BOARD_HAVE_FAKE_GPS := true
