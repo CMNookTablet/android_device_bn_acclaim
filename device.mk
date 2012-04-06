@@ -54,7 +54,8 @@ PRODUCT_COPY_FILES += \
     device/bn/acclaim/prebuilt/sgx/libsrv_init_SGX540_120.so:/system/vendor/lib/libsrv_init_SGX540_120.so \
     device/bn/acclaim/prebuilt/sgx/libsrv_um_SGX540_120.so:/system/vendor/lib/libsrv_um_SGX540_120.so \
     device/bn/acclaim/prebuilt/sgx/libusc_SGX540_120.so:/system/vendor/lib/libusc_SGX540_120.so \
-    device/bn/acclaim/prebuilt/sgx/pvrsrvinit_SGX540_120:/system/bin/pvrsrvinit \
+    device/bn/acclaim/prebuilt/sgx/pvrsrvinit_SGX540_120:/system/bin/pvrsrvinit_SGX540_120 \
+    device/bn/acclaim/prebuilt/sgx/pvrsrvinit:/system/bin/pvrsrvinit \
     device/bn/acclaim/prebuilt/sgx/pvrsrvctl:/system/bin/pvrsrvctl \
     device/bn/acclaim/prebuilt/sgx/powervr.ini:/system/etc/powervr.ini \
 

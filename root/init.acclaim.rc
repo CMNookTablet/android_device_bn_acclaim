@@ -84,11 +84,11 @@ on boot
     chmod 0666 /dev/pvrsrvkm
 
 # Initialize the SGX driver
-service pvrsrvinit /system/bin/pvrsrvinit
-	class core
-	user root
-	group root
-	oneshot
+#service pvrsrvinit /system/bin/pvrsrvinit
+#	class core
+#	user root
+#	group root
+#	oneshot
 
     # bluetooth
 #    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
@@ -197,11 +197,11 @@ on property:dev.bootcomplete=1
     start bootcnt
 
 # Initialize the SGX driver
-#service pvrsrvinit /vendor/bin/pvrsrvinit
-#	class core
-#	user root
-#	group root
-#	oneshot
+service pvrsrvinit /system/bin/pvrsrvinit
+    class core
+    user root
+    group root
+    oneshot
 
 service bootcnt /system/bin/clear_bootcnt.sh
     class core

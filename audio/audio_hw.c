@@ -1833,9 +1833,9 @@ static int start_input_stream(struct blaze_stream_in *in)
         select_input_device(adev);
     }
 
-//    if(adev->devices & AUDIO_DEVICE_IN_USB_HEADSET) {
-//        adev->input_requires_stereo = 0;
-//    }
+    if(adev->devices & AUDIO_DEVICE_IN_USB_HEADSET) {
+        adev->input_requires_stereo = 0;
+    }
 
     if (adev->input_requires_stereo && (in->config.channels == 1))
         setup_stereo_to_mono_input_remix(in);
@@ -1850,11 +1850,11 @@ static int start_input_stream(struct blaze_stream_in *in)
     if (in->remix_at_driver)
         in->config.channels = in->remix_at_driver->in_chans;
 
-//    if(adev->devices & AUDIO_DEVICE_IN_USB_HEADSET) {
-//        card = CARD_OMAP4_USB;
-//        /*device should be 0 for usb headset capture */
-//        device = PORT_MM;
-//    }
+    if(adev->devices & AUDIO_DEVICE_IN_USB_HEADSET) {
+        card = CARD_OMAP4_USB;
+        /*device should be 0 for usb headset capture */
+        device = PORT_MM;
+    }
 
     in->pcm = pcm_open(card, device, PCM_IN, &in->config);
     if (in->remix_at_driver)
@@ -2915,7 +2915,7 @@ static uint32_t adev_get_supported_devices(const struct audio_hw_device *dev)
             AUDIO_DEVICE_IN_AUX_DIGITAL |
             AUDIO_DEVICE_IN_BACK_MIC |
             AUDIO_DEVICE_IN_ALL_SCO |
-//            AUDIO_DEVICE_IN_USB_HEADSET |
+            AUDIO_DEVICE_IN_USB_HEADSET |
             AUDIO_DEVICE_IN_DEFAULT);
 }
 
