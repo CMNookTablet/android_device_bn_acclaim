@@ -19,8 +19,8 @@
  */
 
 #define LOG_TAG "audio_hw_primary"
-/*#define LOG_NDEBUG 0*/
-/*#define LOG_NDEBUG_FUNCTION*/
+//#define LOG_NDEBUG
+#define LOG_NDEBUG_FUNCTION
 #ifndef LOG_NDEBUG_FUNCTION
 #define LOGFUNC(...) ((void)0)
 #else
@@ -222,6 +222,7 @@
 #define PRODUCT_DEVICE_PROPERTY "ro.product.device"
 #define PRODUCT_DEVICE_BLAZE    "blaze"
 #define PRODUCT_DEVICE_TABLET   "blaze_tablet"
+#define PRODUCT_DEVICE_NOOKTABLET	"bn_acclaim"
 
 enum supported_boards {
     BLAZE,
@@ -793,6 +794,7 @@ static int get_boardtype(struct blaze_audio_device *adev)
     LOGFUNC("%s(%p)", __FUNCTION__, adev);
 
     property_get(PRODUCT_DEVICE_PROPERTY, board, PRODUCT_DEVICE_BLAZE);
+    LOGFUNC("%s(%d)", __FUNCTION__, board);
     /* return true if the property matches the given value */
     if(!strcmp(board, PRODUCT_DEVICE_BLAZE)) {
             adev->board_type = BLAZE;
@@ -803,8 +805,16 @@ static int get_boardtype(struct blaze_audio_device *adev)
             adev->board_type = TABLET;
             adev->sidetone_capture = 0;
     }
+    else if(!strcmp(board, PRODUCT_DEVICE_NOOKTABLET)) {
+            adev->board_type = TABLET;
+            adev->sidetone_capture = 0;
+    }
+
     else
-        return -EINVAL;
+            adev->board_type = TABLET;
+            adev->sidetone_capture = 0;
+
+    //    return -EINVAL;
 
     return 0;
 }

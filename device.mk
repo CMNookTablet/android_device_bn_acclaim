@@ -42,7 +42,7 @@ PRODUCT_COPY_FILES += \
 
 # Graphics
 PRODUCT_COPY_FILES += \
-    device/bn/acclaim/prebuilt/sgx/gralloc.omap4430.so:/system/vendor/lib/hw/gralloc.omap4430.so \
+    device/bn/acclaim/prebuilt/sgx/gralloc.omap4430.so:/system/vendor/lib/hw/gralloc.omap4.so \
     device/bn/acclaim/prebuilt/sgx/libEGL_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
     device/bn/acclaim/prebuilt/sgx/libGLESv1_CM_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
     device/bn/acclaim/prebuilt/sgx/libGLESv2_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
@@ -54,7 +54,7 @@ PRODUCT_COPY_FILES += \
     device/bn/acclaim/prebuilt/sgx/libsrv_init_SGX540_120.so:/system/vendor/lib/libsrv_init_SGX540_120.so \
     device/bn/acclaim/prebuilt/sgx/libsrv_um_SGX540_120.so:/system/vendor/lib/libsrv_um_SGX540_120.so \
     device/bn/acclaim/prebuilt/sgx/libusc_SGX540_120.so:/system/vendor/lib/libusc_SGX540_120.so \
-    device/bn/acclaim/prebuilt/sgx/pvrsrvinit_SGX540_120:/system/bin/pvrsrvinit_SGX540_120 \
+    device/bn/acclaim/prebuilt/sgx/pvrsrvinit_SGX540_120:/vendor/bin/pvrsrvinit_SGX540_120 \
     device/bn/acclaim/prebuilt/sgx/pvrsrvinit:/system/bin/pvrsrvinit \
     device/bn/acclaim/prebuilt/sgx/pvrsrvctl:/system/bin/pvrsrvctl \
     device/bn/acclaim/prebuilt/sgx/powervr.ini:/system/etc/powervr.ini \
@@ -130,8 +130,8 @@ PRODUCT_PACKAGES += \
 	sensors.acclaim
 
 # Bluetooth
-PRODUCT_PACKAGES += \
-	uim-sysfs
+#PRODUCT_PACKAGES += \
+#	uim-sysfs
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
@@ -148,13 +148,9 @@ PRODUCT_PACKAGES += \
 	TQS_D_1.7.ini \
 	calibrator
 
-PRODUCT_PACKAGES += \
-	hwcomposer.default
-
 PRODUCT_CHARACTERISTICS := tablet
 
-# Screen size is "large", density is "mdpi"
-PRODUCT_AAPT_CONFIG := large mdpi
+PRODUCT_AAPT_CONFIG := normal mdpi
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
@@ -177,10 +173,18 @@ PRODUCT_PACKAGES += \
 	libcamera \
 	libion \
 	libomxcameraadapter \
-	hwcomposer.omap4 \
 	hwcomposer.default \
 	smc_pa_ctrl \
-	tf_daemon
+	tf_daemon\
+	audio.primary.omap4 \
+	audio_policy.default \
+	libaudioutils \
+	tinyplay \
+	tinymix \
+	tinycap
+
+PRODUCT_PROPERTY_OVERRIDES := \
+	ro.sf.lcd_density=160
 
 $(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
 
