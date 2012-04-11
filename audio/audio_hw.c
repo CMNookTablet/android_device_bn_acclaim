@@ -222,7 +222,7 @@
 #define PRODUCT_DEVICE_PROPERTY "ro.product.device"
 #define PRODUCT_DEVICE_BLAZE    "blaze"
 #define PRODUCT_DEVICE_TABLET   "blaze_tablet"
-#define PRODUCT_DEVICE_NOOKTABLET	"bn_acclaim"
+#define PRODUCT_DEVICE_NOOKTABLET	"acclaim"
 
 enum supported_boards {
     BLAZE,
@@ -811,10 +811,7 @@ static int get_boardtype(struct blaze_audio_device *adev)
     }
 
     else
-            adev->board_type = TABLET;
-            adev->sidetone_capture = 0;
-
-    //    return -EINVAL;
+        return -EINVAL;
 
     return 0;
 }

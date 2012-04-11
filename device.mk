@@ -103,11 +103,9 @@ PRODUCT_COPY_FILES += \
 	device/bn/acclaim/log_battery_data.sh:/system/bin/log_battery_data.sh
 
 PRODUCT_PACKAGES += \
-	libaudioutils \
 	hwprops \
 	CMStats \
-	lights.acclaim \
-	audio.primary.acclaim
+	lights.acclaim
 
 # Place permission files
 PRODUCT_COPY_FILES += \
@@ -173,6 +171,7 @@ PRODUCT_PACKAGES += \
 	libcamera \
 	libion \
 	libomxcameraadapter \
+	hwcpmposer.omap4 \
 	hwcomposer.default \
 	smc_pa_ctrl \
 	tf_daemon\
@@ -184,7 +183,10 @@ PRODUCT_PACKAGES += \
 	tinycap
 
 PRODUCT_PROPERTY_OVERRIDES := \
-	ro.sf.lcd_density=160
+	ro.sf.lcd_density=160 \
+	wifi.interface=wlan0 \
+	wifi.supplicant_scan_interval=45
+
 
 $(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
 

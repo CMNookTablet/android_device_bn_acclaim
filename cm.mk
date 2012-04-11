@@ -16,16 +16,10 @@
 $(call inherit-product, device/bn/acclaim/full_acclaim.mk)
 
 PRODUCT_NAME := cm_acclaim
-PRODUCT_BRAND := bn
+PRODUCT_BRAND := Android
 PRODUCT_DEVICE := acclaim
-PRODUCT_DEVICE_PREFIX := bn
-PRODUCT_MODEL := NookTablet
-PRODUCT_MANUFACTURER := Barnes and Noble
-ANDROID_VERSION := 4.0.4_r1.1
-DEVELOPER_NAME := ics_team
-DEVELOPER_HOST := ics_team-unn
-DEVELOPMENT_STAGE := Alpha
-TARGET_BOOTANIMATION_NAME := vertical-540x960
+PRODUCT_MODEL := B & N NookTablet
+PRODUCT_MANUFACTURER := Barnes & Noble
 
 # Release name and versioning
 PRODUCT_RELEASE_NAME := NookTablet
@@ -36,4 +30,4 @@ DATE := $(shell date +%Y%m%d)
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
 
-PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=acclaim BUILD_ID=IML74K BUILD_FINGERPRINT=google/soju/crespo:4.0.3/IML74K/239410:user/release-keys PRIVATE_BUILD_DESC="soju-user 4.0.3 IML74K 239410 release-keys" BUILD_NUMBER=239410
+PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=acclaim BUILD_ID=IMM76D BUILD_FINGERPRINT=google/soju/crespo:4.0.4/IMM76D/239410:user/release-keys PRIVATE_BUILD_DESC="soju-user 4.0.4 IMM76D 239410 release-keys" BUILD_NUMBER=239410
