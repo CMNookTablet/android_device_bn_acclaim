@@ -24,9 +24,6 @@ PRODUCT_MANUFACTURER := Barnes & Noble
 # Release name and versioning
 PRODUCT_RELEASE_NAME := NookTablet
 
-UTC_DATE := $(shell date +%s)
-DATE := $(shell date +%Y%m%d)
-
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
 
