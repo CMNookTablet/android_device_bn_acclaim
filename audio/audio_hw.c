@@ -170,7 +170,7 @@
 #define RESAMPLER_BUFFER_FRAMES (SHORT_PERIOD_SIZE * 2)
 #define RESAMPLER_BUFFER_SIZE (4 * RESAMPLER_BUFFER_FRAMES)
 
-#define DEFAULT_OUT_SAMPLING_RATE 44100
+#define DEFAULT_OUT_SAMPLING_RATE 48000
 
 /* sampling rate when using MM low power port */
 #define MM_LOW_POWER_SAMPLING_RATE 44100
@@ -738,7 +738,7 @@ static void remove_channels_from_buf(struct buffer_remix *data, void *buf, size_
     out_frame = data->out_chans * samp_size;
 
     if (out_frame >= in_frame) {
-        LOGE("BUG: remove_channels_from_buf() can not add channels to a buffer.\n");
+        LOGE("BUG: remove_channels_from_buf() can't add channels to a buffer.\n");
         return;
     }
 
@@ -1840,7 +1840,7 @@ static int start_input_stream(struct blaze_stream_in *in)
         select_input_device(adev);
     }
 
-    if(adev->devices & AUDIO_DEVICE_IN_USB_HEADSET) {
+    if(adev->devices & AUDIO_DEVICE_IN_WIRED_HEADSET) {
         adev->input_requires_stereo = 0;
     }
 
@@ -1857,7 +1857,7 @@ static int start_input_stream(struct blaze_stream_in *in)
     if (in->remix_at_driver)
         in->config.channels = in->remix_at_driver->in_chans;
 
-    if(adev->devices & AUDIO_DEVICE_IN_USB_HEADSET) {
+    if(adev->devices & AUDIO_DEVICE_IN_WIRED_HEADSET) {
         card = CARD_OMAP4_USB;
         /*device should be 0 for usb headset capture */
         device = PORT_MM;
@@ -2922,7 +2922,7 @@ static uint32_t adev_get_supported_devices(const struct audio_hw_device *dev)
             AUDIO_DEVICE_IN_AUX_DIGITAL |
             AUDIO_DEVICE_IN_BACK_MIC |
             AUDIO_DEVICE_IN_ALL_SCO |
-            AUDIO_DEVICE_IN_USB_HEADSET |
+            AUDIO_DEVICE_IN_WIRED_HEADSET |
             AUDIO_DEVICE_IN_DEFAULT);
 }
 
