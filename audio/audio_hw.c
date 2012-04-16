@@ -170,7 +170,7 @@
 #define RESAMPLER_BUFFER_FRAMES (SHORT_PERIOD_SIZE * 2)
 #define RESAMPLER_BUFFER_SIZE (4 * RESAMPLER_BUFFER_FRAMES)
 
-#define DEFAULT_OUT_SAMPLING_RATE 48000
+#define DEFAULT_OUT_SAMPLING_RATE 44100
 
 /* sampling rate when using MM low power port */
 #define MM_LOW_POWER_SAMPLING_RATE 44100
@@ -3005,6 +3005,7 @@ static int adev_open(const hw_module_t* module, const char* name,
         !adev->mixer_ctls.right_capture || !adev->mixer_ctls.amic_ul_volume ||
         !adev->mixer_ctls.sidetone_capture || !adev->mixer_ctls.headset_volume ||
         !adev->mixer_ctls.speaker_volume || !adev->mixer_ctls.dmic1_ul_volume) {
+        LOGE("Unable to locate all mixer controls, aborting.");
         /*mixer_close(adev->mixer);
         free(adev);
         LOGE("Unable to locate all mixer controls, aborting.");
