@@ -3059,7 +3059,7 @@ struct audio_module HAL_MODULE_INFO_SYM = {
         .version_major = 1,
         .version_minor = 0,
         .id = AUDIO_HARDWARE_MODULE_ID,
-        .name = "Blaz audio HW HAL",
+        .name = "Blaze audio HW HAL",
         .author = "Texas Instruments",
         .methods = &hal_module_methods,
     },

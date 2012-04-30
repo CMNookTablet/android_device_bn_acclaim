@@ -96,4 +96,4 @@ TARGET_PROVIDES_RELEASETOOLS := true
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./device/bn/acclaim/releasetools/acclaim_ota_from_target_files
 # not tested at all
 TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./device/bn/acclaim/releasetools/acclaim_img_from_target_files
-
+TARGET_PREBUILT_KERNEL := ~/ICS/device/bn/acclaim/kernel

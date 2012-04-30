@@ -38,7 +38,8 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
 	device/bn/acclaim/root/init.acclaim.rc:root/init.acclaim.rc \
 	device/bn/acclaim/root/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
-	device/bn/acclaim/root/ueventd.acclaim.rc:root/ueventd.acclaim.rc
+	device/bn/acclaim/root/ueventd.acclaim.rc:root/ueventd.acclaim.rc \
+	device/bn/acclaim/root/initlogo.rle:root/initlogo.rle
 
 # Graphics
 PRODUCT_COPY_FILES += \
