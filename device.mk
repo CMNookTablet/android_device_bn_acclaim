@@ -55,8 +55,7 @@ PRODUCT_COPY_FILES += \
     device/bn/acclaim/prebuilt/sgx/libsrv_init_SGX540_120.so:/system/vendor/lib/libsrv_init_SGX540_120.so \
     device/bn/acclaim/prebuilt/sgx/libsrv_um_SGX540_120.so:/system/vendor/lib/libsrv_um_SGX540_120.so \
     device/bn/acclaim/prebuilt/sgx/libusc_SGX540_120.so:/system/vendor/lib/libusc_SGX540_120.so \
-    device/bn/acclaim/prebuilt/sgx/pvrsrvinit_SGX540_120:/vendor/bin/pvrsrvinit_SGX540_120 \
-    device/bn/acclaim/prebuilt/sgx/pvrsrvinit:/system/bin/pvrsrvinit \
+    device/bn/acclaim/prebuilt/sgx/pvrsrvinit_SGX540_120:/system/bin/pvrsrvinit \
     device/bn/acclaim/prebuilt/sgx/pvrsrvctl:/system/bin/pvrsrvctl \
     device/bn/acclaim/prebuilt/sgx/powervr.ini:/system/etc/powervr.ini \
 
@@ -101,7 +100,8 @@ PRODUCT_COPY_FILES += \
 
 # update the battery log info
 PRODUCT_COPY_FILES += \
-	device/bn/acclaim/log_battery_data.sh:/system/bin/log_battery_data.sh
+	device/bn/acclaim/prebuilt/bin/log_battery_data.sh:/system/bin/log_battery_data.sh \
+	device/bn/acclaim/prebuilt/bin/fix-mac.sh:/system/bin/fix-mac.sh
 
 PRODUCT_PACKAGES += \
 	hwprops \
@@ -188,11 +188,15 @@ PRODUCT_PROPERTY_OVERRIDES := \
 	wifi.interface=wlan0 \
 	wifi.supplicant_scan_interval=45
 
+# TI-Connectivity
+PRODUCT_COPY_FILES += \
+        device/bn/acclaim/wl12xx/wl1271-fw-2.bin:system/etc/firmware/ti-connectivity/wl1271-fw-2.bin \
+        device/bn/acclaim/wl12xx/wl1271-nvs.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin.orig
 
 $(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
 
 $(call inherit-product-if-exists, vendor/bn/acclaim/device-vendor.mk)
 $(call inherit-product-if-exists, vendor/bn/acclaim/device-vendor-blobs.mk)
 
-$(call inherit-product, device/bn/acclaim/wl12xx/ti-wl12xx-vendor.mk)
-$(call inherit-product, device/bn/acclaim/wl12xx/ti-wpan-products.mk)
+#$(call inherit-product, device/bn/acclaim/wl12xx/ti-wl12xx-vendor.mk)
+#$(call inherit-product, device/bn/acclaim/wl12xx/ti-wpan-products.mk)
