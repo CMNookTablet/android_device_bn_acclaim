@@ -206,7 +206,7 @@ on property:dev.bootcomplete=1
     start bootcnt
 
 # Initialize the SGX driver
-service pvrsrvinit /system/bin/pvrsrvinit
+service pvrsrvinit /vendor/bin/pvrsrvinit
     class core
     user root
     group root
