@@ -180,8 +180,9 @@ PRODUCT_PROPERTY_OVERRIDES := \
 
 # TI-Connectivity
 PRODUCT_COPY_FILES += \
-        device/bn/acclaim/wl12xx/wl1271-fw-2.bin:system/etc/firmware/ti-connectivity/wl1271-fw-2.bin \
-        device/bn/acclaim/wl12xx/wl1271-nvs.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin.orig
+        device/bn/acclaim/firmware/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin \
+        device/bn/acclaim/firmware/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
+        device/bn/acclaim/firmware/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
 
 $(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
 
