@@ -24,7 +24,7 @@ PRODUCT_MANUFACTURER := Barnes & Noble
 # Release name and versioning
 PRODUCT_RELEASE_NAME := NookTablet
 
-TARGET_BOOTANIMATION_NAME := vertical-540x960
+TARGET_BOOTANIMATION_NAME := vertical-600x1024
 
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
