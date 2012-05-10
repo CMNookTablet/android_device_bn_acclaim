@@ -88,9 +88,10 @@ on boot
     write /sys/devices/system/cpu/cpufreq/hotplug/boost_timeout 60000000
     write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
 
+    insmod /system/lib/modules/compat.ko
+    insmod /system/lib/modules/cfg80211.ko
+    insmod /system/lib/modules/mac80211.ko
     insmod /system/lib/modules/wl12xx.ko
-    
- 
 
 # Fix wlan MAC addr
 

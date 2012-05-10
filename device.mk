@@ -22,12 +22,6 @@
 
 DEVICE_PACKAGE_OVERLAYS += device/bn/acclaim/overlay
 
-ifeq ($(TARGET_PREBUILT_KERNEL),)
-	LOCAL_KERNEL := device/bn/acclaim/kernel
-else
-	LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
-endif
-
 # copy all kernel modules under the "modules" directory to system/lib/modules
 PRODUCT_COPY_FILES += $(shell \
     find device/bn/acclaim/modules -name '*.ko' \
@@ -35,7 +29,6 @@ PRODUCT_COPY_FILES += $(shell \
     | tr '\n' ' ')
 
 PRODUCT_COPY_FILES += \
-	$(LOCAL_KERNEL):kernel \
 	device/bn/acclaim/root/init.acclaim.rc:root/init.acclaim.rc \
 	device/bn/acclaim/root/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
 	device/bn/acclaim/root/ueventd.acclaim.rc:root/ueventd.acclaim.rc \
