@@ -24,7 +24,7 @@ USE_CAMERA_STUB := true
 BOARD_USES_GENERIC_AUDIO := false
 
 # GPS
-BOARD_HAVE_FAKE_GPS := true
+#BOARD_HAVE_FAKE_GPS := true
 BOARD_HAVE_BLUETOOTH := false
 # inherit from the proprietary version
 -include vendor/bn/acclaim/BoardConfigVendor.mk
