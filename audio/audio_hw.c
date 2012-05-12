@@ -509,29 +509,29 @@ struct route_setting vx_ul_bt[] = {
 
 struct route_setting codec_output_controls[] = {
 	{
-        .ctl_name = SP_DRIVER_MUTE ,
-        .intval = 1,
-    },
-    {
-        .ctl_name = SP_ANALOG_GAIN,
-        .intval = 127,
-    },
-    {
-        .ctl_name = DAC_PLAYBACK_VOLUME,
-        .intval = 127,
-    },
+		.ctl_name = SP_DRIVER_MUTE ,
+		.intval = 1,
+	},
 	{
-        .ctl_name = RIGHT_DAC_INPUT_SELECTION,
+		.ctl_name = SP_ANALOG_GAIN,
+		.intval = 127,
+	},
+	{
+		.ctl_name = DAC_PLAYBACK_VOLUME,
+		.intval = 150,
+	},
+	{
+		.ctl_name = RIGHT_DAC_INPUT_SELECTION,
 		.strval = RIGHT_DATA,
-    },
+	},
 	{
 		.ctl_name = LEFT_DAC_INPUT_SELECTION,
 		.strval = LEFT_DATA,
 	},
-		{
-        .ctl_name = DAC_L_TO_LEFT_OUTPUT_MIXER,
+	{
+		.ctl_name = DAC_L_TO_LEFT_OUTPUT_MIXER,
 		.intval = 1,
-    },
+	},
 	{
 		.ctl_name = DAC_R_TO_RIGHT_OUTPUT_MIXER,
 		.intval = 1,
@@ -540,10 +540,10 @@ struct route_setting codec_output_controls[] = {
 		.ctl_name = HP_DRIVER_MUTE,
 		.intval = 1,
 	},
-		{
-        .ctl_name = HP_ANALOG_GAIN,
+	{
+		.ctl_name = HP_ANALOG_GAIN,
 		.intval = 127,
-    },
+	},
 	{
 		.ctl_name = HP_CM_VOLTAGE_CTL,
 		.strval = VOLTAGE,
@@ -553,13 +553,13 @@ struct route_setting codec_output_controls[] = {
 		.intval = 1,
 	},
 	{
-        .ctl_name = MIXER_SIDETONE_MIXER_PLAYBACK,
-        .intval = 1,
-    },
+	.ctl_name = MIXER_SIDETONE_MIXER_PLAYBACK,
+	.intval = 1,
+	},
 	{
-        .ctl_name = DL1_MM_EXT_SWITCH,
-        .intval = 1,
-    },
+	.ctl_name = DL1_MM_EXT_SWITCH,
+	.intval = 1,
+	},
 };
 
 struct route_setting codec_input_controls[] = {
