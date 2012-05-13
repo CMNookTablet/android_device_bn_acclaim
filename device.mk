@@ -20,19 +20,25 @@
 #
 # Everything in this directory will become public
 
+ifeq ($(TARGET_PREBUILT_KERNEL),)
+LOCAL_KERNEL := device/bn/acclaim/kernel
+else
+LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
+endif
+
 DEVICE_PACKAGE_OVERLAYS += device/bn/acclaim/overlay
 
 # copy all kernel modules under the "modules" directory to system/lib/modules
-PRODUCT_COPY_FILES += $(shell \
-    find device/bn/acclaim/modules -name '*.ko' \
-    | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
-    | tr '\n' ' ')
+#PRODUCT_COPY_FILES += $(shell \
+#    find device/bn/acclaim/modules -name '*.ko' \
+#    | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
+#    | tr '\n' ' ')
 
 PRODUCT_COPY_FILES += \
+	$(LOCAL_KERNEL):kernel \
 	device/bn/acclaim/root/init.acclaim.rc:root/init.acclaim.rc \
 	device/bn/acclaim/root/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
 	device/bn/acclaim/root/ueventd.acclaim.rc:root/ueventd.acclaim.rc \
-	device/bn/acclaim/root/initlogo.rle:root/initlogo.rle
 
 # Graphics
 PRODUCT_COPY_FILES += \
@@ -169,6 +175,7 @@ PRODUCT_PACKAGES += \
 	audio.primary.omap4 \
 	audio_policy.default \
 	libaudioutils \
+	Music \
 	tinyplay \
 	tinymix \
 	tinycap
@@ -183,6 +190,16 @@ PRODUCT_COPY_FILES += \
         device/bn/acclaim/firmware/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin.orig \
         device/bn/acclaim/firmware/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
         device/bn/acclaim/firmware/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
+
+# enable Google-specific location features,
+# like NetworkLocationProvider and LocationCollector
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.com.google.locationfeatures=1 \
+    ro.com.google.networklocation=1
+
+# we have enough storage space to hold precise GC data
+PRODUCT_TAGS += dalvik.gc.type-precise
+
 
 $(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
 
