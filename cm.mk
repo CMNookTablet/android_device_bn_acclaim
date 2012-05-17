@@ -18,7 +18,6 @@ $(call inherit-product, device/bn/acclaim/full_acclaim.mk)
 PRODUCT_NAME := cm_acclaim
 PRODUCT_BRAND := Android
 PRODUCT_DEVICE := acclaim
-PRODUCT_MODEL := B & N NookTablet
 PRODUCT_MANUFACTURER := Barnes & Noble
 
 # Release name and versioning
