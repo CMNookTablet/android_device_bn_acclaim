@@ -118,7 +118,7 @@ WIFI_MODULES:
 TARGET_KERNEL_MODULES := SGX_MODULES WIFI_MODULES
 
 # Keep this as a fallback
-#TARGET_PREBUILT_KERNEL := device/bn/acclaim/kernel
+TARGET_PREBUILT_KERNEL := device/bn/acclaim/kernel
 
 #Config for building TWRP
 DEVICE_RESOLUTION := 1024x600
