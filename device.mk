@@ -124,10 +124,6 @@ PRODUCT_PACKAGES += \
 	liblights.acclaim \
 	sensors.acclaim
 
-# Bluetooth
-#PRODUCT_PACKAGES += \
-#	uim-sysfs
-
 # Filesystem management tools
 PRODUCT_PACKAGES += \
 	make_ext4fs \
