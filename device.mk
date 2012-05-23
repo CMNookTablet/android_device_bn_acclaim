@@ -23,7 +23,7 @@
 DEVICE_PACKAGE_OVERLAYS += device/bn/acclaim/overlay
 
 $(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
-
+TARGET_PREBUILT_KERNEL = device/bn/acclaim/kernel
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 	LOCAL_KERNEL := device/bn/acclaim/kernel
 else
