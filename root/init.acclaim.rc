@@ -101,7 +101,7 @@ on boot
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
     insmod /system/lib/modules/omaplfb_sgx540_120.ko
 
-    # SGX driver
+# SGX driver
     chmod 0666 /dev/pvrsrvkm
 
     chown media media /dev/syslink-proc4430
@@ -116,17 +116,34 @@ on boot
     chown media media /dev/omap-devh1
     chown media media /dev/omap-devh2
 
-    chmod 660 /dev/syslink-proc4430
-    chmod 660 /dev/syslink-procmgr
-    chmod 660 /dev/syslink_ipc
-    chmod 440 /dev/omap-rproc0
-    chmod 440 /dev/omap-rproc1
-    chmod 440 /dev/omap-rproc2
-    chmod 440 /dev/iovmm-omap0
-    chmod 440 /dev/iovmm-omap1
-    chmod 440 /dev/omap-devh0
-    chmod 440 /dev/omap-devh1
-    chmod 440 /dev/omap-devh2
+    chmod 666 /dev/dce
+    chmod 666 /dev/ion
+    chmod 666 /dev/i2c-1
+#    chmod 666 /dev/i2c-2
+#    chmod 666 /dev/i2c-3
+#    chmod 666 /dev/i2c-4
+    chmod 666 /dev/mtp_usb
+
+    # change permissions for alsa nodes
+    chmod 0777 /dev/snd/pcmC0D0c
+    chmod 0777 /dev/snd/pcmC0D0p
+    chmod 0777 /dev/snd/controlC0
+    chmod 0777 /dev/snd/timer
+
+    #change permissions for alsa nodes for audio modem
+    chmod 0777 /dev/snd/pcmC0D5c
+    chmod 0777 /dev/snd/pcmC0D5p
+
+    #change permissions for alsa nodes for HDMI
+    chmod 777  /dev/snd/pcmC0D7p
+
+    # change permissions for modem
+    chmod 0660 /dev/ttyS0
+    chown radio radio /dev/ttyS0
+
+    # change permissions for Camera
+    chmod 0777 /dev/video5
+    chmod 0777 /dev/video0
     
     chown system system /sys/devices/virtual/input/input0/mode
     chmod 0770 /sys/devices/virtual/input/input0/mode
@@ -179,29 +196,13 @@ on boot
     chmod 0660 /dev/mtd/mtd0
     chown media media /dev/mtd/mtd0
     
-    # change permissions for i2c-2 device
-    chmod 0660 /dev/i2c-2
-    chown media media /dev/i2c-2
-
     # change permissions for Tiler driver
-    chmod 0777 /dev/tiler
-    chmod 0777 /dev/dmm
+    chown media media /dev/tiler
+    chmod 0666 /dev/tiler
+    chmod 0666 /dev/dmm
 
     # change permissions for ION driver
-    chmod 0777 /dev/ion
-
-    # change permissions for alsa nodes
-    chmod 0777  /dev/snd/pcmC0D0c
-    chmod 0777 /dev/snd/pcmC0D0p
-    chmod 0777  /dev/snd/controlC0
-    chmod 0777  /dev/snd/timer
-
-    #change permissions for alsa nodes for audio modem
-    chmod 0777 /dev/snd/pcmC0D5c
-    chmod 0777 /dev/snd/pcmC0D5p
-
-    #change permissions for alsa nodes for HDMI
-    chmod 777  /dev/snd/pcmC0D7p
+    chmod 0666 /dev/ion
 
 on property:dev.bootcomplete=1
     start bootcnt
