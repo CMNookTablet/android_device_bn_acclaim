@@ -162,21 +162,23 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 #$(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
 # dont use omap4.mk. We have to drop hwcomposer.omap4, camera.omap4 for now.
 # Just include rest directly here.
+#PRODUCT_PACKAGES += \
+#	libdomx \
+#	libOMX_Core \
+#	libOMX.TI.DUCATI1.VIDEO.H264E \
+#	libOMX.TI.DUCATI1.VIDEO.MPEG4E \
+#	libOMX.TI.DUCATI1.VIDEO.DECODER \
+#	libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
+#	libOMX.TI.DUCATI1.VIDEO.CAMERA \
+#	libOMX.TI.DUCATI1.MISC.SAMPLE \
+#PRODUCT_PACKAGES += \
+#	libstagefrighthw \
+#        libI420colorconvert \
+#	libtiutils \
+#	libcamera \
+#	libion \
+#	libomxcameraadapter \
 PRODUCT_PACKAGES += \
-	libdomx \
-	libOMX_Core \
-	libOMX.TI.DUCATI1.VIDEO.H264E \
-	libOMX.TI.DUCATI1.VIDEO.MPEG4E \
-	libOMX.TI.DUCATI1.VIDEO.DECODER \
-	libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
-	libOMX.TI.DUCATI1.VIDEO.CAMERA \
-	libOMX.TI.DUCATI1.MISC.SAMPLE \
-	libstagefrighthw \
-        libI420colorconvert \
-	libtiutils \
-	libcamera \
-	libion \
-	libomxcameraadapter \
 	hwcpmposer.omap4 \
 	hwcomposer.default \
 	smc_pa_ctrl \
