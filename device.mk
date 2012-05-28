@@ -78,6 +78,19 @@ PRODUCT_COPY_FILES += \
 	device/bn/acclaim/prebuilt/usr/idc/twl6030_pwrbutton.idc:system/usr/idc/twl6030_pwrbutton.idc \
 	device/bn/acclaim/prebuilt/usr/keylayout/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl
 
+# Temporarily use prebuilt DOMX
+# Prebuilts /system/lib
+PRODUCT_COPY_FILES += \
+	device/bn/acclaim/prebuilt/lib/libdomx.so:/system/lib/libdomx.so \
+	device/bn/acclaim/prebuilt/lib/libmm_osal.so:/system/lib/libmm_osal.so \
+	device/bn/acclaim/prebuilt/lib/libOMX.TI.DUCATI1.MISC.SAMPLE.so:/system/lib/libOMX.TI.DUCATI1.MISC.SAMPLE.so \
+	device/bn/acclaim/prebuilt/lib/libOMX.TI.DUCATI1.VIDEO.CAMERA.so:/system/lib/libOMX.TI.DUCATI1.VIDEO.CAMERA.so \
+	device/bn/acclaim/prebuilt/lib/libOMX.TI.DUCATI1.VIDEO.DECODER.secure.so:/system/lib/libOMX.TI.DUCATI1.VIDEO.DECODER.secure.so \
+	device/bn/acclaim/prebuilt/lib/libOMX.TI.DUCATI1.VIDEO.DECODER.so:/system/lib/libOMX.TI.DUCATI1.VIDEO.DECODER.so \
+	device/bn/acclaim/prebuilt/lib/libOMX.TI.DUCATI1.VIDEO.H264E.so:/system/lib/libOMX.TI.DUCATI1.VIDEO.H264E.so \
+	device/bn/acclaim/prebuilt/lib/libOMX.TI.DUCATI1.VIDEO.MPEG4E.so:/system/lib/libOMX.TI.DUCATI1.VIDEO.MPEG4E.so \
+	device/bn/acclaim/prebuilt/lib/libOMX_Core.so:/system/lib/libOMX_Core.so \
+	
 # fwram
 #PRODUCT_COPY_FILES += \
 #	device/bn/acclaim/prebuilt/fwram.ko:/system/lib/modules/fwram.ko
