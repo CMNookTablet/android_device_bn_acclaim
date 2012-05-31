@@ -170,14 +170,14 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 #	libOMX.TI.DUCATI1.VIDEO.DECODER \
 #	libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
 #	libOMX.TI.DUCATI1.VIDEO.CAMERA \
-#	libOMX.TI.DUCATI1.MISC.SAMPLE \
+#	libOMX.TI.DUCATI1.MISC.SAMPLE
 #PRODUCT_PACKAGES += \
 #	libstagefrighthw \
 #        libI420colorconvert \
 #	libtiutils \
 #	libcamera \
 #	libion \
-#	libomxcameraadapter \
+#	libomxcameraadapter
 PRODUCT_PACKAGES += \
 	hwcpmposer.omap4 \
 	hwcomposer.default \
