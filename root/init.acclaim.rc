@@ -119,7 +119,7 @@ on boot
     chmod 666 /dev/dce
     chmod 666 /dev/ion
     chmod 666 /dev/i2c-1
-#    chmod 666 /dev/i2c-2
+    chmod 666 /dev/i2c-2
 #    chmod 666 /dev/i2c-3
 #    chmod 666 /dev/i2c-4
     chmod 666 /dev/mtp_usb
