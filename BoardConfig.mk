@@ -41,7 +41,7 @@ TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp
 TARGET_BOOTLOADER_BOARD_NAME := acclaim
 
 # Kernel/Boot
-BOARD_KERNEL_CMDLINE := mem=1G androidboot.console=ttyO0 console=ttyO0,115200n8 init=/init rootwait vram=32M,82000000 omapfb.vram=0:16M@82000000 def_disp=lcd2
+BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 init=/init rootwait vram=16M,82000000 omapfb.vram=0:5M@82000000 def_disp=lcd2
 
 BOARD_KERNEL_BASE := 0x80080000
 BOARD_KERNEL_PAGESIZE := 4096
