@@ -68,8 +68,8 @@ PRODUCT_COPY_FILES += \
 #	ti_omap4_sgx_libs \
 #	ti_omap4_ducati_libs
 
-PRODUCT_COPY_FILES += \
-	device/bn/acclaim/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin
+#PRODUCT_COPY_FILES += \
+#	device/bn/acclaim/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin
 
 # Input
 PRODUCT_COPY_FILES += \
@@ -176,6 +176,7 @@ PRODUCT_PACKAGES += \
 	tinymix \
 	tinycap \
 	iontest \
+	su \
 	sh \
 	audio.primary.omap4 \
 	audio_policy.default 
