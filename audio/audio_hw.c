@@ -19,8 +19,8 @@
  */
 
 #define LOG_TAG "audio_hw_primary"
-//#define LOG_NDEBUG
-#define LOG_NDEBUG_FUNCTION
+//#define LOG_NDEBUG 0
+//#define LOG_NDEBUG_FUNCTION
 #ifndef LOG_NDEBUG_FUNCTION
 #define LOGFUNC(...) ((void)0)
 #else
@@ -187,7 +187,8 @@
 #define DB_TO_CAPTURE_VOLUME(x) (((x) - 6) / 6)
 #define DB_TO_HEADSET_VOLUME(x) (((x) + 30) / 2)
 #define DB_TO_SPEAKER_VOLUME(x) (((x) + 52) / 2)
-#define DB_TO_EARPIECE_VOLUME(x) (((x) + 24) / 2)
+/* FIXME-HASHCODE: lowered EARPIECE volume was originally: (((x) + 24) / 2) */
+#define DB_TO_EARPIECE_VOLUME(x) (((x) + 12) / 2)
 
 /* use-case specific mic volumes, all in dB */
 #define CAPTURE_DIGITAL_MIC_VOLUME            26
@@ -222,11 +223,14 @@
 #define PRODUCT_DEVICE_PROPERTY "ro.product.device"
 #define PRODUCT_DEVICE_BLAZE    "blaze"
 #define PRODUCT_DEVICE_TABLET   "blaze_tablet"
-#define PRODUCT_DEVICE_NOOKTABLET	"acclaim"
+#define PRODUCT_DEVICE_KC1      "otter"
+#define PRODUCT_DEVICE_ACCLAIM  "acclaim"
 
 enum supported_boards {
     BLAZE,
     TABLET,
+    OTTER,
+    ACCLAIM,
 };
 
 enum tty_modes {
@@ -509,29 +513,29 @@ struct route_setting vx_ul_bt[] = {
 
 struct route_setting codec_output_controls[] = {
 	{
-		.ctl_name = SP_DRIVER_MUTE ,
-		.intval = 1,
-	},
+        .ctl_name = SP_DRIVER_MUTE ,
+        .intval = 1,
+    },
+    {
+        .ctl_name = SP_ANALOG_GAIN,
+        .intval = 127,
+    },
+    {
+        .ctl_name = DAC_PLAYBACK_VOLUME,
+        .intval = 140,
+    },
 	{
-		.ctl_name = SP_ANALOG_GAIN,
-		.intval = 127,
-	},
-	{
-		.ctl_name = DAC_PLAYBACK_VOLUME,
-		.intval = 150,
-	},
-	{
-		.ctl_name = RIGHT_DAC_INPUT_SELECTION,
+        .ctl_name = RIGHT_DAC_INPUT_SELECTION,
 		.strval = RIGHT_DATA,
-	},
+    },
 	{
 		.ctl_name = LEFT_DAC_INPUT_SELECTION,
 		.strval = LEFT_DATA,
 	},
-	{
-		.ctl_name = DAC_L_TO_LEFT_OUTPUT_MIXER,
+		{
+        .ctl_name = DAC_L_TO_LEFT_OUTPUT_MIXER,
 		.intval = 1,
-	},
+    },
 	{
 		.ctl_name = DAC_R_TO_RIGHT_OUTPUT_MIXER,
 		.intval = 1,
@@ -540,10 +544,10 @@ struct route_setting codec_output_controls[] = {
 		.ctl_name = HP_DRIVER_MUTE,
 		.intval = 1,
 	},
-	{
-		.ctl_name = HP_ANALOG_GAIN,
+		{
+        .ctl_name = HP_ANALOG_GAIN,
 		.intval = 127,
-	},
+    },
 	{
 		.ctl_name = HP_CM_VOLTAGE_CTL,
 		.strval = VOLTAGE,
@@ -553,17 +557,20 @@ struct route_setting codec_output_controls[] = {
 		.intval = 1,
 	},
 	{
-	.ctl_name = MIXER_SIDETONE_MIXER_PLAYBACK,
-	.intval = 1,
-	},
+        .ctl_name = MIXER_SIDETONE_MIXER_PLAYBACK,
+        .intval = 1,
+    },
 	{
-	.ctl_name = DL1_MM_EXT_SWITCH,
-	.intval = 1,
-	},
+        .ctl_name = DL1_MM_EXT_SWITCH,
+        .intval = 1,
+    },
+    {
+        .ctl_name = NULL,
+    },
 };
 
 struct route_setting codec_input_controls[] = {
-	{
+    {
         .ctl_name = M_INPUT_MIXER ,
         .intval = 2,
     },
@@ -592,7 +599,9 @@ struct route_setting codec_input_controls[] = {
         .ctl_name = MIXER_SDT_UL_VOLUME,
         .intval = MIXER_ABE_GAIN_0DB,
     },
-
+    {
+        .ctl_name = NULL,
+    },
 };
 struct buffer_remix;
 
@@ -633,7 +642,7 @@ struct blaze_audio_device {
     pthread_mutex_t lock;       /* see note below on mutex acquisition order */
     struct mixer *mixer;
     struct mixer_ctls mixer_ctls;
-    int mode;
+    audio_mode_t mode;
     int devices;
     struct pcm *pcm_modem_dl;
     struct pcm *pcm_modem_ul;
@@ -738,7 +747,7 @@ static void remove_channels_from_buf(struct buffer_remix *data, void *buf, size_
     out_frame = data->out_chans * samp_size;
 
     if (out_frame >= in_frame) {
-        ALOGE("BUG: remove_channels_from_buf() can't add channels to a buffer.\n");
+        ALOGE("BUG: remove_channels_from_buf() can not add channels to a buffer.\n");
         return;
     }
 
@@ -794,7 +803,6 @@ static int get_boardtype(struct blaze_audio_device *adev)
     LOGFUNC("%s(%p)", __FUNCTION__, adev);
 
     property_get(PRODUCT_DEVICE_PROPERTY, board, PRODUCT_DEVICE_BLAZE);
-    LOGFUNC("%s(%d)", __FUNCTION__, board);
     /* return true if the property matches the given value */
     if(!strcmp(board, PRODUCT_DEVICE_BLAZE)) {
             adev->board_type = BLAZE;
@@ -805,11 +813,14 @@ static int get_boardtype(struct blaze_audio_device *adev)
             adev->board_type = TABLET;
             adev->sidetone_capture = 0;
     }
-    else if(!strcmp(board, PRODUCT_DEVICE_NOOKTABLET)) {
-            adev->board_type = TABLET;
+    else if(!strcmp(board, PRODUCT_DEVICE_KC1)) {
+            adev->board_type = OTTER;
             adev->sidetone_capture = 0;
     }
-
+    else if(!strcmp(board, PRODUCT_DEVICE_ACCLAIM)) {
+            adev->board_type = ACCLAIM;
+            adev->sidetone_capture = 0;
+    }
     else
         return -EINVAL;
 
@@ -994,6 +1005,11 @@ static void set_input_volumes(struct blaze_audio_device *adev, int main_mic_on,
                 volume = DB_TO_ABE_GAIN(main_mic_on ? CAPTURE_DIGITAL_MIC_VOLUME :
                     (headset_mic_on ? CAPTURE_HEADSET_MIC_VOLUME :
                      (sub_mic_on ? CAPTURE_SUB_MIC_VOLUME : 0)));
+            }else if(adev->board_type == OTTER
+		     || adev->board_type == ACCLAIM) {
+                volume = DB_TO_ABE_GAIN(main_mic_on ? CAPTURE_DIGITAL_MIC_VOLUME :
+                    (headset_mic_on ? CAPTURE_HEADSET_MIC_VOLUME :
+                     (sub_mic_on ? CAPTURE_SUB_MIC_VOLUME : 0)));
             }
             break;
 
@@ -1025,6 +1041,12 @@ static void set_input_volumes(struct blaze_audio_device *adev, int main_mic_on,
         if(adev->board_type == BLAZE) {
             mixer_ctl_set_value(adev->mixer_ctls.amic_ul_volume, channel, volume);
         }else if(adev->board_type == TABLET) {
+            if (headset_mic_on)
+                mixer_ctl_set_value(adev->mixer_ctls.amic_ul_volume, channel, volume);
+            else
+                mixer_ctl_set_value(adev->mixer_ctls.dmic1_ul_volume, channel, volume);
+        }else if(adev->board_type == OTTER
+		 || adev->board_type == ACCLAIM) {
             if (headset_mic_on)
                 mixer_ctl_set_value(adev->mixer_ctls.amic_ul_volume, channel, volume);
             else
@@ -1221,11 +1243,17 @@ static void select_output_device(struct blaze_audio_device *adev)
                     set_route_by_array(adev->mixer, vx_ul_amic_right, 1);
                 else if(adev->board_type == TABLET)
                     set_route_by_array(adev->mixer, vx_ul_dmic0,1);
+                else if(adev->board_type == OTTER
+			|| adev->board_type == ACCLAIM)
+                    set_route_by_array(adev->mixer, vx_ul_dmic0,1);
             }
             else {
                 if(adev->board_type == BLAZE) 
                     set_route_by_array(adev->mixer, vx_ul_amic_left, 0);
                 else if(adev->board_type == TABLET) 
+                    set_route_by_array(adev->mixer, vx_ul_dmic0,0);
+                else if(adev->board_type == OTTER
+			|| adev->board_type == ACCLAIM) 
                     set_route_by_array(adev->mixer, vx_ul_dmic0,0);
             }
             if(adev->board_type == BLAZE) {
@@ -1234,8 +1262,12 @@ static void select_output_device(struct blaze_audio_device *adev)
                         (headset_on ? MIXER_HS_MIC : "Off"));
                 mixer_ctl_set_enum_by_string(adev->mixer_ctls.right_capture,
                         speaker_on ? MIXER_SUB_MIC : "Off");
-
             } else if(adev->board_type == TABLET) {
+                mixer_ctl_set_enum_by_string(adev->mixer_ctls.left_capture,
+                        (headset_on ? MIXER_HS_MIC : "Off"));
+                mixer_ctl_set_enum_by_string(adev->mixer_ctls.right_capture, "off");
+            } else if(adev->board_type == OTTER
+		      || adev->board_type == ACCLAIM) {
                 mixer_ctl_set_enum_by_string(adev->mixer_ctls.left_capture,
                         (headset_on ? MIXER_HS_MIC : "Off"));
                 mixer_ctl_set_enum_by_string(adev->mixer_ctls.right_capture, "off");
@@ -1285,8 +1317,9 @@ static void select_input_device(struct blaze_audio_device *adev)
     else {
         if(adev->board_type == BLAZE) {
             /* Select front end */
-            if (main_mic_on || headset_on)
+            if (main_mic_on || headset_on) {
                 set_route_by_array(adev->mixer, mm_ul2_amic_left, 1);
+            }
             else if (sub_mic_on)
                 set_route_by_array(adev->mixer, mm_ul2_amic_right, 1);
             else
@@ -1310,15 +1343,31 @@ static void select_input_device(struct blaze_audio_device *adev)
             }
 
             /* Select back end */
-#if 1
             mixer_ctl_set_enum_by_string(adev->mixer_ctls.right_capture, "off");
             mixer_ctl_set_enum_by_string(adev->mixer_ctls.left_capture,
                     main_mic_on ? "off" :
                     (headset_on ? MIXER_HS_MIC : "Off"));
-#endif
+        } else if(adev->board_type == OTTER
+		  || adev->board_type == ACCLAIM) {
+            /* Select front end */
+            ALOGE(">>> [ASoC]select_input_device:: devices==%d, headset_on==%d, main_mic_on==%d, sub_mic_on==%d\n", adev->devices, headset_on, main_mic_on, sub_mic_on);
+            if (headset_on)
+                set_route_by_array(adev->mixer, mm_ul2_amic_left, 1);
+            else if (main_mic_on || sub_mic_on) {
+                set_route_by_array(adev->mixer, mm_ul2_dmic0, 1);
+                hw_is_stereo_only = 1;
+            } else {
+              //  set_route_by_array(adev->mixer, mm_ul2_dmic0, 0);
+                hw_is_stereo_only = 1;
+            }
 
-		}
-		set_route_by_array(adev->mixer, codec_input_controls, 1);
+            /* Select back end */
+            mixer_ctl_set_enum_by_string(adev->mixer_ctls.right_capture, "off");
+            mixer_ctl_set_enum_by_string(adev->mixer_ctls.left_capture,
+                    main_mic_on ? "off" :
+                    (headset_on ? MIXER_HS_MIC : "Off"));
+	}
+	set_route_by_array(adev->mixer, codec_input_controls, 1);
     }
 
     adev->input_requires_stereo = hw_is_stereo_only;
@@ -1379,7 +1428,7 @@ static int start_output_stream(struct blaze_stream_out *out)
     return 0;
 }
 
-static int check_input_parameters(uint32_t sample_rate, int format, int channel_count)
+static int check_input_parameters(uint32_t sample_rate, audio_format_t format, int channel_count)
 {
     LOGFUNC("%s(%d, %d, %d)", __FUNCTION__, sample_rate, format, channel_count);
 
@@ -1408,7 +1457,7 @@ static int check_input_parameters(uint32_t sample_rate, int format, int channel_
     return 0;
 }
 
-static size_t get_input_buffer_size(uint32_t sample_rate, int format, int channel_count)
+static size_t get_input_buffer_size(uint32_t sample_rate, audio_format_t format, int channel_count)
 {
     size_t size;
     size_t device_rate;
@@ -1558,14 +1607,14 @@ static uint32_t out_get_channels(const struct audio_stream *stream)
     return AUDIO_CHANNEL_OUT_STEREO;
 }
 
-static int out_get_format(const struct audio_stream *stream)
+static audio_format_t out_get_format(const struct audio_stream *stream)
 {
     LOGFUNC("%s(%p)", __FUNCTION__, stream);
 
     return AUDIO_FORMAT_PCM_16_BIT;
 }
 
-static int out_set_format(struct audio_stream *stream, int format)
+static int out_set_format(struct audio_stream *stream, audio_format_t format)
 {
     LOGFUNC("%s(%p)", __FUNCTION__, stream);
 
@@ -1840,9 +1889,12 @@ static int start_input_stream(struct blaze_stream_in *in)
         select_input_device(adev);
     }
 
+#if 0
+    // FIXME-HASH: CHANGED FROM USB_HEADSET
     if(adev->devices & AUDIO_DEVICE_IN_WIRED_HEADSET) {
         adev->input_requires_stereo = 0;
     }
+#endif
 
     if (adev->input_requires_stereo && (in->config.channels == 1))
         setup_stereo_to_mono_input_remix(in);
@@ -1857,11 +1909,14 @@ static int start_input_stream(struct blaze_stream_in *in)
     if (in->remix_at_driver)
         in->config.channels = in->remix_at_driver->in_chans;
 
+#if 0
+    // FIXME-HASH: CHANGED FROM USB_HEADSET
     if(adev->devices & AUDIO_DEVICE_IN_WIRED_HEADSET) {
         card = CARD_OMAP4_USB;
         /*device should be 0 for usb headset capture */
         device = PORT_MM;
     }
+#endif
 
     in->pcm = pcm_open(card, device, PCM_IN, &in->config);
     if (in->remix_at_driver)
@@ -1921,14 +1976,14 @@ static uint32_t in_get_channels(const struct audio_stream *stream)
     }
 }
 
-static int in_get_format(const struct audio_stream *stream)
+static audio_format_t in_get_format(const struct audio_stream *stream)
 {
     LOGFUNC("%s(%p)", __FUNCTION__, stream);
 
     return AUDIO_FORMAT_PCM_16_BIT;
 }
 
-static int in_set_format(struct audio_stream *stream, int format)
+static int in_set_format(struct audio_stream *stream, audio_format_t format)
 {
     LOGFUNC("%s(%p, %d)", __FUNCTION__, stream, format);
 
@@ -2086,11 +2141,11 @@ static void get_capture_delay(struct blaze_stream_in *in,
     buffer->time_stamp = tstamp;
     buffer->delay_ns   = delay_ns;
     ALOGV("get_capture_delay time_stamp = [%ld].[%ld], delay_ns: [%d],"
-	  " kernel_delay:[%ld], buf_delay:[%ld], rsmp_delay:[%ld], kernel_frames:[%d], "
-	  "in->frames_in:[%d], in->proc_frames_in:[%d], frames:[%d]",
-	  buffer->time_stamp.tv_sec , buffer->time_stamp.tv_nsec, buffer->delay_ns,
-	  kernel_delay, buf_delay, rsmp_delay, kernel_frames,
-	  in->frames_in, in->proc_frames_in, frames);
+         " kernel_delay:[%ld], buf_delay:[%ld], rsmp_delay:[%ld], kernel_frames:[%d], "
+         "in->frames_in:[%d], in->proc_frames_in:[%d], frames:[%d]",
+         buffer->time_stamp.tv_sec , buffer->time_stamp.tv_nsec, buffer->delay_ns,
+         kernel_delay, buf_delay, rsmp_delay, kernel_frames,
+         in->frames_in, in->proc_frames_in, frames);
 
 }
 
@@ -2103,7 +2158,7 @@ static int32_t update_echo_reference(struct blaze_stream_in *in, size_t frames)
 
     ALOGV("update_echo_reference, frames = [%d], in->ref_frames_in = [%d],  "
           "b.frame_count = [%d]",
-	  frames, in->ref_frames_in, frames - in->ref_frames_in);
+         frames, in->ref_frames_in, frames - in->ref_frames_in);
     if (in->ref_frames_in < frames) {
         if (in->ref_buf_size < frames) {
             in->ref_buf_size = frames;
@@ -2121,8 +2176,8 @@ static int32_t update_echo_reference(struct blaze_stream_in *in, size_t frames)
         {
             in->ref_frames_in += b.frame_count;
             ALOGV("update_echo_reference: in->ref_frames_in:[%d], "
-		  "in->ref_buf_size:[%d], frames:[%d], b.frame_count:[%d]",
-		  in->ref_frames_in, in->ref_buf_size, frames, b.frame_count);
+                    "in->ref_buf_size:[%d], frames:[%d], b.frame_count:[%d]",
+                 in->ref_frames_in, in->ref_buf_size, frames, b.frame_count);
         }
     } else
         ALOGW("update_echo_reference: NOT enough frames to read ref buffer");
@@ -2337,7 +2392,7 @@ static ssize_t process_frames(struct blaze_stream_in *in, void* buffer, ssize_t 
                                          in->proc_buf_size *
                                              in->config.channels * sizeof(int16_t));
                 ALOGV("process_frames(): in->proc_buf %p size extended to %d frames",
-		      in->proc_buf, in->proc_buf_size);
+                     in->proc_buf, in->proc_buf_size);
             }
             frames_rd = read_frames(in,
                                     in->proc_buf +
@@ -2525,16 +2580,21 @@ exit:
 
 
 static int adev_open_output_stream(struct audio_hw_device *dev,
-                                   uint32_t devices, int *format,
-                                   uint32_t *channels, uint32_t *sample_rate,
+                                   audio_io_handle_t handle,
+                                   audio_devices_t devices,
+                                   audio_output_flags_t flags,
+                                   struct audio_config *config,
                                    struct audio_stream_out **stream_out)
 {
     struct blaze_audio_device *ladev = (struct blaze_audio_device *)dev;
     struct blaze_stream_out *out;
     int ret;
+    int output_type;
 
-    LOGFUNC("%s(%p, 0x%04x,%d, 0x%04x, %d, %p)", __FUNCTION__, dev, devices,
-                        *format, *channels, *sample_rate, stream_out);
+    *stream_out = NULL;
+
+    LOGFUNC("%s(%p, devices==0x%04x, format==%d, channel_mask==0x%04x, sample_rate==%d, stream_out==%p)", __FUNCTION__, dev, devices,
+                        config->format, config->channel_mask, config->sample_rate, stream_out);
 
     out = (struct blaze_stream_out *)calloc(1, sizeof(struct blaze_stream_out));
     if (!out)
@@ -2580,9 +2640,9 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
      * This is because out_set_parameters() with a route is not
      * guaranteed to be called after an output stream is opened. */
 
-    *format = out_get_format(&out->stream.common);
-    *channels = out_get_channels(&out->stream.common);
-    *sample_rate = out_get_sample_rate(&out->stream.common);
+    config->format = out->stream.common.get_format(&out->stream.common);
+    config->channel_mask = out->stream.common.get_channels(&out->stream.common);
+    config->sample_rate = out->stream.common.get_sample_rate(&out->stream.common);
 
     *stream_out = &out->stream;
     return 0;
@@ -2722,7 +2782,7 @@ static int adev_set_master_volume(struct audio_hw_device *dev, float volume)
     return -ENOSYS;
 }
 
-static int adev_set_mode(struct audio_hw_device *dev, int mode)
+static int adev_set_mode(struct audio_hw_device *dev, audio_mode_t mode)
 {
     struct blaze_audio_device *adev = (struct blaze_audio_device *)dev;
 
@@ -2761,36 +2821,35 @@ static int adev_get_mic_mute(const struct audio_hw_device *dev, bool *state)
 }
 
 static size_t adev_get_input_buffer_size(const struct audio_hw_device *dev,
-                                         uint32_t sample_rate, int format,
-                                         int channel_count)
+                                         const struct audio_config *config)
 {
     size_t size;
+    int channel_count = popcount(config->channel_mask);
+    LOGFUNC("%s(%p, %d, %d, %d)", __FUNCTION__, dev, config->sample_rate,
+                                config->format, channel_count);
 
-    LOGFUNC("%s(%p, %d, %d, %d)", __FUNCTION__, dev, sample_rate,
-                                format, channel_count);
-
-    if (check_input_parameters(sample_rate, format, channel_count) != 0) {
+    if (check_input_parameters(config->sample_rate, config->format, channel_count) != 0) {
         return 0;
     }
 
-    return get_input_buffer_size(sample_rate, format, channel_count);
+    return get_input_buffer_size(config->sample_rate, config->format, channel_count);
 }
 
-static int adev_open_input_stream(struct audio_hw_device *dev, uint32_t devices,
-                                  int *format, uint32_t *channel_mask,
-                                  uint32_t *sample_rate,
-                                  audio_in_acoustics_t acoustics,
+static int adev_open_input_stream(struct audio_hw_device *dev,
+                                  audio_io_handle_t handle,
+                                  audio_devices_t devices,
+                                  struct audio_config *config,
                                   struct audio_stream_in **stream_in)
 {
     struct blaze_audio_device *ladev = (struct blaze_audio_device *)dev;
     struct blaze_stream_in *in;
     int ret;
-    int channel_count = popcount(*channel_mask);
+    int channel_count = popcount(config->channel_mask);
 
-    LOGFUNC("%s(%p, 0x%04x, %d, 0x%04x, %d, 0x%04x, %p)", __FUNCTION__, dev,
-        devices, *format, *channel_mask, *sample_rate, acoustics, stream_in);
+    LOGFUNC("%s(%p, 0x%04x, %d, 0x%04x, %d, %p)", __FUNCTION__, dev,
+        devices, config->format, config->channel_mask, config->sample_rate, stream_in);
 
-    if (check_input_parameters(*sample_rate, *format, channel_count) != 0)
+    if (check_input_parameters(config->sample_rate, config->format, channel_count) != 0)
         return -EINVAL;
 
     in = (struct blaze_stream_in *)calloc(1, sizeof(struct blaze_stream_in));
@@ -2814,7 +2873,7 @@ static int adev_open_input_stream(struct audio_hw_device *dev, uint32_t devices,
     in->stream.get_input_frames_lost = in_get_input_frames_lost;
     in->remix_at_driver = NULL;
 
-    in->requested_rate = *sample_rate;
+    in->requested_rate = config->sample_rate;
 
     memcpy(&in->config, &pcm_config_mm_ul, sizeof(pcm_config_mm_ul));
     in->config.channels = channel_count;
@@ -2922,7 +2981,8 @@ static uint32_t adev_get_supported_devices(const struct audio_hw_device *dev)
             AUDIO_DEVICE_IN_AUX_DIGITAL |
             AUDIO_DEVICE_IN_BACK_MIC |
             AUDIO_DEVICE_IN_ALL_SCO |
-            AUDIO_DEVICE_IN_WIRED_HEADSET |
+//          FIXME-HASH: REMOVED FOR NOW
+//          AUDIO_DEVICE_IN_USB_HEADSET |
             AUDIO_DEVICE_IN_DEFAULT);
 }
 
@@ -2942,7 +3002,7 @@ static int adev_open(const hw_module_t* module, const char* name,
         return -ENOMEM;
 
     adev->hw_device.common.tag = HARDWARE_DEVICE_TAG;
-    adev->hw_device.common.version = 0;
+    adev->hw_device.common.version = AUDIO_DEVICE_API_VERSION_1_0;
     adev->hw_device.common.module = (struct hw_module_t *) module;
     adev->hw_device.common.close = adev_close;
 
@@ -2962,7 +3022,7 @@ static int adev_open(const hw_module_t* module, const char* name,
     adev->hw_device.close_input_stream = adev_close_input_stream;
     adev->hw_device.dump = adev_dump;
 
-    adev->mixer = mixer_open(0);
+    adev->mixer = mixer_open(CARD_OMAP4_ABE);
     if (!adev->mixer) {
         free(adev);
         ALOGE("Unable to open the mixer, aborting.");
@@ -3005,10 +3065,9 @@ static int adev_open(const hw_module_t* module, const char* name,
         !adev->mixer_ctls.right_capture || !adev->mixer_ctls.amic_ul_volume ||
         !adev->mixer_ctls.sidetone_capture || !adev->mixer_ctls.headset_volume ||
         !adev->mixer_ctls.speaker_volume || !adev->mixer_ctls.dmic1_ul_volume) {
-        ALOGE("Unable to locate all mixer controls, aborting.");
         /*mixer_close(adev->mixer);
         free(adev);
-        LOGE("Unable to locate all mixer controls, aborting.");
+        ALOGE("Unable to locate all mixer controls, aborting.");
         return -EINVAL;*/
     }
 
@@ -3056,8 +3115,8 @@ static struct hw_module_methods_t hal_module_methods = {
 struct audio_module HAL_MODULE_INFO_SYM = {
     .common = {
         .tag = HARDWARE_MODULE_TAG,
-        .version_major = 1,
-        .version_minor = 0,
+        .module_api_version = AUDIO_MODULE_API_VERSION_0_1,
+        .hal_api_version = HARDWARE_HAL_API_VERSION,
         .id = AUDIO_HARDWARE_MODULE_ID,
         .name = "Blaze audio HW HAL",
         .author = "Texas Instruments",
