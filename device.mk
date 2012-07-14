@@ -122,8 +122,9 @@ PRODUCT_COPY_FILES += \
 # Device specific packages
 PRODUCT_PACKAGES += \
 	liblights.acclaim \
-	sensors.acclaim \
-	hwcomposer.acclaim
+	sensors.acclaim 
+
+#	hwcomposer.acclaim
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
