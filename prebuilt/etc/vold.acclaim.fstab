@@ -11,7 +11,7 @@
 ######################
 
 ## emmc
-dev_mount emmc /mnt/emmc 10 /devices/platform/omap/omap_hsmmc.1/mmc_host/mmc0
+dev_mount emmc /storage/sdcard0 10 /devices/platform/omap/omap_hsmmc.1/mmc_host/mmc0
 
 ## sdcard
-dev_mount sdcard /mnt/sdcard auto /devices/platform/omap/omap_hsmmc.0/mmc_host/mmc1
+dev_mount sdcard /storage/sdcard1 auto /devices/platform/omap/omap_hsmmc.0/mmc_host/mmc1

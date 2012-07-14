@@ -4,7 +4,7 @@ TMP_ZEROS := /tmp/zeros
 
 define make_zeros
   bootloader_size=$$($(call get-file-size,$(1))); \
-  zeros_size=$$(((512 * 1024) - bootloader_size)); \
+  zeros_size=$$(((256 * 1024) - bootloader_size)); \
   dd if=/dev/zero of=$(2) bs=1 count=$$((zeros_size))
 endef
 
