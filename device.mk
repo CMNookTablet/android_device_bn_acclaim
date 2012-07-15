@@ -40,6 +40,11 @@ PRODUCT_COPY_FILES += \
 	device/bn/acclaim/root/init.acclaim.usb.rc:root/init.acclaim.usb.rc \
 	device/bn/acclaim/root/ueventd.acclaim.rc:root/ueventd.acclaim.rc \
 
+# Audio
+PRODUCT_COPY_FILES += \
+	device/bn/acclaim/prebuilt/etc/audio_policy.conf:/system/etc/audio_policy.conf \
+	device/bn/acclaim/prebuilt/etc/media_codecs.xml:/system/etc/media_codecs.xml
+
 # Graphics
 PRODUCT_COPY_FILES += \
     device/bn/acclaim/prebuilt/sgx/gralloc.omap4430.so:/system/vendor/lib/hw/gralloc.omap4.so \
