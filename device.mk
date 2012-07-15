@@ -193,6 +193,7 @@ PRODUCT_PACKAGES += \
 	audio_policy.default 
 
 PRODUCT_PROPERTY_OVERRIDES := \
+	ro.opengles.version=131072 \
 	ro.sf.lcd_density=160 \
 	wifi.interface=wlan0 \
 	wifi.supplicant_scan_interval=45 \
