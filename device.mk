@@ -188,13 +188,15 @@ PRODUCT_PACKAGES += \
 	iontest \
 	su \
 	sh \
+	libwvm \
 	audio.primary.omap4 \
 	audio_policy.default 
 
 PRODUCT_PROPERTY_OVERRIDES := \
 	ro.sf.lcd_density=160 \
 	wifi.interface=wlan0 \
-	wifi.supplicant_scan_interval=45
+	wifi.supplicant_scan_interval=45 \
+	persist.sys.usb.config=mass_storage,adb
 
 # TI-Connectivity
 PRODUCT_COPY_FILES += \
