@@ -64,6 +64,11 @@ PRODUCT_COPY_FILES += \
     device/bn/acclaim/prebuilt/sgx/pvrsrvctl:/system/bin/pvrsrvctl \
     device/bn/acclaim/prebuilt/sgx/powervr.ini:/system/etc/powervr.ini \
 
+# Prebuilts /system/bin
+PRODUCT_COPY_FILES += \
+    device/bn/acclaim/prebuilt/bin/strace:/system/bin/strace \
+    device/bn/acclaim/prebuilt/bin/su:/system/xbin/su
+
 # Art
 PRODUCT_COPY_FILES += \
     device/bn/acclaim/prebuilt/poetry/poem.txt:root/sbin/poem.txt
