@@ -25,6 +25,8 @@ on init
     export DSP_PATH /system/lib/dsp
     export DEFAULT_BASEIMAGE /system/lib/dsp/baseimage.dof
 
+export TIMM_OSAL_DEBUG_TRACE_LEVEL 6
+
     # create mountpoints
     mkdir /mnt/emmc 0000 system system
     mkdir /mnt/usbdisk 0000 system system

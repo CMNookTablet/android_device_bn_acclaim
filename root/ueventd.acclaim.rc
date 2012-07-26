@@ -1,13 +1,3 @@
-#for DSSCOMP
-/dev/dsscomp              0666   system     system
-/dev/tiler                0666   system     system
-
-/dev/rpmsg-omx0           0660   drmrpc    drmrpc
-/dev/rpmsg-omx1           0660   drmrpc    drmrpc
-/dev/rproc_user           0660   drmrpc    drmrpc
-/dev/tf_driver            0660   drmrpc    drmrpc
-/dev/tf_ctrl              0660   drmrpc    drmrpc
-
 /dev/pvrsrvkm             0666   system     system
 /dev/video0               0660   system     camera
 /dev/video1               0660   system     camera
@@ -26,5 +16,16 @@
 # for Sensor HAL
 /dev/akm8973              0660   system     system
 /dev/accelerometer        0660   system     system
+
+#for DSSCOMP
+/dev/dsscomp              0660   system     system
+/dev/tiler                0666   system     system
+
+#for SYSLINK
+/dev/rpmsg-omx0           0660   drmrpc    drmrpc
+/dev/rpmsg-omx1           0660   drmrpc    drmrpc
+/dev/rproc_user           0660   drmrpc    drmrpc
+/dev/tf_driver            0660   drmrpc    drmrpc
+/dev/tf_ctrl              0660   drmrpc    drmrpc
 
 /dev/fwram                0666   system     system

@@ -63,10 +63,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/bn/acclaim/prebuilt/poetry/poem.txt:root/sbin/poem.txt
 
-# gfx. This needs http://git.omapzoom.org/?p=device/ti/proprietary-open.git;a=commit;h=47a8187f2d8a08f7210b3c964b3b8e50f3b0da66
-#PRODUCT_PACKAGES += \
-#	ti_omap4_sgx_libs \
-#	ti_omap4_ducati_libs
+#PRODUCT_PACKAGES := \
+#    ti_omap4_ducati_bins
+
+# Tiler
+PRODUCT_PACKAGES += \
+    libtimemmgr
 
 PRODUCT_COPY_FILES += \
 	device/bn/acclaim/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin
@@ -166,10 +168,10 @@ PRODUCT_PACKAGES += \
 	libcamera \
 	libion \
 	libomxcameraadapter \
-	hwcpmposer.omap4 \
-	hwcomposer.default \
 	smc_pa_ctrl \
-	tf_daemon\
+	tf_daemon
+
+PRODUCT_PACKAGES += \
 	audio.primary.omap4 \
 	audio_policy.default \
 	libaudioutils \
