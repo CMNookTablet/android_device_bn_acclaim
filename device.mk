@@ -70,6 +70,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libtimemmgr
 
+#Lib Skia test
+PRODUCT_PACKAGES += \
+    SkLibTiJpeg_Test
+
 PRODUCT_COPY_FILES += \
 	device/bn/acclaim/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin
 
@@ -150,26 +154,12 @@ PRODUCT_AAPT_CONFIG := normal mdpi
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 
-#$(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
-# dont use omap4.mk. We have to drop hwcomposer.omap4, camera.omap4 for now.
+$(call inherit-product, hardware/ti/omap4xxx/common.mk)
+# dont use omap4.mk. We have to drop camera.omap4 for now.
 # Just include rest directly here.
-PRODUCT_PACKAGES += \
-	libdomx \
-	libOMX_Core \
-	libOMX.TI.DUCATI1.VIDEO.H264E \
-	libOMX.TI.DUCATI1.VIDEO.MPEG4E \
-	libOMX.TI.DUCATI1.VIDEO.DECODER \
-	libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
-	libOMX.TI.DUCATI1.VIDEO.CAMERA \
-	libOMX.TI.DUCATI1.MISC.SAMPLE \
-	libstagefrighthw \
-        libI420colorconvert \
-	libtiutils \
-	libcamera \
-	libion \
-	libomxcameraadapter \
-	smc_pa_ctrl \
-	tf_daemon
+# why would we drop hwcomposer.omap4?
+# PRODUCT_PACKAGES += \
+#	hwcomposer.omap4
 
 PRODUCT_PACKAGES += \
 	audio.primary.omap4 \
