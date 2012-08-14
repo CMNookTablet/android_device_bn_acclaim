@@ -1,6 +1,7 @@
 ACCLAIM_BOOTLOADER := device/bn/acclaim/prebuilt/boot/flashing_boot_emmc.img
 ACCLAIM_SDCARD_BOOTLOADER := device/bn/acclaim/prebuilt/boot/flashing_boot.img
-TMP_ZEROS := /tmp/zeros
+REC_TMP_ZEROS := /tmp/rec_zeros
+BOOT_TMP_ZEROS := /tmp/boot_zeros
 
 define make_zeros
   bootloader_size=$$($(call get-file-size,$(1))); \
@@ -17,10 +18,10 @@ $(INSTALLED_BOOTIMAGE_TARGET).sdcard :  $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_FILES)
 $(INSTALLED_BOOTIMAGE_TARGET): \
 		$(INSTALLED_BOOTIMAGE_TARGET).sdcard $(ACCLAIM_BOOTLOADER)
 	$(call pretty,"Adding nook specific u-boot for boot.img")
-	$(call make_zeros,$(ACCLAIM_BOOTLOADER),$(TMP_ZEROS))
+	$(call make_zeros,$(ACCLAIM_BOOTLOADER),$(BOOT_TMP_ZEROS))
 	cp $(ACCLAIM_BOOTLOADER) $@
-	cat $(TMP_ZEROS) >> $@
-	rm $(TMP_ZEROS)
+	cat $(BOOT_TMP_ZEROS) >> $@
+	rm $(BOOT_TMP_ZEROS)
 	cat $@.sdcard >> $@
 	$(hide) $(call assert-max-image-size,$@, \
 		$(BOARD_BOOTIMAGE_PARTITION_SIZE),raw)
@@ -37,10 +38,10 @@ $(INSTALLED_RECOVERYIMAGE_TARGET): \
 		$(INSTALLED_RECOVERYIMAGE_TARGET).sdcard \
 		$(ACCLAIM_BOOTLOADER)
 	$(call pretty,"Adding nook specific u-boot for recovery.img")
-	$(call make_zeros,$(ACCLAIM_BOOTLOADER),$(TMP_ZEROS))
+	$(call make_zeros,$(ACCLAIM_BOOTLOADER),$(REC_TMP_ZEROS))
 	cp $(ACCLAIM_BOOTLOADER) $@
-	cat $(TMP_ZEROS) >> $@
-	rm $(TMP_ZEROS)
+	cat $(REC_TMP_ZEROS) >> $@
+	rm $(REC_TMP_ZEROS)
 	cat $@.sdcard >> $@
 	$(hide) $(call assert-max-image-size,$@,\
 		$(BOARD_RECOVERYIMAGE_PARTITION_SIZE),raw)
