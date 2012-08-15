@@ -166,6 +166,7 @@ PRODUCT_PACKAGES += \
 	libtiutils \
 	libcamera \
 	libion \
+	iontest \
 	libomxcameraadapter \
 	smc_pa_ctrl \
 	tf_daemon
