@@ -165,6 +165,7 @@ PRODUCT_PACKAGES += \
         libI420colorconvert \
 	libtiutils \
 	libcamera \
+	hwcomposer.omap4 \
 	libion \
 	iontest \
 	libomxcameraadapter \
