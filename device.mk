@@ -79,7 +79,9 @@ PRODUCT_COPY_FILES += \
 #	ti_omap4_sgx_libs \
 #	ti_omap4_ducati_libs
 
-#PRODUCT_COPY_FILES += \
+# ducati
+PRODUCT_COPY_FILES += \
+	device/bn/acclaim/firmware/ducati-license.txt:/system/vendor/firmware/ducati-license.txt \
 	device/bn/acclaim/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin
 #	device/bn/acclaim/firmware/ducati-m3-512MB.bin:/system/vendor/firmware/ducati-m3-512MB.bin
 
