@@ -137,7 +137,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	liblights.acclaim \
 	sensors.acclaim
-#	hwcomposer.acclaim
+	hwcomposer.acclaim
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
