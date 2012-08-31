@@ -82,8 +82,8 @@ PRODUCT_COPY_FILES += \
 # ducati
 PRODUCT_COPY_FILES += \
 	device/bn/acclaim/firmware/ducati-license.txt:/system/vendor/firmware/ducati-license.txt \
-	device/bn/acclaim/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin
-#	device/bn/acclaim/firmware/ducati-m3-512MB.bin:/system/vendor/firmware/ducati-m3-512MB.bin
+	device/bn/acclaim/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin \
+	device/bn/acclaim/firmware/ducati-m3-512MB.bin:/system/vendor/firmware/ducati-m3-512MB.bin
 
 # Input
 PRODUCT_COPY_FILES += \
