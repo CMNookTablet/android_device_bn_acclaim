@@ -60,10 +60,8 @@ PRODUCT_COPY_FILES += \
     device/bn/acclaim/prebuilt/sgx/libsrv_um_SGX540_120.so:/system/vendor/lib/libsrv_um_SGX540_120.so \
     device/bn/acclaim/prebuilt/sgx/libusc_SGX540_120.so:/system/vendor/lib/libusc_SGX540_120.so \
     device/bn/acclaim/prebuilt/sgx/pvrsrvctl_SGX540_120:/system/vendor/bin/pvrsrvctl_SGX540_120 \
-    device/bn/acclaim/prebuilt/sgx/pvrsrvctl:/system/vendor/bin/pvrsrvctl \
     device/bn/acclaim/prebuilt/sgx/pvrsrvinit:/system/vendor/bin/pvrsrvinit \
-    device/bn/acclaim/prebuilt/sgx/pvrsrvctl:/system/bin/pvrsrvctl \
-    device/bn/acclaim/prebuilt/sgx/powervr.ini:/system/etc/powervr.ini \
+    device/bn/acclaim/prebuilt/sgx/powervr.ini:/system/etc/powervr.ini
 
 # Prebuilts /system/bin
 PRODUCT_COPY_FILES += \
@@ -138,7 +136,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	liblights.acclaim \
 	sensors.acclaim
-#	hwcomposer.acclaim
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
@@ -151,6 +148,8 @@ PRODUCT_COPY_FILES += \
 
 # Wifi
 PRODUCT_PACKAGES += \
+	ti_wfd_libs \
+	lib_driver_cmd_wl12xx \
 	dhcpcd.conf \
 	TQS_D_1.7.ini \
 	calibrator
@@ -180,7 +179,8 @@ PRODUCT_PACKAGES += \
 	libcamera \
 	libion \
 	libomxcameraadapter \
-	hwcpmposer.omap4 \
+	hwcomposer.omap4 \
+	libedid \
 	hwcomposer.default \
 	smc_pa_ctrl \
 	tf_daemon\
@@ -193,7 +193,7 @@ PRODUCT_PACKAGES += \
 	su \
 	sh \
 	libwvm \
-	audio.primary.omap4 \
+	audio.primary.acclaim \
 	audio_policy.default 
 
 PRODUCT_PROPERTY_OVERRIDES := \
@@ -201,7 +201,10 @@ PRODUCT_PROPERTY_OVERRIDES := \
 	ro.sf.lcd_density=160 \
 	wifi.interface=wlan0 \
 	wifi.supplicant_scan_interval=45 \
-	persist.sys.usb.config=mass_storage,adb
+	persist.sys.usb.config=mass_storage,adb \
+	com.ti.omap_enhancement=true \
+	omap.enhancement=true \
+	ro.hwc.legacy_api=true
 
 # TI-Connectivity
 PRODUCT_COPY_FILES += \
