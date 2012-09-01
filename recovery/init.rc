@@ -23,7 +23,7 @@ on init
     exec /sbin/dd if=/dev/zero of=/bootdata/BootCnt bs=1 count=4
 
 on boot
-
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
     ifup lo
     hostname localhost
     domainname localdomain
