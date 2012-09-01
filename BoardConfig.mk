@@ -19,13 +19,10 @@
 #
 
 USE_CAMERA_STUB := true
-
-# audio
 BOARD_USES_GENERIC_AUDIO := false
-
-# GPS
 #BOARD_HAVE_FAKE_GPS := true
 BOARD_HAVE_BLUETOOTH := false
+
 # inherit from the proprietary version
 -include vendor/bn/acclaim/BoardConfigVendor.mk
 
@@ -41,10 +38,9 @@ TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp
 TARGET_BOOTLOADER_BOARD_NAME := acclaim
 
 # Kernel/Boot
-BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 init=/init rootwait vram=16M,82000000 omapfb.vram=0:5M@82000000 def_disp=lcd2
-
 BOARD_KERNEL_BASE := 0x80080000
 BOARD_KERNEL_PAGESIZE := 4096
+BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 def_disp=lcd2
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 
@@ -72,7 +68,7 @@ COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
 endif
 
 # Vold
-BOARD_VOLD_MAX_PARTITIONS := 20
+BOARD_VOLD_MAX_PARTITIONS := 32
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
 
@@ -80,10 +76,10 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_
 USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := device/bn/acclaim/prebuilt/etc/egl.cfg
 
+# OMAP
 OMAP_ENHANCEMENT := true
 OMAP_ENHANCEMENT_MULTIGPU := true
 ENHANCED_DOMX := true
-COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT -DTARGET_OMAP4
 
 # Recovery
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/bn/acclaim/recovery/recovery_ui.c
@@ -92,6 +88,7 @@ BOARD_HAS_LARGE_FILESYSTEM := true
 
 # adb has root
 ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
+ADDITIONAL_DEFAULT_PROPERTIES += ro.allow.mock.location=1
 
 # boot.img creation
 BOARD_CUSTOM_BOOTIMG_MK := device/bn/acclaim/boot.mk
@@ -124,6 +121,7 @@ TARGET_KERNEL_MODULES := SGX_MODULES WIFI_MODULES
 
 # Keep this as a fallback
 TARGET_PREBUILT_KERNEL := device/bn/acclaim/kernel
+TARGET_SPECIFIC_HEADER_PATH := device/bn/acclaim/src-headers
 
 ifdef ENHANCED_DOMX
     COMMON_GLOBAL_CFLAGS += -DENHANCED_DOMX
@@ -173,3 +171,5 @@ TW_EXTERNAL_STORAGE_PATH := "/sdcard"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "sdcard"
 TW_DEFAULT_EXTERNAL_STORAGE := true
 
+# Bootanimation
+TARGET_BOOTANIMATION_PRELOAD := true

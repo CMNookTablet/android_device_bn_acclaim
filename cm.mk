@@ -13,20 +13,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-$(call inherit-product, device/bn/acclaim/full_acclaim.mk)
 
-PRODUCT_NAME := cm_acclaim
-PRODUCT_BRAND := Android
-PRODUCT_DEVICE := acclaim
-PRODUCT_MANUFACTURER := Barnes & Noble
-
-# Release name and versioning
-PRODUCT_RELEASE_NAME := NookTablet
-
-TARGET_BOOTANIMATION_NAME := vertical-600x1024
+TARGET_BOOTANIMATION_NAME := 600
 
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
 
-# DEVICE_PACKAGE_OVERLAYS += device/bn/acclaim/overlay/cm
+# Inherit device configuration for acclaim
+$(call inherit-product, device/bn/acclaim/full_acclaim.mk)
+
+DEVICE_PACKAGE_OVERLAYS += device/bn/acclaim/overlay/cm
+
+TARGET_HAS_CUSTOM_LIBION := true
+
+PRODUCT_NAME := cm_acclaim
+PRODUCT_DEVICE := acclaim
+PRODUCT_BRAND := Android
+PRODUCT_MODEL := Barnes & Noble Nook Tablet
+PRODUCT_MANUFACTURER := Barnes & Noble
+PRODUCT_RELEASE_NAME := NookTablet
+
+
 
