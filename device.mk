@@ -80,7 +80,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/firmware/ducati-license.txt:/system/vendor/firmware/ducati-license.txt \
 	$(DEVICE_FOLDER)/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin \
-	$(DEVICE_FOLDER)/firmware/ducati-m3-512MB.bin:/system/vendor/firmware/ducati-m3-512MB.bin
+	$(DEVICE_FOLDER)/firmware/ducati-m3.512MB.bin:/system/vendor/firmware/ducati-m3.512MB.bin
 
 # Input
 PRODUCT_COPY_FILES += \
