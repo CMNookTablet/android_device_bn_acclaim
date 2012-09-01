@@ -65,8 +65,7 @@ PRODUCT_COPY_FILES += \
 
 # Prebuilts /system/bin
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/prebuilt/bin/strace:/system/bin/strace \
-    $(DEVICE_FOLDER)/prebuilt/bin/su:/system/xbin/su
+    $(DEVICE_FOLDER)/prebuilt/bin/strace:/system/bin/strace
 
 # Art
 PRODUCT_COPY_FILES += \
@@ -198,7 +197,6 @@ PRODUCT_PACKAGES += \
 	tinyplay \
 	tinymix \
 	tinycap \
-	su \
 	sh \
 	libwvm \
 	audio.primary.acclaim \
