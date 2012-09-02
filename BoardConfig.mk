@@ -83,7 +83,7 @@ ENHANCED_DOMX := true
 
 # Recovery
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/bn/acclaim/recovery/recovery_ui.c
-TARGET_RECOVERY_INITRC := ../../device/bn/acclaim/recovery/init.rc
+TARGET_RECOVERY_INITRC := device/bn/acclaim/recovery/init.rc
 TARGET_RECOVERY_PRE_COMMAND := "echo 'recovery' > /bootdata/BCB; sync"
 BOARD_HAS_LARGE_FILESYSTEM := true
 
