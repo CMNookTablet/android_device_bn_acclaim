@@ -14,7 +14,8 @@
 # limitations under the License.
 #
 
-TARGET_BOOTANIMATION_NAME := 600
+TARGET_SCREEN_WIDTH := 1024
+TARGET_SCREEN_HEIGHT := 600
 
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
