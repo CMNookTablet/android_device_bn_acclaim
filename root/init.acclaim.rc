@@ -25,11 +25,6 @@ on init
     # Enable off mode by default
     write /sys/kernel/debug/pm_debug/enable_off_mode 1
 
-    # Enable Smart Reflex in debugfs
-    write /sys/kernel/debug/pm_debug/smartreflex/sr_core/autocomp 1
-    write /sys/kernel/debug/pm_debug/smartreflex/sr_iva/autocomp 1
-    write /sys/kernel/debug/pm_debug/smartreflex/sr_mpu/autocomp 1
-
     # setup global environment
     export PHONE_STORAGE /storage/sdcard0
     export DSP_PATH /system/lib/dsp
@@ -54,7 +49,7 @@ on post-fs-data
 on boot
     # BRB: Temp adb hack
     # setprop service.adb.root 1
-    log "==  init.acclaim.rc: on boot ------------------------"
+    log "==  init-acclaim-rc: on boot ------------------------"
 
     # fake some battery state
     setprop status.battery.state Slow
@@ -258,4 +253,4 @@ on property:service.adb.root=1
     write /sys/class/android_usb/android0/enable 1
     
 on property:sys.boot_completed=1
-    log "== init.acclaim.rc: on property:sys.boot_completed=1 -----------------------"
+    log "init-acclaim-rc: on property:sys-boot_completed=1 -----------------------"
