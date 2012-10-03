@@ -44,12 +44,9 @@ on post-fs-data
     mkdir /data/media 0775 media_rw media_rw
     chown media_rw media_rw /data/media
     setprop vold.post_fs_data_done 1
-    mkdir /data/misc/wifi/sockets 0770 wifi wifi
 
 on boot
-    # BRB: Temp adb hack
-    # setprop service.adb.root 1
-    log "==  init-acclaim-rc: on boot ------------------------"
+    setprop ro.radio.noril yes
 
     # fake some battery state
     setprop status.battery.state Slow
@@ -58,33 +55,23 @@ on boot
     setprop status.battery.level_scale 9
 
     # wireless
-    mkdir /system/etc/wifi 0770 wifi wifi
-    chmod 0770 /system/etc/wifi
-    chmod 0660 /system/etc/wifi/wpa_supplicant.conf
-    chown wifi wifi /system/etc/wifi/wpa_supplicant.conf
     mkdir /data/misc/wifi 0770 wifi wifi
-    chmod 0660 /data/misc/wifi/wpa_supplicant.conf
-    chown wifi wifi /data/misc/wifi/wpa_supplicant.conf
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     chown dhcp dhcp /data/misc/dhcp
 
-    #chmod 0660 /dev/rfkill
-    #chmod 0660 /sys/class/rfkill/rfkill1/state
-    #chmod 0660 /sys/class/rfkill/rfkill1/state
-    #chown wifi wifi /sys/class/rfkill/rfkill1/type
-    #chown wifi wifi /sys/class/rfkill/rfkill1/state
+    # Set default maximum of 1008 on cpu0
+    # (peformance settings will change this if set by user)
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1008000
 
-# switch CPUfreq from performance to hotplug
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
-    write /sys/devices/system/cpu/cpufreq/hotplug/down_threshold 30
-
-#Give system ownership and permission to boost clock for specified timeout
-#Note boost_timeout cannot be changed from application because of dynamic sysfs creation. It will have default value of 3 sec.
+    # Give system ownership and permission to boost clock for specified timeout
+    # Note boost_timeout cannot be changed from application because of 
+    # dynamic sysfs creation. It will have default value of 3 sec.
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
-    chmod 0664  /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
+    chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
 
-# Boost the CPU for 60 sec for boot optimization
-    write /sys/devices/system/cpu/cpufreq/hotplug/boost_timeout 60000000
+    # Boost the CPU for 30 secs during boot
+    write /sys/devices/system/cpu/cpufreq/interactive/boost_timeout 30000000
     write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
 
     insmod /system/lib/modules/compat.ko
@@ -92,13 +79,11 @@ on boot
     insmod /system/lib/modules/mac80211.ko
     insmod /system/lib/modules/wl12xx.ko
 
-# Fix wlan MAC addr
-
+    # Fix wlan MAC addr
     exec /system/bin/fix-mac.sh
 
-# Load Modules
+    # Load SGX Modules
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
-    insmod /system/lib/modules/omaplfb_sgx540_120.ko
 
     # SGX driver
     chmod 0666 /dev/pvrsrvkm
@@ -174,26 +159,27 @@ on boot
     chown system system /sys/devices/platform/omapdss/display3/timings
     chown system system /sys/devices/platform/omapdss/display2/code
 
-    # change permissions for mtd device
-    chmod 0660 /dev/mtd/mtd0
-    chown media media /dev/mtd/mtd0
-    
     # change permissions for i2c-2 device
     chmod 0660 /dev/i2c-2
     chown media media /dev/i2c-2
 
     # change permissions for alsa nodes
-    chmod 0777  /dev/snd/pcmC0D0c
+    chmod 0777 /dev/snd/controlC0
     chmod 0777 /dev/snd/pcmC0D0p
-    chmod 0777  /dev/snd/controlC0
-    chmod 0777  /dev/snd/timer
-
-    #change permissions for alsa nodes for audio modem
+    chmod 0777 /dev/snd/pcmC0D1c
+    chmod 0777 /dev/snd/pcmC0D1p
+    chmod 0777 /dev/snd/pcmC0D2c
+    chmod 0777 /dev/snd/pcmC0D3c
+    chmod 0777 /dev/snd/pcmC0D3p
+    chmod 0777 /dev/snd/pcmC0D4c
+    chmod 0777 /dev/snd/pcmC0D4p
     chmod 0777 /dev/snd/pcmC0D5c
     chmod 0777 /dev/snd/pcmC0D5p
+    chmod 0777 /dev/snd/timer
 
-    #change permissions for alsa nodes for HDMI
-    chmod 777  /dev/snd/pcmC0D7p
+    # Revert the boost_timeout to the default value of 3 sec. 
+    # Note this won't affect the prev boost request for boot time reduction
+    write /sys/devices/system/cpu/cpufreq/hotplug/boost_timeout 3000000
 
 on property:dev.bootcomplete=1
     start bootcnt
@@ -212,7 +198,16 @@ service bootcnt /system/bin/clear_bootcnt.sh
     disabled
     oneshot
 
-service p2p_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf -dd
+service p2p_supplicant /system/bin/wpa_supplicant -Dnl80211 \
+	-iwlan0 -c/data/misc/wifi/wpa_supplicant.conf -N \
+	-ip2p0 -c/data/misc/wifi/p2p_supplicant.conf -puse_p2p_group_interface=1
+    class main
+    socket wpa_wlan0 dgram 660 wifi wifi
+    disabled
+    oneshot
+
+service wpa_supplicant /system/bin/wpa_supplicant \
+    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -e/data/misc/wifi/entropy.bin
     class main
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
@@ -253,4 +248,3 @@ on property:service.adb.root=1
     write /sys/class/android_usb/android0/enable 1
     
 on property:sys.boot_completed=1
-    log "init-acclaim-rc: on property:sys-boot_completed=1 -----------------------"
