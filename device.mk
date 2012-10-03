@@ -134,6 +134,7 @@ PRODUCT_COPY_FILES += \
 # Device specific packages
 PRODUCT_PACKAGES += \
 	liblights.acclaim \
+	power.acclaim \
 	sensors.acclaim
 
 # Filesystem management tools
