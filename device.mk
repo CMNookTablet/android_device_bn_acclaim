@@ -188,6 +188,7 @@ PRODUCT_PACKAGES += \
 	hwcomposer.omap4 \
 
 PRODUCT_PACKAGES += \
+	libjni_pinyinime \
 	iontest \
 	libedid \
 	hwcomposer.default \
