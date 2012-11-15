@@ -113,7 +113,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	hwprops \
 	CMStats \
-	lights.acclaim
+	lights.acclaim \
+	TFF
 
 # Place permission files
 PRODUCT_COPY_FILES += \

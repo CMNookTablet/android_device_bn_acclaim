@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="app_name">Touchscreen Firmware Flasher</string>
+    <string name="title_activity_touchscreen_firmware_flasher">Touchscreen Firmware Flasher</string>
+    <string name="current_firmware">"Current firmware: "</string>
+    <string name="detecting">detecting&#8230;</string>
+    <string name="you_can_flash">"You can flash: "</string>
+    <string name="i_understand">I totally understand what am I doing</string>
+    <string name="help">Release finger to flash. Move over to discard.</string>
+
+</resources>

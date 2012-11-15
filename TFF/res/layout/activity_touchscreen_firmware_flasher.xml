@@ -1,0 +1,120 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@drawable/machines_of_old_wall_wide2" >
+    
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/back"
+        android:scaleType="matrix" />
+
+    <ImageView 
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/imageView1"
+        android:scaleType="fitXY"
+        android:src="@drawable/status_bar_close"
+        android:background="#ff000000"/>
+
+    <RelativeLayout
+        android:id="@+id/firmware_id_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="540dp" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:id="@+id/current_firmware_version_layout" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/current_firmware" 
+                android:textColor="#ffffffff"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/current_firmware"
+                android:text="@string/detecting"
+                android:textColor="#ffffffff"
+                android:textSize="20dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/new_firmware_version_layout"
+            android:alpha="0"
+            android:layout_below="@id/current_firmware_version_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/you_can_flash"
+                android:textColor="#ffffffff"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/new_firmware"
+                android:textColor="#ffffffff"
+                android:textSize="20dp" />
+        </LinearLayout>
+    </RelativeLayout>
+    
+    <CheckBox
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/firmware_id_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:alpha="0"
+        android:visibility="invisible"
+        android:text="@string/i_understand"
+        android:textColor="#ffffffff"
+        android:textSize="20dp" />
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" 
+            android:alpha="0"
+            android:id="@+id/wall"
+            android:src="#ffff0000"/>
+    
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/big_red_button"
+        android:src="@drawable/big_red_button"
+        android:layout_centerHorizontal="true"
+        android:alpha="0"/>
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffffff"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@id/firmware_id_layout"
+        android:id="@+id/manual"
+        android:text="@string/help"
+        android:alpha="0" />
+
+</RelativeLayout>
