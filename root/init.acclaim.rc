@@ -177,6 +177,12 @@ on boot
     chmod 0777 /dev/snd/pcmC0D5c
     chmod 0777 /dev/snd/pcmC0D5p
     chmod 0777 /dev/snd/timer
+    
+    # Thanks to Demetris
+    write /sys/devices/virtual/bdi/179:0/read_ahead_kb 1024
+    write /sys/devices/virtual/bdi/default/read_ahead_kb 1024
+    write /sys/block/mmcblk0/queue/read_ahead_kb 1024
+    write /sys/block/mmcblk1/queue/read_ahead_kb 1024
 
     # Revert the boost_timeout to the default value of 3 sec. 
     # Note this won't affect the prev boost request for boot time reduction
