@@ -31,6 +31,7 @@ TARGET_BOARD_PLATFORM := omap4
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
+TARGET_ARCH := arm
 TARGET_ARCH_VARIANT := armv7-a-neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
 TARGET_GLOBAL_CFLAGS += -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp
@@ -77,9 +78,9 @@ USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := device/bn/acclaim/prebuilt/etc/egl.cfg
 
 # OMAP
-OMAP_ENHANCEMENT := true
+#OMAP_ENHANCEMENT := false
 OMAP_ENHANCEMENT_MULTIGPU := true
-ENHANCED_DOMX := true
+#ENHANCED_DOMX := false
 
 # Recovery
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/bn/acclaim/recovery/recovery_ui.c

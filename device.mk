@@ -113,8 +113,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	hwprops \
 	CMStats \
-	lights.acclaim \
-	TFF
+	lights.acclaim
 
 # Place permission files
 PRODUCT_COPY_FILES += \
@@ -190,9 +189,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
 	libjni_pinyinime \
-	iontest \
 	libedid \
-	hwcomposer.default \
 	smc_pa_ctrl \
 	tf_daemon\
 	libaudioutils \

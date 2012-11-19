@@ -23,9 +23,9 @@ $(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
 # Inherit device configuration for acclaim
 $(call inherit-product, device/bn/acclaim/full_acclaim.mk)
 
-DEVICE_PACKAGE_OVERLAYS += device/bn/acclaim/overlay/cm
+#DEVICE_PACKAGE_OVERLAYS += device/bn/acclaim/overlay/cm
 
-TARGET_HAS_CUSTOM_LIBION := true
+#TARGET_HAS_CUSTOM_LIBION := true
 
 PRODUCT_NAME := cm_acclaim
 PRODUCT_DEVICE := acclaim
