@@ -114,7 +114,8 @@ PRODUCT_PACKAGES += \
 	hwprops \
 	CMStats \
 	lights.acclaim \
-	TFF
+	TFF \
+	evtest
 
 # Place permission files
 PRODUCT_COPY_FILES += \

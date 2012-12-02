@@ -1,0 +1,20 @@
+LOCAL_PATH:= $(call my-dir)
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE_TAGS := optional
+
+LOCAL_SRC_FILES:=    evtest.c
+
+LOCAL_FORCE_STATIC_EXECUTABLE := true
+
+LOCAL_MODULE:= evtest
+
+LOCAL_C_INCLUDES := $(KERNEL_HEADERS)
+
+LOCAL_CFLAGS := 
+
+LOCAL_STATIC_LIBRARIES += libstdc++ libc libcutils
+#LOCAL_SHARED_LIBRARIES := libcutils
+
+include $(BUILD_EXECUTABLE)
