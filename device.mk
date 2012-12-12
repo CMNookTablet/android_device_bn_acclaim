@@ -111,7 +111,6 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/prebuilt/bin/fix-mac.sh:/system/bin/fix-mac.sh
 
 PRODUCT_PACKAGES += \
-	hwprops \
 	CMStats \
 	lights.acclaim
 
@@ -185,7 +184,8 @@ PRODUCT_PACKAGES += \
 	smc_pa_ctrl \
 	tf_daemon \
 	libtf_crypto_sst \
-	hwcomposer.omap4 \
+	hwcomposer.acclaim 
+#	lib_driver_cmd_wl12xx \
 
 PRODUCT_PACKAGES += \
 	libjni_pinyinime \
@@ -194,9 +194,6 @@ PRODUCT_PACKAGES += \
 	tf_daemon\
 	libaudioutils \
 	Music \
-	tinyplay \
-	tinymix \
-	tinycap \
 	sh \
 	libwvm \
 	audio.primary.acclaim \
@@ -217,6 +214,7 @@ PRODUCT_PROPERTY_OVERRIDES := \
 # TI-Connectivity
 PRODUCT_COPY_FILES += \
         $(DEVICE_FOLDER)/firmware/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin.orig \
+        $(DEVICE_FOLDER)/firmware/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin \
         $(DEVICE_FOLDER)/firmware/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
         $(DEVICE_FOLDER)/firmware/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
 

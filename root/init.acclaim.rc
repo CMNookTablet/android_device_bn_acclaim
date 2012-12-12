@@ -6,6 +6,7 @@ on init
     mkdir /storage/sdcard0 0000 system system
     mkdir /storage/sdcard1 0000 system system
     mkdir /storage/usbdisk0 0000 system system
+    mkdir /cache 0771 system cache
 
     # for backwards compatibility
     symlink /storage/sdcard0 /mnt/emmc
@@ -46,6 +47,15 @@ on post-fs-data
     chown media_rw media_rw /data/media
     setprop vold.post_fs_data_done 1
 
+    # create dalvik-cache and double-check the perms, so as to enforce our permissions
+    mkdir /data/dalvik-cache 0771 system system
+    chown system system /data/dalvik-cache
+    chmod 0771 /data/dalvik-cache
+                
+    mkdir /cache/dalvik-cache 0771 system system
+    chown system system /cache/dalvik-cache
+    chmod 0771 /cache/dalvik-cache
+                            
 on boot
     setprop ro.radio.noril yes
 
@@ -177,12 +187,6 @@ on boot
     chmod 0777 /dev/snd/pcmC0D5c
     chmod 0777 /dev/snd/pcmC0D5p
     chmod 0777 /dev/snd/timer
-    
-    # Thanks to Demetris
-    write /sys/devices/virtual/bdi/179:0/read_ahead_kb 1024
-    write /sys/devices/virtual/bdi/default/read_ahead_kb 1024
-    write /sys/block/mmcblk0/queue/read_ahead_kb 1024
-    write /sys/block/mmcblk1/queue/read_ahead_kb 1024
 
     # Revert the boost_timeout to the default value of 3 sec. 
     # Note this won't affect the prev boost request for boot time reduction

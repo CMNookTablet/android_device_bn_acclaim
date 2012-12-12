@@ -17,11 +17,12 @@
 #
 # Product-specific compile-time definitions.
 #
-
+PRODUCT_VENDOR_KERNEL_HEADERS := device/bn/acclaim/kernel-headers
 USE_CAMERA_STUB := true
 BOARD_USES_GENERIC_AUDIO := false
 #BOARD_HAVE_FAKE_GPS := true
 BOARD_HAVE_BLUETOOTH := false
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/bn/acclaim/bluetooth
 
 # inherit from the proprietary version
 -include vendor/bn/acclaim/BoardConfigVendor.mk
@@ -45,6 +46,15 @@ BOARD_KERNEL_CMDLINE := androidboot.console=ttyO0 console=ttyO0,115200n8 def_dis
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 
+OMAP_ENHANCEMENT := true
+#OMAP_ENHANCEMENT_BURST_CAPTURE := true
+#OMAP_ENHANCEMENT_S3D := true
+#OMAP_ENHANCEMENT_CPCAM := true
+#OMAP_ENHANCEMENT_VTC := true
+OMAP_ENHANCEMENT_MULTIGPU := true
+ENHANCED_DOMX := true
+BOARD_PROVIDES_CUSTOM_DOMX := true
+
 # Filesystem
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
@@ -53,19 +63,33 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 641728512
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 12949893120
 BOARD_FLASH_BLOCK_SIZE := 131072
 
-# Wifi
-USES_TI_MAC80211 := true
+# Connectivity - Wi-Fi
+USES_TI_MAC80211 := false
 ifdef USES_TI_MAC80211
-BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
-WPA_SUPPLICANT_VERSION           := VER_0_8_X_TI
-BOARD_HOSTAPD_DRIVER             := NL80211
-PRODUCT_WIRELESS_TOOLS           := true
-BOARD_WLAN_DEVICE                := wl12xx_mac80211
-BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
-WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wl12xx_sdio.ko"
-WIFI_DRIVER_MODULE_NAME          := "wl12xx_sdio"
-WIFI_FIRMWARE_LOADER             := ""
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
+BOARD_HOSTAPD_DRIVER := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_wl12xx
+PRODUCT_WIRELESS_TOOLS := true
+BOARD_WLAN_DEVICE := wl12xx_mac80211
+BOARD_SOFTAP_DEVICE := wl12xx_mac80211
+WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/wl12xx_sdio.ko"
+WIFI_DRIVER_MODULE_NAME := "wl12xx_sdio"
+WIFI_FIRMWARE_LOADER := ""
 COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
+else
+# Wifi
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
+BOARD_WLAN_DEVICE := wl12xx_mac80211
+BOARD_SOFTAP_DEVICE := wl12xx_mac80211
+WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/wl12xx_sdio.ko"
+WIFI_DRIVER_MODULE_NAME := "wl12xx_sdio"
+WIFI_FIRMWARE_LOADER := ""
+COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
+
 endif
 
 # Vold
@@ -127,7 +151,7 @@ TARGET_SPECIFIC_HEADER_PATH := device/bn/acclaim/src-headers
 
 ifdef ENHANCED_DOMX
     COMMON_GLOBAL_CFLAGS += -DENHANCED_DOMX
-    DOMX_PATH := hardware/ti/domx
+    DOMX_PATH := device/bn/acclaim/domx
 else
     DOMX_PATH := hardware/ti/omap4xxx/domx
 endif
