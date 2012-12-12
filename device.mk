@@ -197,7 +197,9 @@ PRODUCT_PACKAGES += \
 	sh \
 	libwvm \
 	audio.primary.acclaim \
-	audio_policy.default 
+	audio_policy.default \
+	Superuser \
+	su
 
 PRODUCT_PROPERTY_OVERRIDES := \
 	ro.opengles.version=131072 \
