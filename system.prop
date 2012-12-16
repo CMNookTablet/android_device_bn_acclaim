@@ -1,7 +1,6 @@
 #
 # system.prop for acclaim
 #
-wifi.interface=wlan0
 
 #define defaults for audio D/A mic and power mode
 omap.audio.mic.main=AMic0    
