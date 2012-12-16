@@ -18,6 +18,7 @@ on init
     mkdir /system
     mkdir /data
     mkdir /cache
+    mkdir /cache/dalvik-cache
     mount /tmp /tmp tmpfs
     mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/bootdata /bootdata
     exec /sbin/dd if=/dev/zero of=/bootdata/BootCnt bs=1 count=4
