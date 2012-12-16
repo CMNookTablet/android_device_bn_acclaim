@@ -28,21 +28,21 @@ $(INSTALLED_BOOTIMAGE_TARGET): \
 
 # this is a copy of the build/core/Makefile target
 # $(INSTALLED_RECOVERYIMAGE_TARGET) renamed to .sdcard
-#$(INSTALLED_RECOVERYIMAGE_TARGET).sdcard: \
-#		$(MKBOOTIMG) $(recovery_ramdisk) $(recovery_kernel)
-#	@echo ----- Making recovery image ------
-#	$(MKBOOTIMG) $(INTERNAL_RECOVERYIMAGE_ARGS) --output $@
-#	@echo ----- Made recovery image -------- $@
+$(INSTALLED_RECOVERYIMAGE_TARGET).sdcard: \
+		$(MKBOOTIMG) $(recovery_ramdisk) $(recovery_kernel)
+	@echo ----- Making recovery image ------
+	$(MKBOOTIMG) $(INTERNAL_RECOVERYIMAGE_ARGS) --output $@
+	@echo ----- Made recovery image -------- $@
 
-#$(INSTALLED_RECOVERYIMAGE_TARGET): \
-#		$(INSTALLED_RECOVERYIMAGE_TARGET).sdcard \
-#		$(ACCLAIM_BOOTLOADER)
-#	$(call pretty,"Adding nook specific u-boot for recovery.img")
-#	$(call make_zeros,$(ACCLAIM_BOOTLOADER),$(REC_TMP_ZEROS))
-#	cp $(ACCLAIM_BOOTLOADER) $@
-#	cat $(REC_TMP_ZEROS) >> $@
-#	rm $(REC_TMP_ZEROS)
-#	cat $@.sdcard >> $@
-#	$(hide) $(call assert-max-image-size,$@,\
-#		$(BOARD_RECOVERYIMAGE_PARTITION_SIZE),raw)
+$(INSTALLED_RECOVERYIMAGE_TARGET): \
+		$(INSTALLED_RECOVERYIMAGE_TARGET).sdcard \
+		$(ACCLAIM_BOOTLOADER)
+	$(call pretty,"Adding nook specific u-boot for recovery.img")
+	$(call make_zeros,$(ACCLAIM_BOOTLOADER),$(REC_TMP_ZEROS))
+	cp $(ACCLAIM_BOOTLOADER) $@
+	cat $(REC_TMP_ZEROS) >> $@
+	rm $(REC_TMP_ZEROS)
+	cat $@.sdcard >> $@
+	$(hide) $(call assert-max-image-size,$@,\
+		$(BOARD_RECOVERYIMAGE_PARTITION_SIZE),raw)
 
