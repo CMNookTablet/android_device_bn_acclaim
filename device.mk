@@ -47,34 +47,29 @@ PRODUCT_COPY_FILES += \
 
 # Graphics
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/prebuilt/sgx/gralloc.omap4430.so:/system/vendor/lib/hw/gralloc.omap4.so \
-    $(DEVICE_FOLDER)/prebuilt/sgx/libEGL_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
-    $(DEVICE_FOLDER)/prebuilt/sgx/libGLESv1_CM_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
-    $(DEVICE_FOLDER)/prebuilt/sgx/libGLESv2_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
-    $(DEVICE_FOLDER)/prebuilt/sgx/libglslcompiler_SGX540_120.so:/system/vendor/lib/libglslcompiler_SGX540_120.so \
-    $(DEVICE_FOLDER)/prebuilt/sgx/libIMGegl_SGX540_120.so:/system/vendor/lib/libIMGegl_SGX540_120.so \
-    $(DEVICE_FOLDER)/prebuilt/sgx/libpvr2d_SGX540_120.so:/system/vendor/lib/libpvr2d_SGX540_120.so \
-    $(DEVICE_FOLDER)/prebuilt/sgx/libpvrANDROID_WSEGL_SGX540_120.so:/system/vendor/lib/libpvrANDROID_WSEGL_SGX540_120.so \
-    $(DEVICE_FOLDER)/prebuilt/sgx/libPVRScopeServices_SGX540_120.so:/system/vendor/lib/libPVRScopeServices_SGX540_120.so \
-    $(DEVICE_FOLDER)/prebuilt/sgx/libsrv_init_SGX540_120.so:/system/vendor/lib/libsrv_init_SGX540_120.so \
-    $(DEVICE_FOLDER)/prebuilt/sgx/libsrv_um_SGX540_120.so:/system/vendor/lib/libsrv_um_SGX540_120.so \
-    $(DEVICE_FOLDER)/prebuilt/sgx/libusc_SGX540_120.so:/system/vendor/lib/libusc_SGX540_120.so \
-    $(DEVICE_FOLDER)/prebuilt/sgx/pvrsrvctl_SGX540_120:/system/vendor/bin/pvrsrvctl_SGX540_120 \
-    $(DEVICE_FOLDER)/prebuilt/sgx/pvrsrvinit:/system/vendor/bin/pvrsrvinit \
-    $(DEVICE_FOLDER)/prebuilt/sgx/powervr.ini:/system/etc/powervr.ini
+	$(DEVICE_FOLDER)/prebuilt/sgx/gralloc.omap4430.so:/system/vendor/lib/hw/gralloc.omap4.so \
+	$(DEVICE_FOLDER)/prebuilt/sgx/libEGL_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
+	$(DEVICE_FOLDER)/prebuilt/sgx/libGLESv1_CM_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
+	$(DEVICE_FOLDER)/prebuilt/sgx/libGLESv2_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
+	$(DEVICE_FOLDER)/prebuilt/sgx/libglslcompiler_SGX540_120.so:/system/vendor/lib/libglslcompiler_SGX540_120.so \
+	$(DEVICE_FOLDER)/prebuilt/sgx/libIMGegl_SGX540_120.so:/system/vendor/lib/libIMGegl_SGX540_120.so \
+	$(DEVICE_FOLDER)/prebuilt/sgx/libpvr2d_SGX540_120.so:/system/vendor/lib/libpvr2d_SGX540_120.so \
+	$(DEVICE_FOLDER)/prebuilt/sgx/libpvrANDROID_WSEGL_SGX540_120.so:/system/vendor/lib/libpvrANDROID_WSEGL_SGX540_120.so \
+	$(DEVICE_FOLDER)/prebuilt/sgx/libPVRScopeServices_SGX540_120.so:/system/vendor/lib/libPVRScopeServices_SGX540_120.so \
+	$(DEVICE_FOLDER)/prebuilt/sgx/libsrv_init_SGX540_120.so:/system/vendor/lib/libsrv_init_SGX540_120.so \
+	$(DEVICE_FOLDER)/prebuilt/sgx/libsrv_um_SGX540_120.so:/system/vendor/lib/libsrv_um_SGX540_120.so \
+	$(DEVICE_FOLDER)/prebuilt/sgx/libusc_SGX540_120.so:/system/vendor/lib/libusc_SGX540_120.so \
+	$(DEVICE_FOLDER)/prebuilt/sgx/pvrsrvctl_SGX540_120:/system/vendor/bin/pvrsrvctl_SGX540_120 \
+	$(DEVICE_FOLDER)/prebuilt/sgx/pvrsrvinit:/system/vendor/bin/pvrsrvinit \
+	$(DEVICE_FOLDER)/prebuilt/sgx/powervr.ini:/system/etc/powervr.ini
 
 # Prebuilts /system/bin
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/prebuilt/bin/strace:/system/bin/strace
+	$(DEVICE_FOLDER)/prebuilt/bin/strace:/system/bin/strace
 
 # Art
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/prebuilt/poetry/poem.txt:root/sbin/poem.txt
-
-# gfx. This needs http://git.omapzoom.org/?p=device/ti/proprietary-open.git;a=commit;h=47a8187f2d8a08f7210b3c964b3b8e50f3b0da66
-#PRODUCT_PACKAGES += \
-#	ti_omap4_sgx_libs \
-#	ti_omap4_ducati_libs
+	$(DEVICE_FOLDER)/prebuilt/poetry/poem.txt:root/sbin/poem.txt
 
 # ducati
 PRODUCT_COPY_FILES += \
@@ -88,10 +83,6 @@ PRODUCT_COPY_FILES += \
 	$(DEVICE_FOLDER)/prebuilt/usr/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl\
 	$(DEVICE_FOLDER)/prebuilt/usr/idc/twl6030_pwrbutton.idc:system/usr/idc/twl6030_pwrbutton.idc \
 	$(DEVICE_FOLDER)/prebuilt/usr/keylayout/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl
-
-# fwram
-#PRODUCT_COPY_FILES += \
-#	$(DEVICE_FOLDER)/prebuilt/fwram.ko:/system/lib/modules/fwram.ko
 
 # Vold
 PRODUCT_COPY_FILES += \
@@ -129,7 +120,7 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
 	frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
 	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml \
-	$(DEVICE_FOLDER)/prebuilt/bin/bbx:/system/bin/busybox \
+	$(DEVICE_FOLDER)/prebuilt/bin/bbx:/system/bin/bbx \
 
 # Device specific packages
 PRODUCT_PACKAGES += \
@@ -144,15 +135,17 @@ PRODUCT_PACKAGES += \
 
 # postrecoveryboot for recovery
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/recovery/postrecoveryboot.sh:recovery/root/sbin/postrecoveryboot.sh
+	$(DEVICE_FOLDER)/recovery/postrecoveryboot.sh:recovery/root/sbin/postrecoveryboot.sh
 
 # Wifi
 PRODUCT_PACKAGES += \
-	ti_wfd_libs \
-	lib_driver_cmd_wl12xx \
 	dhcpcd.conf \
+	wpa_supplicant.conf \
+	calibrator \
+	crda \
+	regulatory.bin \
 	TQS_D_1.7.ini \
-	calibrator
+	lib_driver_cmd_wl12xx
 
 PRODUCT_CHARACTERISTICS := tablet
 PRODUCT_AAPT_CONFIG := normal mdpi
@@ -177,22 +170,19 @@ PRODUCT_PACKAGES += \
 	libOMX.TI.DUCATI1.MISC.SAMPLE \
 	libdrmdecrypt \
 	libstagefrighthw \
-        libI420colorconvert \
+	libI420colorconvert \
 	libtiutils \
 	libcamera \
-	libion \
+	libion_ti \
 	libomxcameraadapter \
 	smc_pa_ctrl \
 	tf_daemon \
 	libtf_crypto_sst \
 	hwcomposer.acclaim 
-#	lib_driver_cmd_wl12xx \
 
 PRODUCT_PACKAGES += \
 	libjni_pinyinime \
 	libedid \
-	smc_pa_ctrl \
-	tf_daemon\
 	libaudioutils \
 	Music \
 	sh \
@@ -201,7 +191,7 @@ PRODUCT_PACKAGES += \
 	audio_policy.default \
 	Superuser \
 	su \
-	TFF\
+	TFF \
 
 PRODUCT_PROPERTY_OVERRIDES := \
 	ro.opengles.version=131072 \
@@ -217,20 +207,18 @@ PRODUCT_PROPERTY_OVERRIDES := \
 
 # TI-Connectivity
 PRODUCT_COPY_FILES += \
-        $(DEVICE_FOLDER)/firmware/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin.orig \
-        $(DEVICE_FOLDER)/firmware/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin \
-        $(DEVICE_FOLDER)/firmware/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
-        $(DEVICE_FOLDER)/firmware/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
+	$(DEVICE_FOLDER)/firmware/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin.orig \
+	$(DEVICE_FOLDER)/firmware/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin \
+	$(DEVICE_FOLDER)/firmware/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
+	$(DEVICE_FOLDER)/firmware/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
+	$(DEVICE_FOLDER)/firmware/wl127x-fw-4-plt.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin \
+	$(DEVICE_FOLDER)/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
 
 # enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.com.google.locationfeatures=1 \
-    ro.com.google.networklocation=1
-
-# we have enough storage space to hold precise GC data
-PRODUCT_TAGS += dalvik.gc.type-precise
-
+	ro.com.google.locationfeatures=1 \
+	ro.com.google.networklocation=1
 
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 
