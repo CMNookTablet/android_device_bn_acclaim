@@ -14,8 +14,8 @@
 # limitations under the License.
 #
 
-TARGET_SCREEN_WIDTH := 1024
-TARGET_SCREEN_HEIGHT := 600
+#TARGET_SCREEN_WIDTH := 1024
+#TARGET_SCREEN_HEIGHT := 600
 
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
@@ -25,7 +25,7 @@ $(call inherit-product, device/bn/acclaim/full_acclaim.mk)
 
 DEVICE_PACKAGE_OVERLAYS += device/bn/acclaim/overlay/cm
 
-#TARGET_HAS_CUSTOM_LIBION := true
+TARGET_HAS_CUSTOM_LIBION := true
 
 PRODUCT_NAME := cm_acclaim
 PRODUCT_DEVICE := acclaim
@@ -34,5 +34,6 @@ PRODUCT_MODEL := Barnes & Noble Nook Tablet
 PRODUCT_MANUFACTURER := Barnes & Noble
 PRODUCT_RELEASE_NAME := NookTablet
 
-
+PRODUCT_PACKAGES += \
+    su \
 

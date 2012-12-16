@@ -28,12 +28,6 @@ else
 LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
 
-# copy all kernel modules under the "modules" directory to system/lib/modules
-#PRODUCT_COPY_FILES += $(shell \
-#    find $(DEVICE_FOLDER)/modules -name '*.ko' \
-#    | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
-#    | tr '\n' ' ')
-
 PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
 	$(DEVICE_FOLDER)/root/init.acclaim.rc:root/init.acclaim.rc \
