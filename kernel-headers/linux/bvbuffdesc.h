@@ -1,68 +1,56 @@
-/*
- * bvbuffdesc.h
- *
- * Copyright (C) 2011 Texas Instruments, Inc.
- *
- * This package is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
- *
- * THIS PACKAGE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
- * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- */
-
+/****************************************************************************
+ ****************************************************************************
+ ***
+ ***   This header was automatically generated from a Linux kernel header
+ ***   of the same name, to make information necessary for userspace to
+ ***   call into the kernel available to libc.  It contains only constants,
+ ***   structures, and macros generated from the original header, and thus,
+ ***   contains no copyrightable information.
+ ***
+ ***   To edit the content of this header, modify the corresponding
+ ***   source file (e.g. under external/kernel-headers/original/) then
+ ***   run bionic/libc/kernel/tools/update_all.py
+ ***
+ ***   Any manual change here will be lost the next time this script will
+ ***   be run. You've been warned!
+ ***
+ ****************************************************************************
+ ****************************************************************************/
 #ifndef BVBUFFDESC_H
 #define BVBUFFDESC_H
-
-/*
- * bvbuffmap - This is a private structure used by BLTsville
- * implementations to manage resources associated with a buffer.  A pointer
- * to this is returned from bv_map() and used in subsequent bv_blt() and
- * bv_unmap() calls.
- */
 struct bvbuffmap;
-
-#define BVATDEF_VENDOR_SHIFT	24
-#define BVATDEF_VENDOR_MASK	(0xFF << BVATDEF_VENDOR_SHIFT)
-
-/* Common aux type */
-#define BVATDEF_VENDOR_ALL	(0x00 << BVATDEF_VENDOR_SHIFT)
-
-/* Texas Instruments, Inc. */
-#define BVATDEF_VENDOR_TI	(0x01 << BVATDEF_VENDOR_SHIFT)
-
+#define BVATDEF_VENDOR_SHIFT 24
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+#define BVATDEF_VENDOR_MASK (0xFF << BVATDEF_VENDOR_SHIFT)
+#define BVATDEF_VENDOR_ALL (0x00 << BVATDEF_VENDOR_SHIFT)
+#define BVATDEF_VENDOR_TI (0x01 << BVATDEF_VENDOR_SHIFT)
 enum bvauxtype {
-	BVAT_NONE = 0,	/* auxptr not used */
-	BVAT_PHYSDESC =	/* handle points to bvphysdesc struct */
-		BVATDEF_VENDOR_ALL + 1,
-
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+ BVAT_NONE = 0,
+ BVAT_PHYSDESC =
+ BVATDEF_VENDOR_ALL + 1,
 #ifdef BVAT_EXTERNAL_INCLUDE
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
 #include BVAT_EXTERNAL_INCLUDE
 #endif
 };
-
-
 struct bvphysdesc {
-	unsigned int structsize;	/* used to identify struct version */
-	unsigned long pagesize;		/* page size in bytes */
-	unsigned long *pagearray;	/* array of physical pages */
-	unsigned int pagecount;		/* number of pages in the pagearray */
-	unsigned long pageoffset;	/* page offset in bytes */
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+ unsigned int structsize;
+ unsigned long pagesize;
+ unsigned long *pagearray;
+ unsigned int pagecount;
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+ unsigned long pageoffset;
 };
-
-/*
- * bvbuffdesc - This structure is used to specify the buffer parameters
- * in a call to bv_map().
- */
 struct bvbuffdesc {
-	unsigned int structsize;	/* used to identify struct version */
-	void *virtaddr;			/* virtual ptr to start of buffer */
-	unsigned long length;		/* length of the buffer in bytes */
-	struct bvbuffmap *map;		/* resource(s) associated w/buffer */
-	enum bvauxtype auxtype;		/* type of auxptr */
-	void *auxptr;			/* additional buffer description data;
-					type depends on auxtype */
+ unsigned int structsize;
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+ void *virtaddr;
+ unsigned long length;
+ struct bvbuffmap *map;
+ enum bvauxtype auxtype;
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+ void *auxptr;
 };
-
-#endif /* BVBUFFDESC_H */
+#endif

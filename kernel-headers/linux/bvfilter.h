@@ -1,50 +1,34 @@
-/*
- * bvfilter.h
- *
- * Copyright (C) 2011 Texas Instruments, Inc.
- *
- * This package is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
- *
- * THIS PACKAGE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
- * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- */
-
-/*
- * This file defines the types of shared filters available and the associated
- * parameters.
- *
- * To extend the list of filters, create a file containing additional
- * enumerations to be added to enum bvfilter below.  Then #define
- * BVFILTER_EXTERNAL_INCLUDE as the name of that file before including
- * this file in your project.  Parameters need to be in a different file.
- */
-
+/****************************************************************************
+ ****************************************************************************
+ ***
+ ***   This header was automatically generated from a Linux kernel header
+ ***   of the same name, to make information necessary for userspace to
+ ***   call into the kernel available to libc.  It contains only constants,
+ ***   structures, and macros generated from the original header, and thus,
+ ***   contains no copyrightable information.
+ ***
+ ***   To edit the content of this header, modify the corresponding
+ ***   source file (e.g. under external/kernel-headers/original/) then
+ ***   run bionic/libc/kernel/tools/update_all.py
+ ***
+ ***   Any manual change here will be lost the next time this script will
+ ***   be run. You've been warned!
+ ***
+ ****************************************************************************
+ ****************************************************************************/
 #ifndef BVFILTER_H
 #define BVFILTER_H
-
-/*
- * bvfilter is an enumeration used to designate the type of filter being used.
- */
 enum bvfiltertype {
-	BVFILTER_DUMMY
-	/* TBD */
-
+ BVFILTER_DUMMY
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
 #ifdef BVFILTER_EXTERNAL_INCLUDE
 #include BVFILTER_EXTERNAL_INCLUDE
 #endif
 };
-
-/*
- * bvfilterop contains the filter type and a pointer to the associated
- * parameters when the BVFLAG_FILTER operation is specified in
- * bvbltparams.flags.
- */
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
 struct bvfilter {
-	enum bvfiltertype filter;
-	void *params;
+ enum bvfiltertype filter;
+ void *params;
 };
-
-#endif /* BVFILTER_H */
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+#endif

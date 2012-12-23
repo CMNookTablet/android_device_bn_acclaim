@@ -1,44 +1,41 @@
-/*
- * bvcache.h
- *
- * Copyright (C) 2012 Texas Instruments, Inc.
- *
- * This package is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
- *
- * THIS PACKAGE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
- * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- */
-
+/****************************************************************************
+ ****************************************************************************
+ ***
+ ***   This header was automatically generated from a Linux kernel header
+ ***   of the same name, to make information necessary for userspace to
+ ***   call into the kernel available to libc.  It contains only constants,
+ ***   structures, and macros generated from the original header, and thus,
+ ***   contains no copyrightable information.
+ ***
+ ***   To edit the content of this header, modify the corresponding
+ ***   source file (e.g. under external/kernel-headers/original/) then
+ ***   run bionic/libc/kernel/tools/update_all.py
+ ***
+ ***   Any manual change here will be lost the next time this script will
+ ***   be run. You've been warned!
+ ***
+ ****************************************************************************
+ ****************************************************************************/
 #ifndef BVCACHE_H_
 #define BVCACHE_H_
-
-/* Forward declarations */
 struct bvbuffdesc;
 struct bvsurfgeom;
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
 struct bvrect;
-
-/*
- * This defines which cache operation the user intends to use
- * BVCACHE_CPU_TO_DEVICE = clean
- * BVCACHE_CPU_FROM_DEVICE = invalidate
- * BVCACHE_BIDIRECTIONAL = flush
- */
 enum bvcacheop {
-	BVCACHE_BIDIRECTIONAL = 0,
-	BVCACHE_CPU_TO_DEVICE = 1,
-	BVCACHE_CPU_FROM_DEVICE = 2,
-	BVCACHE_RESERVED3 = 3,
+ BVCACHE_BIDIRECTIONAL = 0,
+ BVCACHE_CPU_TO_DEVICE = 1,
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+ BVCACHE_CPU_FROM_DEVICE = 2,
+ BVCACHE_RESERVED3 = 3,
 };
-
 struct bvcopparams {
-	unsigned int structsize;	/* used to identify struct version */
-	struct bvbuffdesc *desc;
-	struct bvsurfgeom *geom;
-	struct bvrect     *rect;
-	enum bvcacheop cacheop;
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+ unsigned int structsize;
+ struct bvbuffdesc *desc;
+ struct bvsurfgeom *geom;
+ struct bvrect *rect;
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+ enum bvcacheop cacheop;
 };
-
-#endif /* BVCACHE_H_ */
+#endif

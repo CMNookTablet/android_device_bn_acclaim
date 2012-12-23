@@ -19,42 +19,33 @@
 #ifndef RPMSG_OMX_H
 #define RPMSG_OMX_H
 #include <linux/ioctl.h>
-
-/**
- * struct omx_pvr_data - metadata passed to/from userspace for a pvr register
- * @fd:           a file descriptor representing a pvr handle
- * @num_handles:  field filled by driver. userspace uses this to determine
- *                number of handles associated with fd
- * @handles:      opaque pointers pointing to buffers
- */
 struct omx_pvr_data {
-	int fd;
-	unsigned int num_handles;
-	void *handles[2];
-};
-
-#define OMX_IOC_MAGIC 'X'
 /* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+ int fd;
+ unsigned int num_handles;
+ void *handles[2];
+};
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+#define OMX_IOC_MAGIC 'X'
 #define OMX_IOCCONNECT _IOW(OMX_IOC_MAGIC, 1, char *)
 #define OMX_IOCIONREGISTER _IOWR(OMX_IOC_MAGIC, 2, struct ion_fd_data)
 #define OMX_IOCIONUNREGISTER _IOWR(OMX_IOC_MAGIC, 3, struct ion_fd_data)
-#define OMX_IOCPVRREGISTER _IOWR(OMX_IOC_MAGIC, 4, struct omx_pvr_data)
-
-#define OMX_IOC_MAXNR (4)
 /* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+#define OMX_IOCPVRREGISTER _IOWR(OMX_IOC_MAGIC, 4, struct omx_pvr_data)
+#define OMX_IOC_MAXNR (4)
 struct omx_conn_req {
  char name[48];
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
 } __packed;
 struct omx_packet {
-/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
  uint16_t desc;
  uint16_t msg_id;
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
  uint32_t flags;
  uint32_t fxn_idx;
-/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
  int32_t result;
  uint32_t data_size;
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
  uint32_t data[0];
 };
-/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
 #endif
