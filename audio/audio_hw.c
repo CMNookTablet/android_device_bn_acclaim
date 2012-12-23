@@ -793,9 +793,9 @@ struct omap_audio_device {
     pthread_mutex_t lock;       /* see note below on mutex acquisition order */
     struct mixer *mixer;
     struct mixer_ctls mixer_ctls;
-    int mode;
-    int devices;
-    int cur_devices;
+    audio_mode_t mode;
+    int out_device;
+    int in_device;
     struct pcm *pcm_modem_dl;
     struct pcm *pcm_modem_ul;
     int in_call;
@@ -1089,7 +1089,7 @@ static void set_eq_filter(struct omap_audio_device *adev)
     LOGFUNC("%s(%p)", __FUNCTION__, adev);
 
     /* DL1_EQ can't be used for bt */
-    int dl1_eq_applicable = adev->devices & (AUDIO_DEVICE_OUT_WIRED_HEADSET |
+    int dl1_eq_applicable = adev->out_device & (AUDIO_DEVICE_OUT_WIRED_HEADSET |
                     AUDIO_DEVICE_OUT_WIRED_HEADPHONE | AUDIO_DEVICE_OUT_EARPIECE);
 
     /* 4Khz LPF is used only in NB-AMR voicecall */
@@ -1144,7 +1144,7 @@ static void set_incall_device(struct omap_audio_device *adev)
     }
     LOGFUNC("%s(%p)", __FUNCTION__, adev);
 
-    switch(adev->devices & AUDIO_DEVICE_OUT_ALL) {
+    switch(adev->out_device) {
         case AUDIO_DEVICE_OUT_EARPIECE:
             device_type = SOUND_AUDIO_PATH_HANDSET;
             break;
@@ -1264,10 +1264,11 @@ static void set_output_volumes(struct omap_audio_device *adev)
     unsigned int channel;
     int speaker_volume;
     int headset_volume;
+    int earpiece_volume;
 
     speaker_volume = adev->mode == AUDIO_MODE_IN_CALL ? VOICE_CALL_SPEAKER_VOLUME :
                                                         NORMAL_SPEAKER_VOLUME;
-    headset_volume = adev->devices & AUDIO_DEVICE_OUT_WIRED_HEADSET ?
+    headset_volume = adev->out_device & AUDIO_DEVICE_OUT_WIRED_HEADSET ?
                                                         HEADSET_VOLUME :
                                                         HEADPHONE_VOLUME;
 
@@ -1314,15 +1315,15 @@ static void select_mode(struct omap_audio_device *adev)
             after the ringtone is played, but doesn't cause a route
             change if a headset or bt device is already connected. If
             speaker is not the only thing active, just remove it from
-            the route. We'll assume it'll never be used initally during
+            the route. We'll assume it'll never be used initially during
             a call. This works because we're sure that the audio policy
             manager will update the output device after the audio mode
             change, even if the device selection did not change. */
-            if ((adev->devices & AUDIO_DEVICE_OUT_ALL) == AUDIO_DEVICE_OUT_SPEAKER)
-                adev->devices = AUDIO_DEVICE_OUT_EARPIECE |
-                                AUDIO_DEVICE_IN_BUILTIN_MIC;
-            else
-                adev->devices &= ~AUDIO_DEVICE_OUT_SPEAKER;
+            if (adev->out_device == AUDIO_DEVICE_OUT_SPEAKER) {
+                adev->out_device = AUDIO_DEVICE_OUT_EARPIECE;
+                adev->in_device = AUDIO_DEVICE_IN_BUILTIN_MIC & ~AUDIO_DEVICE_BIT_IN;
+            } else
+                adev->out_device &= ~AUDIO_DEVICE_OUT_SPEAKER;
             select_output_device(adev);
             if (adev->modem) {
                 ril_set_call_clock_sync(&adev->ril, SOUND_CLOCK_START);
@@ -1379,12 +1380,11 @@ static void select_output_device(struct omap_audio_device *adev)
             set_voice_volume(&adev->hw_device, 0);
     }
 
-    headset_on = adev->devices & AUDIO_DEVICE_OUT_WIRED_HEADSET;
-    headphone_on = adev->devices & AUDIO_DEVICE_OUT_WIRED_HEADPHONE;
-    speaker_on = adev->devices & AUDIO_DEVICE_OUT_SPEAKER;
-    earpiece_on = adev->devices & AUDIO_DEVICE_OUT_EARPIECE;
-    bt_on = adev->devices & AUDIO_DEVICE_OUT_ALL_SCO;
-    fmtx_on = adev->devices & AUDIO_DEVICE_OUT_FM_RADIO_TX;
+    headset_on = adev->out_device & AUDIO_DEVICE_OUT_WIRED_HEADSET;
+    headphone_on = adev->out_device & AUDIO_DEVICE_OUT_WIRED_HEADPHONE;
+    speaker_on = adev->out_device & AUDIO_DEVICE_OUT_SPEAKER;
+    earpiece_on = adev->out_device & AUDIO_DEVICE_OUT_EARPIECE;
+    bt_on = adev->out_device & AUDIO_DEVICE_OUT_ALL_SCO;
 
     /* force rx path according to TTY mode when in call */
     if (adev->mode == AUDIO_MODE_IN_CALL && !bt_on) {
@@ -1406,6 +1406,12 @@ static void select_output_device(struct omap_audio_device *adev)
                 break;
             case TTY_MODE_OFF:
             default:
+                /* force speaker on when in call and HDMI or S/PDIF is selected
+                 * as voice DL audio cannot be routed there by ABE */
+                if (adev->out_device &
+                        (AUDIO_DEVICE_OUT_AUX_DIGITAL |
+                         AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET))
+                    speaker_on = 1;
                 break;
         }
     }
@@ -1541,7 +1547,7 @@ static void select_output_device(struct omap_audio_device *adev)
 
     mixer_ctl_set_value(adev->mixer_ctls.sidetone_capture, 0, sidetone_capture_on);
 
-    adev->cur_devices = adev->devices;
+//    adev->cur_devices = adev->devices;
 }
 
 static void select_input_device(struct omap_audio_device *adev)
@@ -1549,22 +1555,19 @@ static void select_input_device(struct omap_audio_device *adev)
     int headset_on = 0;
     int main_mic_on = 0;
     int sub_mic_on = 0;
-    int bt_on = adev->devices & AUDIO_DEVICE_IN_ALL_SCO;
-    int hw_is_stereo_only = 0;
-    int fm_rx_on = adev->devices & AUDIO_DEVICE_IN_FM_RADIO_RX;
-
-    LOGFUNC("%s(%p)", __FUNCTION__, adev);
+    int bt_on = adev->in_device & AUDIO_DEVICE_IN_ALL_SCO;
+    int fm_rx_on = 0;
 
     if (!bt_on) {
         if ((adev->mode != AUDIO_MODE_IN_CALL) && (adev->active_input != 0)) {
             /* sub mic is used for camcorder or VoIP on speaker phone */
             sub_mic_on = (adev->active_input->source == AUDIO_SOURCE_CAMCORDER) ||
-                ((adev->devices & AUDIO_DEVICE_OUT_SPEAKER) &&
-                 (adev->active_input->source == AUDIO_SOURCE_VOICE_COMMUNICATION));
+                         ((adev->out_device & AUDIO_DEVICE_OUT_SPEAKER) &&
+                          (adev->active_input->source == AUDIO_SOURCE_VOICE_COMMUNICATION));
         }
         if (!sub_mic_on) {
-            headset_on = adev->devices & AUDIO_DEVICE_IN_WIRED_HEADSET;
-            main_mic_on = adev->devices & AUDIO_DEVICE_IN_BUILTIN_MIC;
+            headset_on = adev->in_device & AUDIO_DEVICE_IN_WIRED_HEADSET;
+            main_mic_on = adev->in_device & AUDIO_DEVICE_IN_BUILTIN_MIC;
         }
     }
 
@@ -1608,10 +1611,10 @@ static void select_input_device(struct omap_audio_device *adev)
                 set_route_by_array(adev->mixer, mm_ul2_amic_left, 1);
             else if (main_mic_on || sub_mic_on) {
                 set_route_by_array(adev->mixer, mm_ul2_dmic0, 1);
-                hw_is_stereo_only = 1;
+                //hw_is_stereo_only = 1;
             } else {
                 set_route_by_array(adev->mixer, mm_ul2_dmic0, 0);
-                hw_is_stereo_only = 1;
+                //hw_is_stereo_only = 1;
             }
 
             /* Select back end */
@@ -1621,7 +1624,7 @@ static void select_input_device(struct omap_audio_device *adev)
                     (headset_on ? MIXER_HS_MIC : "Off"));
         } else if(adev->board_type == OMAP4_ACCLAIM) {
             /* Select front end */
-            ALOGE(">>> [ASoC]select_input_device:: devices==%d, headset_on==%d, main_mic_on==%d, sub_mic_on==%d\n", adev->devices, headset_on, main_mic_on, sub_mic_on);
+//            ALOGE(">>> [ASoC]select_input_device:: devices==%d, headset_on==%d, main_mic_on==%d, sub_mic_on==%d\n", adev->devices, headset_on, main_mic_on, sub_mic_on);
             if (main_mic_on || sub_mic_on || headset_on) {
                 set_route_by_array(adev->mixer, mm_ul2_dmic0, 1);
                 // hw_is_stereo_only = 1;
@@ -1636,77 +1639,75 @@ static void select_input_device(struct omap_audio_device *adev)
         }
     }
 
-    adev->input_requires_stereo = hw_is_stereo_only;
+//    adev->input_requires_stereo = hw_is_stereo_only;
 
     set_input_volumes(adev, main_mic_on, headset_on, sub_mic_on);
 
-    adev->cur_devices = adev->devices;
+//    adev->cur_devices = adev->devices;
 }
 
-/* must be called with hw device and output stream mutexes locked */
 static int start_output_stream(struct omap_stream_out *out)
 {
     struct omap_audio_device *adev = out->dev;
-    unsigned int card = CARD_OMAP_DEFAULT;
-    unsigned int port = PORT_MM_LP;
-
-    LOGFUNC("%s(%p)", __FUNCTION__, adev);
-
-    if(adev->board_type == OMAP5_SEVM)
-        port = PORT_MM;
-
-    adev->active_output = out;
-//    if (adev->devices & AUDIO_DEVICE_OUT_ALL_SCO)
-        out->config.rate = MM_FULL_POWER_SAMPLING_RATE;
-//    else
-//        out->config.rate = DEFAULT_OUT_SAMPLING_RATE;
-
-    if (adev->mode != AUDIO_MODE_IN_CALL) {
-        /* FIXME: only works if only one output can be active at a time */
-        select_output_device(adev);
-    }
-
-    if((adev->devices & AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET) ||
-        (adev->devices & AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET)) {
-        card = CARD_OMAP_USB;
-        port = PORT_MM;
-    }
-    /* default to low power:
-     *  NOTE: PCM_NOIRQ mode is required to dynamically scale avail_min
-     */
-    out->write_threshold = PLAYBACK_PERIOD_COUNT * LONG_PERIOD_SIZE;
-    out->config.start_threshold = SHORT_PERIOD_SIZE * 2;
-    out->config.avail_min = LONG_PERIOD_SIZE;
-    out->low_power = 1;
-
-    if (fm_enable) {
-      out->config.silence_threshold = 0;
-      out->config.stop_threshold = -1;
-    }
-
-    out->pcm = pcm_open(card, port, PCM_OUT | PCM_MMAP, &out->config);
-
-    if (!pcm_is_ready(out->pcm)) {
-        ALOGE("cannot open pcm_out driver: %s", pcm_get_error(out->pcm));
-        pcm_close(out->pcm);
-        adev->active_output = NULL;
-        return -ENOMEM;
-    }
-
-   /* If FM enabled then playback path needs to be trigerred for loopback */
-    if (fm_enable) {
-        ALOGI("FM:Triggering playback path for FM loopback");
-        pcm_start(out->pcm);
-    }
-
-    if (adev->echo_reference != NULL)
-        out->echo_reference = adev->echo_reference;
-    if (out->resampler)
-        out->resampler->reset(out->resampler);
-
-    return 0;
-}
-
+        unsigned int card = CARD_OMAP_DEFAULT;
+            unsigned int port = PORT_MM_LP;
+            
+                LOGFUNC("%s(%p)", __FUNCTION__, adev);
+                
+                    if(adev->board_type == OMAP5_SEVM)
+                            port = PORT_MM;
+                            
+                                adev->active_output = out;
+                                //    if (adev->devices & AUDIO_DEVICE_OUT_ALL_SCO)
+                                        out->config.rate = MM_FULL_POWER_SAMPLING_RATE;
+                                        //    else
+                                        //        out->config.rate = DEFAULT_OUT_SAMPLING_RATE;
+                                        
+                                            if (adev->mode != AUDIO_MODE_IN_CALL) {
+                                                    /* FIXME: only works if only one output can be active at a time */
+                                                            select_output_device(adev);
+                                                                }
+                                                                
+                                                                    if((adev->out_device & AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET) ||
+                                                                            (adev->out_device & AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET)) {
+                                                                                    card = CARD_OMAP_USB;
+                                                                                            port = PORT_MM;
+                                                                                                }
+                                                                                                    /* default to low power:
+                                                                                                         *  NOTE: PCM_NOIRQ mode is required to dynamically scale avail_min
+                                                                                                              */
+                                                                                                                  out->write_threshold = PLAYBACK_PERIOD_COUNT * LONG_PERIOD_SIZE;
+                                                                                                                      out->config.start_threshold = SHORT_PERIOD_SIZE * 2;
+                                                                                                                          out->config.avail_min = LONG_PERIOD_SIZE;
+                                                                                                                              out->low_power = 1;
+                                                                                                                              
+                                                                                                                                  if (fm_enable) {
+                                                                                                                                        out->config.silence_threshold = 0;
+                                                                                                                                              out->config.stop_threshold = -1;
+                                                                                                                                                  }
+                                                                                                                                                  
+                                                                                                                                                      out->pcm = pcm_open(card, port, PCM_OUT | PCM_MMAP, &out->config);
+                                                                                                                                                      
+                                                                                                                                                          if (!pcm_is_ready(out->pcm)) {
+                                                                                                                                                                  ALOGE("cannot open pcm_out driver: %s", pcm_get_error(out->pcm));
+                                                                                                                                                                          pcm_close(out->pcm);
+                                                                                                                                                                                  adev->active_output = NULL;
+                                                                                                                                                                                          return -ENOMEM;
+                                                                                                                                                                                              }
+                                                                                                                                                                                              
+                                                                                                                                                                                                 /* If FM enabled then playback path needs to be trigerred for loopback */
+                                                                                                                                                                                                     if (fm_enable) {
+                                                                                                                                                                                                             ALOGI("FM:Triggering playback path for FM loopback");
+                                                                                                                                                                                                                     pcm_start(out->pcm);
+                                                                                                                                                                                                                         }
+                                                                                                                                                                                                                         
+                                                                                                                                                                                                                             if (adev->echo_reference != NULL)
+                                                                                                                                                                                                                                     out->echo_reference = adev->echo_reference;
+                                                                                                                                                                                                                                         if (out->resampler)
+                                                                                                                                                                                                                                                 out->resampler->reset(out->resampler);
+                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                     return 0;
+                                                                                                                                                                                                                                                     }
 static int check_input_parameters(uint32_t sample_rate, int format, int channel_count)
 {
     LOGFUNC("%s(%d, %d, %d)", __FUNCTION__, sample_rate, format, channel_count);
@@ -1956,95 +1957,94 @@ static int out_dump(const struct audio_stream *stream, int fd)
 static int out_set_parameters(struct audio_stream *stream, const char *kvpairs)
 {
     struct omap_stream_out *out = (struct omap_stream_out *)stream;
-    struct omap_audio_device *adev = out->dev;
-    struct omap_stream_in *in;
-    struct str_parms *parms;
-    char *str;
-    char value[32];
-    int ret, val = 0;
-    bool force_input_standby = false;
-
-    LOGFUNC("%s(%p, %s)", __FUNCTION__, stream, kvpairs);
-
-    parms = str_parms_create_str(kvpairs);
-
-    ret = str_parms_get_str(parms, AUDIO_PARAMETER_STREAM_ROUTING, value, sizeof(value));
-    if (ret >= 0) {
-        val = atoi(value);
-        pthread_mutex_lock(&adev->lock);
-        pthread_mutex_lock(&out->lock);
-        if (((adev->devices & AUDIO_DEVICE_OUT_ALL) != val) && (val != 0)) {
-            if (out == adev->active_output) {
-                do_output_standby(out);
-                /* a change in output device may change the microphone selection */
-                if (adev->active_input &&
-                        adev->active_input->source == AUDIO_SOURCE_VOICE_COMMUNICATION) {
-                    force_input_standby = true;
-                }
-            }
-            adev->devices &= ~AUDIO_DEVICE_OUT_ALL;
-            adev->devices |= val;
-            select_output_device(adev);
-        }
-
-        pthread_mutex_unlock(&out->lock);
-        if (force_input_standby) {
-            in = adev->active_input;
-            pthread_mutex_lock(&in->lock);
-            do_input_standby(in);
-            pthread_mutex_unlock(&in->lock);
-        }
-        pthread_mutex_unlock(&adev->lock);
-    }
-
-    /* Routing for FM Rx playback case only */
-    ret = str_parms_get_str(parms, AUDIO_PARAMETER_STREAM_FM_ROUTING, value, sizeof(value));
-    if (ret >= 0) {
-       val = atoi(value);
-       ALOGI("HAL:FM routing value = %x", val);
-       pthread_mutex_lock(&adev->lock);
-       pthread_mutex_lock(&out->lock);
-       if (val != 0) {
-           do_output_standby(out);
-           adev->devices &= ~AUDIO_DEVICE_OUT_ALL;
-           adev->devices |= val;
-           select_output_device(adev);
-
-           /* This is required as FM does not have any physical stream
-            * So, output stream needs to be opened
-            */
-            ret = start_output_stream(out);
-            if (ret == 0)
-                out->standby =0 ; //handle is opened and in use
-        } else {
-            ALOGI("FM: Closing the playback handle for FM");
-            do_output_standby(out);
-        }
-       pthread_mutex_unlock(&out->lock);
-       pthread_mutex_unlock(&adev->lock);
-    }
-
-
-    if (fm_enable) {
-        ret = str_parms_get_str(parms, AUDIO_PARAMETER_STREAM_FM_MUTE,
-                                value, sizeof(value));
-        if (ret >= 0) {
-            val = atoi(value);
-            if (val == 1) {
-                fm_muted = true;
-                mixer_ctl_set_value(adev->mixer_ctls.mm2_dl1_capture, 0, 0);
-            } else {
-                /* wait to enable the fm output until after the output
-                 * devices can be configured so that radio audio is not
-                 * inadvertently output to the speaker */
-                fm_muted = false;
-            }
-        }
-    }
-    str_parms_destroy(parms);
-    return ret;
-}
-
+        struct omap_audio_device *adev = out->dev;
+            struct omap_stream_in *in;
+                struct str_parms *parms;
+                    char *str;
+                        char value[32];
+                            int ret, val = 0;
+                                bool force_input_standby = false;
+                                
+                                    LOGFUNC("%s(%p, %s)", __FUNCTION__, stream, kvpairs);
+                                    
+                                        parms = str_parms_create_str(kvpairs);
+                                        
+                                            ret = str_parms_get_str(parms, AUDIO_PARAMETER_STREAM_ROUTING, value, sizeof(value));
+                                                if (ret >= 0) {
+                                                        val = atoi(value);
+                                                                pthread_mutex_lock(&adev->lock);
+                                                                        pthread_mutex_lock(&out->lock);
+                                                                                if (((adev->out_device & AUDIO_DEVICE_OUT_ALL) != val) && (val != 0)) {
+                                                                                            if (out == adev->active_output) {
+                                                                                                            do_output_standby(out);
+                                                                                                                            /* a change in output device may change the microphone selection */
+                                                                                                                                            if (adev->active_input &&
+                                                                                                                                                                    adev->active_input->source == AUDIO_SOURCE_VOICE_COMMUNICATION) {
+                                                                                                                                                                                        force_input_standby = true;
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                    //            adev->devices &= ~AUDIO_DEVICE_OUT_ALL;
+                                                                                                                                                                                                                                adev->out_device = val;
+                                                                                                                                                                                                                                            select_output_device(adev);
+                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                            pthread_mutex_unlock(&out->lock);
+                                                                                                                                                                                                                                                                    if (force_input_standby) {
+                                                                                                                                                                                                                                                                                in = adev->active_input;
+                                                                                                                                                                                                                                                                                            pthread_mutex_lock(&in->lock);
+                                                                                                                                                                                                                                                                                                        do_input_standby(in);
+                                                                                                                                                                                                                                                                                                                    pthread_mutex_unlock(&in->lock);
+                                                                                                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                                                                                                                    pthread_mutex_unlock(&adev->lock);
+                                                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                            /* Routing for FM Rx playback case only */
+                                                                                                                                                                                                                                                                                                                                                ret = str_parms_get_str(parms, AUDIO_PARAMETER_STREAM_FM_ROUTING, value, sizeof(value));
+                                                                                                                                                                                                                                                                                                                                                    if (ret >= 0) {
+                                                                                                                                                                                                                                                                                                                                                           val = atoi(value);
+                                                                                                                                                                                                                                                                                                                                                                  ALOGI("HAL:FM routing value = %x", val);
+                                                                                                                                                                                                                                                                                                                                                                         pthread_mutex_lock(&adev->lock);
+                                                                                                                                                                                                                                                                                                                                                                                pthread_mutex_lock(&out->lock);
+                                                                                                                                                                                                                                                                                                                                                                                       if (val != 0) {
+                                                                                                                                                                                                                                                                                                                                                                                                  do_output_standby(out);
+                                                                                                                                                                                                                                                                                                                                                                                                  //           adev->devices &= ~AUDIO_DEVICE_OUT_ALL;
+                                                                                                                                                                                                                                                                                                                                                                                                             adev->out_device = val;
+                                                                                                                                                                                                                                                                                                                                                                                                                        select_output_device(adev);
+                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                   /* This is required as FM does not have any physical stream
+                                                                                                                                                                                                                                                                                                                                                                                                                                               * So, output stream needs to be opened
+                                                                                                                                                                                                                                                                                                                                                                                                                                                           */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ret = start_output_stream(out);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   if (ret == 0)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   out->standby =0 ; //handle is opened and in use
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           } else {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ALOGI("FM: Closing the playback handle for FM");
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   do_output_standby(out);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  pthread_mutex_unlock(&out->lock);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         pthread_mutex_unlock(&adev->lock);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 if (fm_enable) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ret = str_parms_get_str(parms, AUDIO_PARAMETER_STREAM_FM_MUTE,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         value, sizeof(value));
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 if (ret >= 0) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             val = atoi(value);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         if (val == 1) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         fm_muted = true;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         mixer_ctl_set_value(adev->mixer_ctls.mm2_dl1_capture, 0, 0);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     } else {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     /* wait to enable the fm output until after the output
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * devices can be configured so that radio audio is not
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * inadvertently output to the speaker */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       fm_muted = false;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   str_parms_destroy(parms);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       return ret;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       }
 static char * out_get_parameters(const struct audio_stream *stream, const char *keys)
 {
     LOGFUNC("%s(%p, %s)", __FUNCTION__, stream, keys);
@@ -2252,8 +2252,7 @@ static int start_input_stream(struct omap_stream_in *in)
     adev->active_input = in;
 
     if (adev->mode != AUDIO_MODE_IN_CALL) {
-        adev->devices &= ~AUDIO_DEVICE_IN_ALL;
-        adev->devices |= in->device;
+        adev->in_device = in->device;
         select_input_device(adev);
         adev->vx_rec_on = false;
     } else {
@@ -2309,7 +2308,7 @@ static int start_input_stream(struct omap_stream_in *in)
         adev->active_input = NULL;
         return -ENOMEM;
     }
-    if (adev->devices & AUDIO_DEVICE_IN_FM_RADIO_RX) {
+    if (adev->in_device & AUDIO_DEVICE_IN_FM_RADIO_RX) {
        ALOGI("FM:FM capture path opened successfully!!\nFM:Triggering loopback for FM capture path");
        fm_enable = true;
        pcm_start(in->pcm);
@@ -2389,7 +2388,7 @@ static int do_input_standby(struct omap_stream_in *in)
 
         adev->active_input = 0;
         if (adev->mode != AUDIO_MODE_IN_CALL) {
-            adev->devices &= ~AUDIO_DEVICE_IN_ALL;
+            adev->in_device = AUDIO_DEVICE_NONE;
             select_input_device(adev);
         }
 
@@ -2479,17 +2478,9 @@ static int in_set_parameters(struct audio_stream *stream, const char *kvpairs)
         if ((in->device != val) && (val != 0)) {
             in->device = val;
             do_standby = true;
-        }
-    }
-
-    if (do_standby)
-        do_input_standby(in);
-
-   ret = str_parms_get_str(parms, AUDIO_PARAMETER_STREAM_FM_ROUTING, value, sizeof(value));
-    if (ret >= 0) {
-        val = atoi(value);
-        if (val != 0) {
-            in_fm_routing(stream);
+            /* make sure new device selection is incompatible with multi-mic pre processing
+             * configuration */
+        //    in_update_aux_channels(in, NULL);
         }
     }
 
@@ -3066,8 +3057,7 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
 
     /* FIXME: when we support multiple output devices, we will want to
      * do the following:
-     * adev->devices &= ~AUDIO_DEVICE_OUT_ALL;
-     * adev->devices |= out->device;
+     * adev->out_device = out->device;
      * select_output_device(adev);
      * This is because out_set_parameters() with a route is not
      * guaranteed to be called after an output stream is opened. */
@@ -3199,7 +3189,7 @@ static int set_voice_volume(struct audio_hw_device *dev, float volume)
     enum ril_sound_type sound_type;
 
     if (adev->mode == AUDIO_MODE_IN_CALL) {
-        switch(adev->devices & AUDIO_DEVICE_OUT_ALL) {
+        switch(adev->out_device & AUDIO_DEVICE_OUT_ALL) {
             case AUDIO_DEVICE_OUT_EARPIECE:
             default:
                 sound_type = SOUND_TYPE_VOICE;
@@ -3384,7 +3374,7 @@ static int adev_open_input_stream(struct audio_hw_device *dev,
 
     in->dev = ladev;
     in->standby = 1;
-    in->device = devices;
+    in->device = devices & ~AUDIO_DEVICE_BIT_IN;
 
     *stream_in = &in->stream;
     return 0;
@@ -3449,33 +3439,6 @@ static int adev_close(hw_device_t *device)
     return 0;
 }
 
-static uint32_t adev_get_supported_devices(const struct audio_hw_device *dev)
-{
-    LOGFUNC("%s(%p)", __FUNCTION__, dev);
-
-    return (/* OUT */
-            AUDIO_DEVICE_OUT_EARPIECE |
-            AUDIO_DEVICE_OUT_SPEAKER |
-            AUDIO_DEVICE_OUT_WIRED_HEADSET |
-            AUDIO_DEVICE_OUT_WIRED_HEADPHONE |
-            AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET |
-            AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET |
-            AUDIO_DEVICE_OUT_ALL_SCO |
-            AUDIO_DEVICE_OUT_FM_RADIO_TX |
-            AUDIO_DEVICE_OUT_DEFAULT |
-            /* IN */
-            AUDIO_DEVICE_IN_COMMUNICATION |
-            AUDIO_DEVICE_IN_AMBIENT |
-            AUDIO_DEVICE_IN_BUILTIN_MIC |
-            AUDIO_DEVICE_IN_WIRED_HEADSET |
-            AUDIO_DEVICE_IN_BACK_MIC |
-            AUDIO_DEVICE_IN_FM_RADIO_RX |
-            AUDIO_DEVICE_IN_ALL_SCO |
-//            AUDIO_DEVICE_IN_USB_HEADSET |
-            AUDIO_DEVICE_IN_DEFAULT |
-            AUDIO_DEVICE_IN_VOICE_CALL);
-}
-
 static int adev_open(const hw_module_t* module, const char* name,
                      hw_device_t** device)
 {
@@ -3501,11 +3464,10 @@ static int adev_open(const hw_module_t* module, const char* name,
     }
 
     adev->hw_device.common.tag = HARDWARE_DEVICE_TAG;
-    adev->hw_device.common.version = AUDIO_DEVICE_API_VERSION_CURRENT;
+    adev->hw_device.common.version = AUDIO_DEVICE_API_VERSION_2_0;
     adev->hw_device.common.module = (struct hw_module_t *) module;
     adev->hw_device.common.close = adev_close;
 
-    adev->hw_device.get_supported_devices = adev_get_supported_devices;
     adev->hw_device.init_check = adev_init_check;
     adev->hw_device.set_voice_volume = adev_set_voice_volume;
     adev->hw_device.set_master_volume = adev_set_master_volume;
@@ -3624,7 +3586,8 @@ static int adev_open(const hw_module_t* module, const char* name,
         set_route_by_array(adev->mixer, hf_dl1, 1);
     }
     adev->mode = AUDIO_MODE_NORMAL;
-    adev->devices = AUDIO_DEVICE_OUT_SPEAKER | AUDIO_DEVICE_IN_BUILTIN_MIC;
+    adev->out_device = AUDIO_DEVICE_OUT_SPEAKER;
+    adev->in_device = AUDIO_DEVICE_IN_BUILTIN_MIC & ~AUDIO_DEVICE_BIT_IN;
     select_output_device(adev);
 
     adev->pcm_modem_dl = NULL;
