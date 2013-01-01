@@ -98,6 +98,7 @@ OMAP_ENHANCEMENT_MULTIGPU := true
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/bn/acclaim/recovery/recovery_ui.c
 TARGET_RECOVERY_INITRC := device/bn/acclaim/recovery/init.rc
 TARGET_RECOVERY_PRE_COMMAND := "echo 'recovery' > /bootdata/BCB; sync"
+TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 BOARD_HAS_LARGE_FILESYSTEM := true
 
 # adb has root
