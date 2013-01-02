@@ -139,7 +139,11 @@ PRODUCT_PACKAGES += \
 	crda \
 	regulatory.bin \
 	TQS_D_1.7.ini \
-	lib_driver_cmd_wl12xx
+	lib_driver_cmd_wl12xx \
+	libaudioutils \
+	tinyplay \
+	tinymix \
+	tinycap
 
 PRODUCT_CHARACTERISTICS := tablet
 PRODUCT_AAPT_CONFIG := normal mdpi
