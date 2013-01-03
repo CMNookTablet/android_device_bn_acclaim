@@ -72,7 +72,7 @@ int Kxtf9Sensor::enable(int32_t handle, int en)
 
     if (!err) {
         mEnabled = newState;
-        setDelay(0, 100000000); // 100ms by default for faster re-orienting
+        setDelay(0, 40000000); // 40ms by default for faster re-orienting
     }
 
     return err;
