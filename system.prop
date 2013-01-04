@@ -9,7 +9,7 @@ omap.audio.power=PingPong
 af.resampler.quality=3              
 ro.nf.profile=2                           
 ro.nf.level=512
-#ro.sf.hwrotation=270
+ro.sf.hwrotation=270
 
 ro.vold.switchablepair=/storage/sdcard0,/storage/sdcard1
 persist.sys.usb.config=mtp,adb
