@@ -20,7 +20,7 @@ on init
     mkdir /cache
     mkdir /cache/dalvik-cache
     mount /tmp /tmp tmpfs
-    mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/bootdata /bootdata
+    mount vfat /dev/block/platform/omap_hsmmc.1/by-name/bootdata /bootdata
     exec /sbin/dd if=/dev/zero of=/bootdata/BootCnt bs=1 count=4
 
 on boot
@@ -31,6 +31,7 @@ on boot
 
     # compatibility w/ 2.6 kernels
     symlink /dev/block/platform/omap/omap_hsmmc.1 /dev/block/platform/mmci-omap-hs.1
+    symlink /dev/block/platform/omap/omap_hsmmc.0 /dev/block/platform/mmci-omap-hs.0
 
     ifup lo
     hostname localhost

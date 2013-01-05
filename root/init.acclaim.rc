@@ -34,11 +34,11 @@ on init
 
 on fs
     # mount partitions
-    mount ext4 /dev/block/platform/omap/omap_hsmmc.1/by-name/system /system wait ro errors=panic
-    mount ext4 /dev/block/platform/omap/omap_hsmmc.1/by-name/cache /cache wait noatime nosuid nodev errors=panic
-    mount ext4 /dev/block/platform/omap/omap_hsmmc.1/by-name/userdata /data wait noatime nosuid nodev errors=panic
-    mount vfat /dev/block/platform/omap/omap_hsmmc.1/by-name/rom /rom sync noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
-    mount vfat /dev/block/platform/omap/omap_hsmmc.1/by-name/bootdata /bootdata wait noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
+    mount ext4 /dev/block/platform/omap_hsmmc.1/by-name/system /system wait ro errors=panic
+    mount ext4 /dev/block/platform/omap_hsmmc.1/by-name/cache /cache wait noatime nosuid nodev errors=panic
+    mount ext4 /dev/block/platform/omap_hsmmc.1/by-name/userdata /data wait noatime nosuid nodev errors=panic
+    mount vfat /dev/block/platform/omap_hsmmc.1/by-name/rom /rom sync noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
+    mount vfat /dev/block/platform/omap_hsmmc.1/by-name/bootdata /bootdata wait noatime nodiratime uid=1000,gid=1000,fmask=117,dmask=007
 
 on post-fs-data
     # we will remap this as /mnt/sdcard with the sdcard fuse tool
@@ -99,6 +99,9 @@ on boot
 
     # Fix wlan MAC addr
     exec /system/bin/fix-mac.sh
+
+    # Fix serial number
+    exec /system/bin/fix-serial-no.sh
 
     # Load SGX Modules
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
