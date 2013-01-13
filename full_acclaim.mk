@@ -24,7 +24,7 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 # This is where we'd set a backup provider if we had one
 $(call inherit-product, device/bn/acclaim/device.mk)
-TARGET_HAS_CUSTOM_LIBION := true
+BOARD_USE_CUSTOM_LIBION := true
 # Camera and Gallery
 PRODUCT_PACKAGES += \
         Gallery
