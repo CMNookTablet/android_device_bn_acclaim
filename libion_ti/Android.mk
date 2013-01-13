@@ -1,5 +1,3 @@
-ifdef TARGET_HAS_CUSTOM_LIBION
-
 LOCAL_PATH:= $(call my-dir)
 
 include $(CLEAR_VARS)
@@ -22,5 +20,3 @@ LOCAL_MODULE := ion_ti_test2
 LOCAL_MODULE_TAGS := optional tests
 LOCAL_SHARED_LIBRARIES := liblog
 include $(BUILD_EXECUTABLE)
-
-endif
