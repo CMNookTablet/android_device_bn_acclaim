@@ -191,8 +191,9 @@ PRODUCT_PACKAGES += \
 	Superuser \
 	su \
 	TFF \
+	setpropex\
 
-PRODUCT_PROPERTY_OVERRIDES := \
+PRODUCT_PROPERTY_OVERRIDES += \
 	ro.opengles.version=131072 \
 	ro.sf.lcd_density=160 \
 	wifi.interface=wlan0 \
