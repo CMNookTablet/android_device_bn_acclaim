@@ -193,6 +193,8 @@ PRODUCT_PACKAGES += \
 	su \
 	TFF \
 	setpropex\
+	sdcard \
+	setup_fs
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.opengles.version=131072 \
