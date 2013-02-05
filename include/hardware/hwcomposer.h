@@ -207,6 +207,13 @@ enum {
      * data: hwc_layer_extended_t
      */
     HWC_EXTENDED_OP_LAYERDATA = 1,
+
+    /*
+     * Returns layer stack identifier
+     * @params
+     * data: hwc_layer_stack_t
+     */
+    HWC_EXTENDED_OP_LAYERSTACK = 2,
 };
 
 typedef struct hwc_layer_extended {
@@ -225,6 +232,18 @@ typedef struct hwc_layer_extended {
      */
     uint32_t identity;
 } hwc_layer_extended_t;
+
+typedef struct hwc_layer_stack {
+    /*
+     * Display index (input)
+     */
+    int32_t dpy;
+
+    /*
+     * Layer stack identifier for this display (output)
+     */
+    uint32_t stack;
+} hwc_layer_stack_t;
 
 typedef struct hwc_layer_list_extended {
     size_t numHwLayers;
