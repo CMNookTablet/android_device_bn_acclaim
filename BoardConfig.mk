@@ -124,23 +124,25 @@ SGX_MODULES:
 	mv $(KERNEL_OUT)/../../target/kbuild/pvrsrvkm_sgx540_120.ko $(KERNEL_MODULES_OUT)
 
 WIFI_MODULES:
-	make -C kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi-
+	make -C hardware/ti/wlan/mac80211/compat_wl12xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi-
 	mv $(KERNEL_OUT)/lib/crc7.ko $(KERNEL_MODULES_OUT)
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/compat/compat.ko $(KERNEL_MODULES_OUT)
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
-	mv kernel/bn/acclaim/external/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/compat/compat.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_spi.ko $(KERNEL_MODULES_OUT)
+	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
 
 TARGET_KERNEL_MODULES := SGX_MODULES WIFI_MODULES
 
 # Keep this as a fallback
 TARGET_PREBUILT_KERNEL := device/bn/acclaim/kernel
-TARGET_SPECIFIC_HEADER_PATH := device/bn/acclaim/src-headers
+TARGET_SPECIFIC_HEADER_PATH := device/bn/acclaim/include
 
 ifdef BOARD_USE_TI_ENHANCED_DOMX
     COMMON_GLOBAL_CFLAGS += -DENHANCED_DOMX
-    DOMX_PATH := device/bn/acclaim/domx
+    TI_CUSTOM_DOMX_PATH := $(DEVICE_FOLDER)/domx
+    DOMX_PATH := $(DEVICE_FOLDER)/domx
 else
     DOMX_PATH := hardware/ti/omap4xxx/domx
 endif
