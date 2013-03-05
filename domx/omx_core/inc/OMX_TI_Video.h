@@ -776,18 +776,30 @@ typedef struct OMX_TI_STREAMINTERLACEFORMATTYPE {
 
 /*
 @brief OMX_TI_VIDEO_CONFIG_PICSIZECONTROLINFO : Structure to provide the configuration to compute min and max picture size
-@param minPicSizeRatio : This ratio is used to compute minimum picture size in the following manner,
-minPicSize = averagePicSize >> minPicSizeRatio. Allowed values are 1 to 4. Setting this to 0 will enable encoder chosen ratio.
-@param maxPicSizeRatio : This ratio is used to compute maximum picture size in the following manner,
-maxPicSize = averagePicSize * maxPicSizeRatio. Allowed values are 2 to 30. Setting this to 0 or 1 will enable encoder chosen ratio.
+@param minPicSizeRatioI : This ratio is used to compute minimum picture size for I frames in the following manner,
+minPicSize = averagePicSize >> minPicSizeRatioI. Allowed values are 1 to 4. Setting this to 0 will enable encoder chosen ratio.
+@param maxPicSizeRatioI : This ratio is used to compute maximum picture size for I frames in the following manner,
+maxPicSize = averagePicSize * maxPicSizeRatioI. Allowed values are 2 to 30. Setting this to 0 or 1 will enable encoder chosen ratio.
+@param minPicSizeRatioP : This ratio is used to compute minimum picture size for P frames in the following manner,
+minPicSize = averagePicSize >> minPicSizeRatioP. Allowed values are 1 to 4. Setting this to 0 will enable encoder chosen ratio.
+@param maxPicSizeRatioP : This ratio is used to compute maximum picture size for P frames in the following manner,
+maxPicSize = averagePicSize * maxPicSizeRatioP. Allowed values are 2 to 30. Setting this to 0 or 1 will enable encoder chosen ratio.
+@param minPicSizeRatioB : This ratio is used to compute minimum picture size for B frames in the following manner,
+minPicSize = averagePicSize >> minPicSizeRatioB. Allowed values are 1 to 4. Setting this to 0 will enable encoder chosen ratio.
+@param maxPicSizeRatioB : This ratio is used to compute maximum picture size for B frames in the following manner,
+maxPicSize = averagePicSize * maxPicSizeRatioB. Allowed values are 2 to 30. Setting this to 0 or 1 will enable encoder chosen ratio.
 */
 /* ============================================================================= */
 typedef struct OMX_TI_VIDEO_CONFIG_PICSIZECONTROLINFO {
     OMX_U32         nSize;
     OMX_VERSIONTYPE nVersion;
     OMX_U32         nPortIndex;
-    OMX_U16         minPicSizeRatio;
-    OMX_U16         maxPicSizeRatio;
+    OMX_U16         minPicSizeRatioI;
+    OMX_U16         maxPicSizeRatioI;
+    OMX_U16         minPicSizeRatioP;
+    OMX_U16         maxPicSizeRatioP;
+    OMX_U16         minPicSizeRatioB;
+    OMX_U16         maxPicSizeRatioB;
 } OMX_TI_VIDEO_CONFIG_PICSIZECONTROLINFO;
 
 

@@ -1,0 +1,43 @@
+#
+# This file lists all of the proprietary blobs that need to be
+# extracted from a stock device. The extract-files.sh script
+# parses this file and copies the blobs into the vendor and build
+# trees as needed.
+#
+# File format:
+#   - Comments lines start with a hash (#) character and will be
+#     ignore.
+#   - Blobs should be listed with their path relative to /system
+#     on the device.
+#   - A different destination path may be specified after a colon on
+#     the same line as the blob source path. Otherwise, the
+#     destination path with be the same as it was on the device.
+#   - Options for a particular blob are specified in a comment
+#     after the blob path.
+#
+# Blob options:
+#   - needed_for_build: the blob will also be copied into the obj
+#     directory for use in the build of other open source files.
+#   - optional: if the blob is not found, extraction will not abort.
+#     directory for use in the build of other open source files.
+#
+
+# misc
+bin/bbx
+
+# wifi
+etc/firmware/ti-connectivity/wl1271-nvs_127x.bin
+etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin
+etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin
+etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin
+etc/wifi/TQS_S_2.6.ini
+
+# touch
+etc/firmware/touch/ft5406_sc3052_1024x768.bin
+etc/firmware/touch/fts0019u700_ver13_app.bin
+etc/firmware/touch/fts0019u700_ver14_app.bin
+
+# ducati
+etc/firmware/ducati-license.txt
+etc/firmare/ducati-m3.512MB.bin
+etc/firmware/ducati-m3.bin

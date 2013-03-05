@@ -16,10 +16,10 @@ LOCAL_C_INCLUDES += \
     $(LOCAL_PATH)/../omx_core/inc \
     $(LOCAL_PATH)/../mm_osal/inc \
     $(LOCAL_PATH)/profiling/inc \
-    device/bn/acclaim/hwc/ \
-    $(LOCAL_PATH)/../../include/ \
+    $(COMMON_FOLDER)/hwc/ \
+    $(COMMON_FOLDER)/include/ \
     system/core/include/cutils \
-    $(HARDWARE_TI_OMAP4_BASE)/../../libhardware/include
+    hardware/libhardware/include
 
 LOCAL_CFLAGS += -D_Android -DENABLE_GRALLOC_BUFFERS -DUSE_ENHANCED_PORTRECONFIG -DANDROID_QUIRK_LOCK_BUFFER -DUSE_ION
 

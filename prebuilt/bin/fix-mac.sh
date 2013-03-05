@@ -1,8 +1,7 @@
 #!/system/bin/sh
 
-
 PATH=/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin
-ORIG_NVS_BIN=/system/etc/firmware/ti-connectivity/wl1271-nvs.bin.orig
+ORIG_NVS_BIN=/system/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin
 NVS_BIN=/system/etc/firmware/ti-connectivity/wl1271-nvs.bin
 
 busybox mount -o remount,rw /system
