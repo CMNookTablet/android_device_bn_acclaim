@@ -39,5 +39,5 @@ etc/firmware/touch/fts0019u700_ver14_app.bin
 
 # ducati
 etc/firmware/ducati-license.txt
-etc/firmare/ducati-m3.512MB.bin
+etc/firmware/ducati-m3.512MB.bin
 etc/firmware/ducati-m3.bin
