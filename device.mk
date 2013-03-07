@@ -67,7 +67,8 @@ PRODUCT_COPY_FILES += \
 
 # hardware HALs
 PRODUCT_PACKAGES += \
-	liblights.acclaim \
+	hwcomposer.acclaim \
+	lights.acclaim \
 	power.acclaim \
 	sensors.acclaim \
 	audio.primary.acclaim
@@ -94,23 +95,23 @@ PRODUCT_PACKAGES += \
 
 # TI OMAP4
 PRODUCT_PACKAGES += \
-    libdomx \
-    libOMX_Core \
-    libOMX.TI.DUCATI1.VIDEO.H264E \
-    libOMX.TI.DUCATI1.VIDEO.MPEG4E \
-    libOMX.TI.DUCATI1.VIDEO.DECODER \
-    libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
-    libOMX.TI.DUCATI1.VIDEO.CAMERA \
-    libOMX.TI.DUCATI1.MISC.SAMPLE \
-    libstagefrighthw \
-    libI420colorconvert \
-    libtiutils \
-    libcamera \
-    libion_ti \
-    libomxcameraadapter \
-    smc_pa_ctrl \
-    tf_daemon \
-    libtf_crypto_sst
+	libdomx \
+	libOMX_Core \
+	libOMX.TI.DUCATI1.VIDEO.H264E \
+	libOMX.TI.DUCATI1.VIDEO.MPEG4E \
+	libOMX.TI.DUCATI1.VIDEO.DECODER \
+	libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
+	libOMX.TI.DUCATI1.VIDEO.CAMERA \
+	libOMX.TI.DUCATI1.MISC.SAMPLE \
+	libstagefrighthw \
+	libI420colorconvert \
+	libtiutils \
+	libcamera \
+	libion_ti \
+	libomxcameraadapter \
+	smc_pa_ctrl \
+	tf_daemon \
+	libtf_crypto_sst
 
 PRODUCT_CHARACTERISTICS := tablet
 PRODUCT_AAPT_CONFIG := normal mdpi

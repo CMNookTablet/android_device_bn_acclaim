@@ -23,8 +23,6 @@ TARGET_BOARD_OMAP_CPU := 4430
 # Use the non-open-source parts, if they're present
 -include vendor/bn/acclaim/BoardConfigVendor.mk
 
-PRODUCT_VENDOR_KERNEL_HEADERS := $(DEVICE_FOLDER)/kernel-headers
-
 # camera
 TI_OMAP4_CAMERAHAL_VARIANT := false
 USE_CAMERA_STUB := true
