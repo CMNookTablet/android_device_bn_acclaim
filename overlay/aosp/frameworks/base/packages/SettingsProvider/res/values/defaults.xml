@@ -17,7 +17,7 @@
  */
 -->
 <resources>
-    <!-- Kindle Fire doesn't have a notification LED -->
+    <!-- Nook tablet doesn't have a notification LED -->
     <bool name="def_notification_pulse">false</bool>
     <!-- Default for UI touch sounds disabled to solve wakelock issue -->
     <integer name="def_lockscreen_sounds_enabled">0</integer>

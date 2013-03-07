@@ -17,7 +17,7 @@ COMMON_FOLDER := device/bn/omap4-common
 
 $(call inherit-product, $(COMMON_FOLDER)/common.mk)
 
-DEVICE_PACKAGE_OVERLAYS := $(DEVICE_FOLDER)/overlay
+DEVICE_PACKAGE_OVERLAYS += $(DEVICE_FOLDER)/overlay/aosp
 
 # rootfs
 PRODUCT_COPY_FILES += \

@@ -1,7 +1,7 @@
 #!/bin/sh
 
-VENDOR=amazon
-DEVICE=otter
+VENDOR=bn
+DEVICE=acclaim
 OUTDIR=vendor/$VENDOR/$DEVICE
 MAKEFILE=../../../$OUTDIR/$DEVICE-vendor-blobs.mk
 

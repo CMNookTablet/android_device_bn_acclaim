@@ -26,6 +26,7 @@
 bin/bbx
 
 # wifi
+etc/firmware/ti-connectivity/LICENSE
 etc/firmware/ti-connectivity/wl1271-nvs_127x.bin
 etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin
 etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin

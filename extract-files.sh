@@ -17,4 +17,5 @@ done
 ./setup-makefiles.sh
 
 # Call up to omap4-common
-../omap4-common/extract-files.sh
+cd ../omap4-common
+./extract-files.sh
